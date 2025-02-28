@@ -1,0 +1,644 @@
+\ifx\allfiles\undefined
+\documentclass[12pt, a4paper, oneside, UTF8]{ctexbook}  %  这一句是新增加的
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath}   % 数学公式
+\usepackage{graphicx}
+\usetikzlibrary{arrows, calc, decorations.pathmorphing}
+\newcommand{\pa}{\partial}
+\newcommand{\vvec}{\overset{\rightharpoonup\!\!\!\! \rightharpoonup}}
+\newcommand{\X}{\mathrm{X}}
+% \newcommand{\mT}{\raisebox{0.1ex}{$\scriptstyle -T$}} % 调整高度为 0.1ex
+\newcommand{\lmT}{\raisebox{-0.85ex}{$\scriptstyle -T$}} % 调整高度为 -0.85ex
+% \newcommand{\mone}{\raisebox{0.1ex}{$\scriptstyle -1$}} % 调整高度为 0.1ex
+\newcommand{\lmone}{\raisebox{-0.85ex}{$\scriptstyle -1$}} % 调整高度为 -0.85ex
+\newcommand{\mathminus}{\!\!-\!\!} % 数学环境连字符
+\newcommand{\vsup}[1]{\raisebox{-0.1ex}{$\scriptstyle #1$}}
+\newcommand{\lsup}[1]{\raisebox{-0.85ex}{$\scriptstyle #1$}}
+
+\begin{document}
+%\input{/config/cover} % 单独编译时，其实不用编译封面目录之类的，如需要不注释这句即可
+\else
+\fi
+%  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ 正文部分
+\chapter{客观性}
+\section{class 39}
+\begin{add}
+二十世纪三大数学流派\textbf{(此部分内容AIGC)}
+
+二十世纪初，数学基础的研究引发了关于数学本质的深刻讨论，并形成了三大主要流派：形式主义、逻辑主义和直觉主义。这些流派试图为数学提供坚实的基础，并解决由集合论悖论引发的危机。本文将简要介绍这三大流派的核心理念、代表人物及其对数学发展的影响。
+
+\textbf{逻辑主义 (Logicism)}
+
+逻辑主义的主要观点是：数学可以归结为逻辑。换言之，数学是逻辑的一个分支，所有数学概念和定理都可以通过逻辑规则从基本逻辑公理中推导出来。
+
+逻辑主义的代表人物包括：
+\begin{itemize}
+    \item \textbf{戈特洛布·弗雷格 (Gottlob Frege)}：弗雷格是逻辑主义的奠基人之一，他试图在逻辑基础上构建算术体系。他的著作《算术基础》(Grundlagen der Arithmetik) 是逻辑主义的重要文献。
+    \item \textbf{伯特兰·罗素 (Bertrand Russell)}：罗素与怀特海 (Alfred North Whitehead) 合著的《数学原理》(Principia Mathematica) 是逻辑主义的经典著作。他们试图通过类型论解决罗素悖论，并将数学建立在逻辑基础之上。
+\end{itemize}
+
+逻辑主义的贡献在于它揭示了数学与逻辑之间的深刻联系，并为数学基础的研究提供了新的视角。然而，罗素悖论的出现表明，逻辑主义需要额外的公理（如选择公理和无穷公理）来推导数学，这削弱了“数学完全可归结为逻辑”的主张。
+
+\textbf{形式主义 (Formalism)}
+
+形式主义认为，数学是一个形式系统，由符号和规则组成，数学对象本身没有内在意义。数学的真理性在于形式系统内部的一致性和可证明性，而不是与外界的任何联系。
+
+形式主义的代表人物是：
+\begin{itemize}
+    \item \textbf{大卫·希尔伯特 (David Hilbert)}：希尔伯特是形式主义的代表人物。他提出了“希尔伯特计划”，旨在通过有限的方法证明数学系统的无矛盾性、完备性和可判定性。
+\end{itemize}
+
+形式主义为数学基础的研究提供了严格的形式化框架，并推动了元数学（metamathematics）的发展。然而，哥德尔的不完备性定理表明，任何足够强大的形式系统都无法同时满足无矛盾性和完备性，这对希尔伯特计划构成了重大打击。
+
+\textbf{直觉主义 (Intuitionism)}
+
+直觉主义强调数学构造的过程，认为数学对象必须通过明确的构造过程才能被接受。直觉主义拒绝接受非构造性的证明（如排中律的使用），并认为数学是人类直觉的产物。
+
+直觉主义的代表人物包括：
+\begin{itemize}
+    \item \textbf{卢伊兹·布劳威尔 (L.E.J. Brouwer)}：布劳威尔是直觉主义的创始人。他认为数学是一种基于直觉的精神活动，而不是纯粹的逻辑推理。
+    \item \textbf{阿伦特·海廷 (Arend Heyting)}：海廷进一步发展了直觉主义逻辑，为直觉主义提供了形式化的基础。
+\end{itemize}
+
+直觉主义推动了构造性数学的发展，并启发了计算机科学中的算法思想。然而，直觉主义对经典数学的严格限制（如拒绝排中律和实无穷）使其在主流数学中的应用受到限制。
+\end{add}
+\begin{add}
+    展示张量分析的重要性
+    \[\nabla \cdot \vec{A} = \frac{1}{H_1 H_2 H_3} \left( 
+        \frac{\partial (H_2 H_3 A_1)}{\partial q_1} + 
+        \frac{\partial (H_3 H_1 A_2)}{\partial q_2} + 
+        \frac{\partial (H_1 H_2 A_3)}{\partial q_3} 
+        \right)\]
+        \begin{align*}
+            \nabla(\nabla\cdot\vec{A})&=
+            \frac{\hat{e_1}}{H_1} \frac{\partial \left(\frac{1}{H_1 H_2 H_3} \left( 
+                \frac{\partial (H_2 H_3 A_1)}{\partial q_1} + 
+                \frac{\partial (H_3 H_1 A_2)}{\partial q_2} + 
+                \frac{\partial (H_1 H_2 A_3)}{\partial q_3} 
+                \right)\right)}{\partial q_1} \\
+            &\quad+ \frac{\hat{e_2}}{H_2} \frac{\partial \left(\frac{1}{H_1 H_2 H_3} \left( 
+                \frac{\partial (H_2 H_3 A_1)}{\partial q_1} + 
+                \frac{\partial (H_3 H_1 A_2)}{\partial q_2} + 
+                \frac{\partial (H_1 H_2 A_3)}{\partial q_3} 
+                \right)\right)}{\partial q_2} \\
+            &\quad+ \frac{\hat{e_3}}{H_3} \frac{\partial \left(\frac{1}{H_1 H_2 H_3} \left( 
+                \frac{\partial (H_2 H_3 A_1)}{\partial q_1} + 
+                \frac{\partial (H_3 H_1 A_2)}{\partial q_2} + 
+                \frac{\partial (H_1 H_2 A_3)}{\partial q_3} 
+                \right)\right)}{\partial q_3}
+        \end{align*}
+        \begin{align*}
+            \nabla \times \vec{A} &= \frac{1}{H_2 H_3} \left( \frac{\partial (H_3 A_3)}{\partial q_2} - \frac{\partial (H_2 A_2)}{\partial q_3} \right) \hat{e_1} \\
+&\quad+ \frac{1}{H_3 H_1} \left( \frac{\partial (H_1 A_1)}{\partial q_3} - \frac{\partial (H_3 A_3)}{\partial q_1} \right) \hat{e_2} \\
+&\quad+ \frac{1}{H_1 H_2} \left( \frac{\partial (H_2 A_2)}{\partial q_1} - \frac{\partial (H_1 A_1)}{\partial q_2} \right) \hat{e_3}
+        \end{align*}
+        \begin{gather*}
+            \nabla\times(\nabla\times\vec{A})=
+            \nabla \times \vec{A} = \frac{1}{H_1 H_2 H_3} 
+            \begin{vmatrix}
+            H_1 \hat{e_1} & H_2 \hat{e_2} & H_3 \hat{e_3} \\
+            \frac{\partial}{\partial q_1} & \frac{\partial}{\partial q_2} & \frac{\partial}{\partial q_3} \\
+            H_1 B_1 & H_2 B_2 & H_3 B_3
+            \end{vmatrix}\\
+            B_1=\frac{1}{H_2 H_3} \left( \frac{\partial (H_3 A_3)}{\partial q_2} - \frac{\partial (H_2 A_2)}{\partial q_3} \right)\\
+            B_2=\frac{1}{H_3 H_1} \left( \frac{\partial (H_1 A_1)}{\partial q_3} - \frac{\partial (H_3 A_3)}{\partial q_1} \right)\\
+            B_3=\frac{1}{H_1 H_2} \left( \frac{\partial (H_2 A_2)}{\partial q_1} - \frac{\partial (H_1 A_1)}{\partial q_2} \right)
+        \end{gather*}
+        \[
+            \nabla^2\vec{A}=\nabla(\nabla\cdot\vec{A})-\nabla\times(\nabla\times\vec{A})
+        \]
+\end{add}
+\begin{defn}
+    Walter Noll 纳尔---principle of material fram\textminus indifference---MFI
+
+    the response of a material is the same for all observers
+\[\text{固体力学最重要的两条公理}\begin{cases}
+    Cauchy\; stress\; principle\\
+    MFI
+\end{cases}\]
+\end{defn}
+\begin{defn}
+    Euclidean transformation
+    
+    设 \( n \in \mathbb{N}^* \)，考虑 \( n \) 维欧几里得空间 \( \mathbb{R}^n \)。一个映射 \( T: \mathbb{R}^n \to \mathbb{R}^n \) 称为欧几里得变换，如果其可表示为：
+    \begin{equation*}
+        T(\mathbf{x}) = \vvec{A}\mathbf{x} + \mathbf{b} \quad \text{其中} \quad \mathbf{x} \in \mathbb{R}^n,
+    \end{equation*}
+    并满足以下条件：
+    \begin{enumerate}
+        \item \textbf{正交线性变换}：矩阵 \( \vvec{A} \in \mathbb{R}^{n \times n} \) 是正交矩阵，即满足
+        \[
+            \vvec{A}^\top \vvec{A} = I_n,
+        \]
+        其中 \( I_n \) 为 \( n \times n \) 单位矩阵。
+        \[\det(\vvec{A}^{\lsup{T}}\vvec{A})=\det(\vvec{A}^{\lsup{T}})\cdot\det \vvec{A}=(\det \vvec{A})^2=1\]
+        此时 \( \vvec{A} \) 的行列式满足 \( \det(\vvec{A}) \in \{1, -1\} \)，分别对应保持或反转空间方向。
+    
+        \item \textbf{平移向量}：向量 \( \mathbf{b} \in \mathbb{R}^n \) 为平移分量。
+    
+        \item \textbf{等距性}：对任意两点 \( \mathbf{x}, \mathbf{y} \in \mathbb{R}^n \)，变换保持欧几里得距离不变：
+        \[
+            \| T(\mathbf{x}) - T(\mathbf{y}) \| = \| \mathbf{x} - \mathbf{y} \|,
+        \]
+        其中 \( \| \cdot \| \) 表示 \( \mathbb{R}^n \) 上的标准欧几里得范数。
+    \end{enumerate}
+    
+    特别地：
+    \begin{itemize}
+        \item 当 \( \det(\vvec{A}) = 1 \) 时，称 \( \vvec{A} \) 为正常正交张量(proper orthogonal tensor)，称 \( T \) 为正向欧几里得变换（即刚体运动，包含旋转和平移）。
+        \item 当 \( \det(\vvec{A}) = -1 \) 时，称 \( \vvec{A} \) 为(inproper orthogonal tensor)，称 \( T \) 为反向欧几里得变换（包含反射、瑕旋转等操作）。
+    \end{itemize}
+    \end{defn}
+    \begin{add}
+        等距映射(isometry)
+    
+        设 \( n \in \mathbb{N}^* \)，考虑 \( n \) 维欧几里得空间 \( \mathbb{R}^n \)。一个映射 \( f: \mathbb{R}^n \to \mathbb{R}^n \) 称为\emph{等距映射}，如果对任意两点 \( \mathbf{x}, \mathbf{y} \in \mathbb{R}^n \)，满足：
+        \[
+            \| f(\mathbf{x}) - f(\mathbf{y}) \| = \| \mathbf{x} - \mathbf{y} \|,
+        \]
+        其中 \( \| \cdot \| \) 表示 \( \mathbb{R}^n \) 上的标准欧几里得范数。
+        
+        等距映射的性质：
+        \begin{enumerate}
+            \item \textbf{线性性}：若 \( f \) 是线性映射，则 \( f \) 可表示为 \( f(\mathbf{x}) = \vvec{A}\mathbf{x} \)，其中 \( \vvec{A} \) 是正交矩阵。
+            \item \textbf{结构分解}：任意等距映射 \( f \) 可分解为一个正交线性变换 \( \vvec{A} \) 和一个平移向量 \( \mathbf{b} \) 的组合，即
+            \[
+                f(\mathbf{x}) = \vvec{A}\mathbf{x} + \mathbf{b}.
+            \]
+            这表明欧几里得变换是等距映射的特例。
+            \item \textbf{保持内积}：等距映射保持内积。即对任意 \( \mathbf{x}, \mathbf{y} \in \mathbb{R}^n \)，有
+            \[
+                \langle f(\mathbf{x}), f(\mathbf{y}) \rangle = \langle \mathbf{x}, \mathbf{y} \rangle,
+            \]
+            其中 \( \langle \cdot, \cdot \rangle \) 表示 \( \mathbb{R}^n \) 上的标准内积。
+        \end{enumerate}
+    \end{add}
+    \begin{proposition}
+        张量欧氏空间客观性
+        \[
+            (\vec{u_1}\otimes\vec{u_2})^{\star}=
+            (\vvec{A}\vec{u_1})\otimes(\vvec{A}\vec{u_2})=
+            \vvec{A}\vec{u_1}\otimes\vec{u_2}\vvec{A}^{\lsup{T}}=
+            \vvec{A}(\vec{u_1}\otimes\vec{u_2})\vvec{A}^{\lsup{T}}
+        \]
+    \begin{gather*}
+        \vvec{F}^\star=\frac{\pa \vec{x}^\star}{\pa \vec{\X}}=
+        \frac{\pa (\vvec{A}\vec{x})}{\pa \vec{x}}\frac{\pa \vec{x}}{\pa \vec{\X}}=\vvec{A}\cdot\vvec{F}\\
+        \vvec{C}^\star=(\vvec{F}^{\lsup{T}}\vvec{F})^\star=(\vvec{A}\vvec{F})^T(\vvec{A}\vvec{F})=\vvec{C}\\
+        \vvec{B}^\star=(\vvec{F}\vvec{F}^{\lsup{T}})^\star=(\vvec{A}\vvec{F})(\vvec{A}\vvec{F})^T=\vvec{A}\vvec{B}\vvec{A}^{\lsup{T}}
+    \end{gather*}
+    \begin{gather*}
+        \vvec{l}^\star=(\dot{\vvec{F}}\vvec{F}^{\lmone})^\star
+        =(\dot{\vvec{A}}\vvec{F}+\vvec{A}\dot{\vvec{F}})\vvec{F}^{\lmone}\vvec{A}^{\lsup{T}}
+        =\dot{\vvec{A}}\vvec{A}^{\lsup{T}}+\vvec{A}\vvec{l}\vvec{A}^{\lsup{T}}
+        =\vvec{\Omega}+\vvec{A}\vvec{l}\vvec{A}^{\lsup{T}}\\
+        \vvec{\Omega}^{\lsup{T}}=-\vvec{\Omega}\qquad spin\; tensor
+    \end{gather*}
+    \begin{gather*}
+        \vvec{d}=\frac{\vvec{l}+\vvec{l}^{\lmT}}{2}\\
+        \vvec{d}^\star=\frac{\vvec{\Omega}+\vvec{A}\vvec{l}\vvec{A}^{\lsup{T}}-\vvec{\Omega}+\vvec{A}\vvec{l}^{\lsup{T}}\vvec{A}^{\lsup{T}}}{2}
+        =\vvec{A}\frac{\vvec{l}+\vvec{l}^{\lsup{T}}}{2}\vvec{A}^{\lsup{T}}=\vvec{A}\vvec{d}\vvec{A}^{\lsup{T}}\\
+        \vvec{\omega}^\star=\frac{\vvec{l}^\star+\vvec{l}^{\lsup{T}\star}}{2}
+        =\vvec{\Omega}+\vvec{A}\vvec{\omega}\vvec{A}^{\lsup{T}}
+    \end{gather*}
+    \end{proposition}
+\section{class 39}
+
+\begin{defn}
+    客观矢量率 Objective Vector time rate
+    \begin{gather*}
+        \vec{u}^\star=\vvec{A}\vec{u}\\
+        \dot{\vec{u}^\star}=\dot{\vvec{A}}\vec{u}+\vvec{A}\vec{u}\\
+        (\underbrace{\dot{\vec{u}}-\vvec{\omega}\cdot\vec{u}}_{\text{共旋率}\hat{\vec{u}}})^\star=
+        \vvec{A}(\dot{\vec{u}}-\vvec{\omega}\cdot\vec{u})\\
+    \end{gather*}
+\end{defn}
+\begin{defn}
+    客观张量率(尧曼客观率)
+
+    任意满足客观性要求的二阶张量$\vvec{S}$
+    \begin{gather*}
+        \vvec{S}^\star=\vvec{A}\vvec{S}\vvec{A}^{\lsup{T}}\\
+        \dot{\vvec{S}}^{\vsup{\star}}=\dot{\vvec{A}}\vvec{S}\vvec{A}^{\lsup{T}}
+        +\vvec{A}\dot{\vvec{S}}\vvec{A}^{\lsup{T}}
+        +\vvec{A}\vvec{S}\dot{\vvec{A}^{\lsup{T}}}\\
+        (\dot{\vvec{S}}-\vvec{\omega}\vvec{S}+\vvec{S}\vvec{\omega})^\star
+        =\vvec{A}(\dot{\vvec{S}}-\vvec{\omega}\vvec{S}+\vvec{S}\vvec{\omega})\vvec{A}^{\lsup{T}}
+    \end{gather*}
+\end{defn}
+\begin{defn}
+    流体动力学客观性(Objectivity of fluid dynamics)
+\end{defn}
+\begin{center}
+    \begin{minipage}{0.99\linewidth}
+        \includegraphics*[width=0.49\linewidth]{chap7/39.1.png}
+        \includegraphics*[width=0.49\linewidth]{chap7/39.2.png}
+    \end{minipage}
+    \begin{minipage}{0.99\linewidth}
+        \centering
+        \includegraphics*[width=0.7\linewidth]{chap7/39.3.png}\par
+        摘自 Pope S B.Turbulent Flows
+    \end{minipage}
+\end{center}
+\begin{center}
+    \textbf{本节的以下内容摘自教材}
+\end{center}
+\begin{defn}
+    不可压缩介质的泊松方程
+\[
+\nabla^2 p = -\rho \frac{\partial U_i}{\partial x_i} \frac{\partial U_i}{\partial \hat{x_j}} \tag{39-7}
+\]
+
+泊松方程（39-7）的满足是一个无源速度场保持其无源性的充分必要条件。
+\end{defn}
+\begin{proposition}
+    基本方程组的无量纲化
+
+特征长度 \( \mathcal{L} \) 和特征速度 \( \mathcal{U} \) 的引入可用于定义无量纲自变量：
+\[
+\hat{x} = \frac{x}{\mathcal{L}}, \quad \hat{t} = \frac{\mathcal{U}}{\mathcal{L}} \tag{39-8}
+\]
+
+和无量纲因变量：
+\[
+\hat{U}(\hat{x}, \hat{t}) = \frac{U(x, t)}{\mathcal{U}}, \quad \hat{p}(\hat{x}, \hat{t}) = \frac{p(x, t)}{\rho \mathcal{U}^2} \tag{39-9}
+\]
+
+首先讨论不可压缩条件\(\nabla\cdot U=0\)的无量纲化：
+\[
+(\nabla^* \mathcal{L}^{-1}) \cdot (\hat{U} \mathcal{U}) = 0 \tag{39-10}
+\]
+
+上式可进一步简化为如下无量纲形式：
+\[
+\nabla^* \cdot \hat{U} = 0 \quad \text{或} \quad \frac{\partial \hat{U}_k}{\partial \hat{x}_k} = 0 \tag{39-11}
+\]
+
+然后给出 N-S 方程的无量纲过程：
+\[
+\frac{\partial (\hat{U} \mathcal{U})}{\partial (\hat{t} \mathcal{L} / \mathcal{U})} + \left[ (\hat{U} \mathcal{U}) \cdot \frac{\nabla^*}{\mathcal{L}} \right] (\hat{U} \mathcal{U}) = -\frac{1}{\rho} \frac{\nabla^*}{\mathcal{L}} (\hat{p} \rho \mathcal{U}^2) + \nu \left( \frac{\nabla^*}{\mathcal{L}} \right)^2 (\hat{U} \mathcal{U}) \tag{39-12}
+\]
+
+整理上式，得到无量纲形式的 N-S 方程：
+\[
+\frac{\partial \hat{U}}{\partial t} + \left( \hat{U} \cdot \nabla^* \right) \hat{U} = - \nabla^* \hat{p} + \frac{1}{Re} \nabla^{*2} \hat{U} \tag{39-13}
+\]
+
+或表示为如下分量形式：
+\[
+\frac{\partial \hat{U_i}}{\partial t} + \hat{U_j} \frac{\partial \hat{U_i}}{\partial \hat{x_j}} = -\frac{\partial p}{\partial \hat{x_i}} + \frac{1}{Re} \frac{\partial^2 \hat{U_i}}{\partial \hat{x_j} \hat{x_j}} \tag{39-14}
+\]
+
+最后给出压强所需要满足的泊松方程 (39-7) 的无量纲形式：
+\[
+\frac{\partial^2 p}{\partial \hat{x_i} \partial \hat{x_i}} = -\frac{\partial \hat{U_i}}{\partial \hat{x_j}} \frac{\partial \hat{U_j}}{\partial \hat{x_i}} \tag{39-15}
+\]
+
+进行总结，无量纲方程组（连续性方程 + N-S 方程 + 泊松方程）为
+\[
+\begin{cases}
+\frac{\partial \hat{U_k}}{\partial x_k} = 0 \\
+\frac{\partial \hat{U_i}}{\partial t} + \hat{U_j} \frac{\partial \hat{U_i}}{\partial \hat{x_j}} = -\frac{\partial \hat{p}}{\partial \hat{x_i}} + \frac{1}{Re} \frac{\partial^2 \hat{U_i}}{\partial \hat{x_j} \hat{x_j}} \\
+\frac{\partial^2 \hat{p}}{\partial \hat{x_i} \partial \hat{x_i}} = -\frac{\partial \hat{U_i}}{\partial \hat{x_j}} \frac{\partial \hat{U_j}}{\partial \hat{x_i}}
+\end{cases} \tag{39-16}
+\]
+
+在上述无量纲方程组中，雷诺数
+\[
+Re = \frac{\mathcal{U}\mathcal{L}}{\nu} \tag{39-17}
+\]
+
+是唯一的无量纲数。
+\end{proposition}
+\begin{proposition}
+    连续性方程、N-S方程、泊松方程满足时间和空间平移的不变性。
+    \[
+    \begin{cases} 
+    \hat{x} = \frac{x - X}{\mathcal{L}} \\ 
+    \hat{t} = \frac{(t - T)\mathcal{U}}{\mathcal{L}}
+    \end{cases} 
+    \tag{39-19}
+    \]
+    
+    由于上式中 \( X \) 和 \( T \) 均为定值，求导后变为零，所以连续性方程（39-16）式中第一式、N-S 方程（39-16）式中第二式、泊松方程（39-16）式中第三式在经过（39-19）式的空间和时间变换后，均保持形式的不变性，因此满足时空不变性。
+\end{proposition}
+\begin{proposition}
+    连续性方程、泊松方程满足时间反演不变性，N-S方程不满足时间反演不变性
+
+    时间反演意味着时间和速度变号：
+\[
+\begin{cases}
+\hat{t} = -\frac{t\mathcal{U}}{\mathcal{L}} \\
+\hat{U}(\hat{x}, \hat{t}) = -\frac{U(x, t)}{\mathcal{U}}
+\end{cases}
+\tag{39-20}
+\]
+
+方程 (39-16) 式中第一式 \(\frac{\partial \hat{U}_k}{\partial \hat{x}_k} = 0\)，由于右端为零，则满足时间反演不变性；
+
+方程 (39-16) 式中第三式 \(\frac{\partial^2 \hat{p}}{\partial \hat{x}_i \partial \hat{x}_i} = -\frac{\partial \hat{U}_i}{\partial \hat{x}_j} \frac{\partial \hat{U}_j}{\partial \hat{x}_i}\)，
+由于右端有两个$\hat{U}$，满足时间反演不变性。
+
+再让我们来看 N-S 方程 (39-16) 式中第二式，
+\[
+\frac{\partial \hat{U}_i}{\partial \hat{t}} + \hat{U}_j \frac{\partial \hat{U}_i}{\partial \hat{x}_j} = -\frac{\partial \hat{p}}{\partial \hat{x}_i} + \frac{1}{Re} \frac{\partial^2 \hat{U}_i}{\partial \hat{x}_j \partial \hat{x}_i},
+\]
+
+左端第一项分子和分母均变号，满足不变性；左端第二项，由于有两个 \(\hat{U}\) 亦满足时间反演不变性；右端第一项满足反演不变性；关键是黏性项，也就是动量扩散项，由于只有一个 \(\hat{U}\)，该项不满足时间反演不变性。因此，方程 N-S 不满足时间反演不变性。
+\end{proposition}
+\begin{proposition}
+    坐标轴的旋转和反射不变性
+
+    设参考坐标系的单位基矢量为 \( e_i \)，而旋转或反射坐标系的单位基矢量为 \( \bar{e}_j \)，
+    两者之间的点积为方向余弦：\( a_{ij} = e_i \cdot \bar{e}_j \)，从而无量纲化的坐标和速度为
+\[
+\begin{cases}
+\hat{x}_i = \frac{\bar{x}_i}{\mathcal{L}} = \frac{\bar{e}_i \cdot (x_j e_j)}{\mathcal{L}} = \frac{a_{ji} x_j}{\mathcal{L}} \\
+\hat{U}_i = \frac{\bar{U}_i}{\mathcal{U}} = \frac{\bar{e}_i \cdot (U_j e_j)}{\mathcal{U}} = \frac{a_{ji} U_j}{\mathcal{U}}
+\end{cases}
+\tag{39-21}
+\]
+
+从 N-S 方程可以用笛卡儿张量符号表示的事实可以直接得出，变换后的方程与参照系中的方程（39-16）是相同的。因此，N-S 方程对于坐标轴的旋转和反射是不变的。
+\end{proposition}
+\begin{proposition}
+    伽利略不变性
+    
+    在四维仿射空间 \( \mathbb{A}^4 \) 中，进行如下伽利略变换：
+\[
+\left\{
+\begin{aligned}
+    &\bar{x} = x - Vt \\
+    &\bar{t} = t\\
+    &\bar{U}(\bar{x}, \bar{t}) = U(x, t) - V
+\end{aligned}
+\right.
+\tag{39-22}
+\]
+
+则有如下关系式：
+\[
+\left\{
+\begin{aligned}
+    \frac{\partial \bar{U}_i}{\partial \bar{x_j}} &= \frac{\partial (U_i - V_i)}{\partial (x_j - V_jt)} = \frac{\partial U_i}{\partial x_j} \\
+    \frac{\partial \bar{U}_i}{\partial \bar{t}} &= \frac{\partial U_i}{\partial t} + \frac{\partial U_i}{\partial x_j} \frac{\partial x_j}{\partial t} = \frac{\partial U_i}{\partial t} + \frac{\partial (\bar{x}_j + V_j t)}{\partial t} \frac{\partial U_i}{\partial x_j} = \frac{\partial U_i}{\partial t} + V_j \frac{\partial U_i}{\partial x_j} \\
+    \frac{D \bar{U}_i}{D \bar{t}} &= \frac{\partial \bar{U}_i}{\partial \bar{t}} + \bar{U}_j \frac{\partial \bar{U}_i}{\partial \bar{x_j}} = \frac{D U_i}{D t}
+\end{aligned}
+\right.
+\tag{39-23}
+\]
+
+(39-23) 式中第一式和 (39-23) 式中第三式表明速度梯度和流体加速度是伽利略不变量；而 (39-22) 式中第三式和 (39-23) 式中第二式两式则表明速度和它的时间偏导数则不具有伽利略不变性。
+
+结果表明，转换后的 N-S 方程与 (39-16) 式是一致的。因而具有伽利略不变性。本小节的重要结论是：就像经典力学中描述的所有现象一样，流体流动在所有惯性系中的行为是相同的。
+\end{proposition}
+\begin{proposition}
+    扩展伽利略不变性
+
+N-S方程的一个特殊性质是，它们在标架的直线加速度下是不变的。让我们来考虑如图39.1(g)所示的在变速 \( V(t) \) 平台上所进行的第二次实验，但是没有坐标系的旋转，因此坐标方向（单位基矢量 \( e_i \) 和 \( \overline{e_j} \)）仍然是平行的。
+
+由 (39-22) 式所定义的变换后的变量 \(\bar{x}, \bar{t}\) 和 \(\bar{U}\), 转换后的 N-S 方程为
+\[
+\frac{\partial \bar{U}_i}{\partial \bar{t}} + \bar{U}_j \frac{\partial \bar{U}_i}{\partial \bar{x}_j} = \nu \frac{\partial^2 \bar{U}_i}{\partial \bar{x}_j \partial \bar{x}_j} - \frac{1}{\rho} \frac{\partial p}{\partial \bar{x}_i} - A_i \tag{39-24}
+\]
+
+式中，方程右端的附加项为标架的加速度 \(A = \frac{dV}{dt}\)，方程右端的最后两项可以改写为
+\[
+\frac{1}{\rho} \frac{\partial p}{\partial \bar{x}_i} + A_i = \frac{1}{\rho} \frac{\partial}{\partial \bar{x}_i} (p + \rho \bar{x}_j A_j) \tag{39-25}
+\]
+
+上述表明标架加速度可以被修正后的压力吸收。在无量纲化的 N-S 方程 (39-16) 式中第二式中只需引入如下无量纲量：
+\[
+\hat{U} = \frac{\bar{U}}{\mathcal{U}}, \quad \hat{p} = \frac{p + \rho \bar{x} \cdot A}{\rho \mathcal{U}^2} \tag{39-26}
+\]
+
+此时无量纲的 N-S 方程在形式上不变，则 \(\bar{U}\) 和 \(\hat{p}\) 在具有任意直线加速度的坐标系中与惯性坐标系中相应量相同，该性质被称为扩展的伽利略不变性。
+\end{proposition}
+\begin{proposition}
+    物质标架无差异性
+
+最后，让我们考虑如图39.1(h)所示的在非惯性旋转坐标系上所进行的第二次实验。在 \( E \) 坐标系，依赖于时间的基矢量 \( \vec{e}_i(t) \) 满足下列关系：
+\[
+\frac{d\bar{e}_i}{dt} = \tilde{\Omega}_{ij}\bar{e}_j \tag{39-27}
+\]
+
+式中，\( \tilde{\Omega}_{ij}(t) = -\tilde{\Omega}_{ji}(t) \) 为反对称的旋转率张量，此时，方向余弦 \( a_{ij} = e_i \cdot \vec{e}_j \) 具有时间相关性。转换后的N-S方程(39-24)中的加速度将由离心加速度、科里奥利加速度、角加速度三部分组成：
+\[
+A_i = \underbrace{\bar{x_j}\tilde{\Omega}_{jk} \tilde{\Omega}_{ki}}_{\text{离心加速度}} + \underbrace{2\bar{U_j} \tilde{\Omega}_{ij}}_{\text{科氏加速度}} + \underbrace{\bar{x_j} \frac{d\tilde{\Omega}_{ji}}{dt}}_{\text{旋转加速度}} \tag{39-28}
+\]
+
+式中的三个加速度分别代表的虚拟力为：离心力、科里奥利力和角加速度力。离心力可以被吸收成一个修正的压力，但剩下的两个力却不能。在气象学和叶轮机械，科里奥利力可以对旋转标架下的流动的有着重要的影响。
+
+在旋转坐标系和非旋转坐标系中相同的量被称为具有物质标架无差异性(material-frame indifference)。显然，N-S方程不具备这种性质。
+\end{proposition}
+\section{class 40}
+
+\begin{longtable}{|p{0.15\textwidth}|p{0.6\textwidth}|p{0.15\textwidth}|}
+    \caption{理性力学中的奥尔德罗伊德公理和诺尔三公理一览表} \\
+    \hline
+    \textbf{公理名称} & \textbf{公理内容} & \textbf{提出人和年代} \\
+    \hline
+    \endfirsthead
+    
+    奥尔德罗伊德本构公理 & 
+    流变状态方程必须具有正确的不变性性质。\par 
+    The right invariance properties which must be satisfied by a rheological equation of state. & 
+    奥尔德罗伊德, 1950 \\
+    \hline
+    
+    应力的决定性原理 & 
+    粒子X在时刻t的应力S(t)是由过去任意小的X邻域运动的历史决定。\par 
+    The stress S(t) at a particle X and at time t is determined by the past history of the motion of an arbitrarily small neighborhood of X. & 
+    诺尔, 1958 \\
+    \hline
+    
+    局部作用原理 & 
+    在确定给定粒子X处的应力时，可以忽略X任意邻域外的运动。\par
+    In determining the stress at a given particle X, the motion outside an arbitrary neighborhood of X may be disregarded. & 
+    诺尔, 1958 \\
+    \hline
+    
+    客观性公理 & 
+    如果一个过程(运动---$\theta$, 应力---S)和一个本构方程相容， 
+    同样，与它等价的所有过程($\theta$', S')都必须与相同的本构方程相容。\par
+    If a process ($\theta$, S) is compatible with a constitutive equation, then also all processes ($\theta$', S') equivalent to it must be compatible with the same constitutive equation. & 
+    诺尔, 1958 \\
+    \hline
+\end{longtable}
+
+沃尔特·诺尔（Walter Noll, 1925—2017）继而于1958年提出的“确定性公理、局部作用公理和客观性公理”是构造本构理论的基础，诺尔而三公理迄今仍被理性力学或连续介质力学教材所广泛引用。其内容亦详见表39.1。
+
+美国工程科学学会的创始人（founder of the Society of Engineering Science）埃林根（Ahmed Cemal Eringen, 1921—2009）进一步扩充了诺尔的公理结构，使之成为工程科学学派的理论基石。作为现代理性力学核心内容的力学公理化体系的建立，奠定了现代连续介质力学体系的基础。埃林根的公理体系见表39.2。
+\begin{longtable}{|p{0.15\textwidth}|p{0.8\textwidth}|}
+    \caption{埃林根的理性力学公理一览表} \\
+    \hline
+    \textbf{公理名称} & \textbf{公理内容} \\
+    \hline
+    \endfirsthead
+    
+    \multicolumn{2}{c}{续埃林根的理性力学公理一览表} \\
+    \hline
+    \textbf{公理名称} & \textbf{公理内容} \\
+    \hline
+    \endhead
+    
+    \hline
+    \endfoot
+    
+    因果性公理 & 
+    在物体的每一个热力学状态中，将物体的物质点的运动、温度、电荷看成是自明的可测效应。
+    而将进入到克劳修斯-迪昂不等式中的其余的量看成是运动、温度、电荷等这个“原因”所产生的结果，
+    这些量称为“响应函数”或者“本构依赖变量”。\par
+    The motions, temperatures and charges of the material points of a body are the cause of all physical phenomena. The remaining variables (other than those derivable from motion, temperature and charges) that enter the expressions of the Clausius-Duhem (C-D) inequality are the response functions (or constitutive-dependent variables). \\
+    \hline
+    
+    确定性公理 & 
+    物体中的物质点在时刻t的热力学本构泛函以及应力状态由物体中所有物质点的运动和温度历史所决定。\par
+    The constitutive-dependent variables at a material point X, at time t, are functionals of the independent variables over the entire material points X' of the body, at all past times t' up to and including the present time t. \\
+    \hline
+    
+    等存在公理 & 
+    一开始，所有的本构泛函都应该用同样的独立本构变量来表示。直到推出相反的结果为止。\par
+    At the outset, all constitutive-dependent variables must be expressed as functionals of the same list of independent constitutive variables until the contrary is deduced. \\
+    \hline
+    
+    客观性公理 & 
+    本构方程对于空间参照系的刚体运动必须是形式不变的。\par
+    Constitutive equations must be form-invariant with respect to rigid motions of the spatial frame of reference. \\
+    \hline
+    
+    物质不变性公理 & 
+    本构方程必须具有关于物质点对称群的形式不变量。\par 
+    Constitutive equations must be form-invariant with respect to the symmetry group of the material points. \\
+    \hline
+    
+    邻域公理 & 
+    物体中物质点的应力状态与离开该物质点有限距离的其他物质点的运动无关。\par
+    The values of the independent constitutive variables at distant material points X' from the reference point X do not appreciably affect the value of the constitutive-dependent variables at X. \\
+    \hline
+    
+    记忆公理 & 
+    本构变量在远离现在的过去时刻的值，不明显地影响本构函数的值。\par
+    The values of the constitutive-independent variables at distants past the present do not appreciably affect the values of the constitutive functionals at the present time. \\
+    \hline
+    
+    相容性公理 & 
+    所有本构方程必须与守恒定律和熵不等式相一致。\par
+    All constitutive equations must be consistent with the balance laws and the entropy inequality. \\
+    \hline
+\end{longtable}
+\begin{defn}
+    广义胡克定律
+
+    由于线弹性这个前提，我们可用叠加原理得到如下三个正应变-正应力关系式：
+
+\[\left\{
+\begin{aligned}
+    \varepsilon_{xx} = \frac{\sigma_{xx}}{E} - \frac{\nu}{E} (\sigma_{yy} + \sigma_{zz}) = \frac{1 + \nu}{E} \sigma_{xx} - \frac{\nu}{E} (\sigma_{xx} + \sigma_{yy} + \sigma_{zz})\\
+    \varepsilon_{yy} = \frac{\sigma_{yy}}{E} - \frac{\nu}{E} (\sigma_{zz} + \sigma_{xx}) = \frac{1 + \nu}{E} \sigma_{yy} - \frac{\nu}{E} (\sigma_{xx} + \sigma_{yy} + \sigma_{zz})\\
+    \varepsilon_{zz} = \frac{\sigma_{zz}}{E} - \frac{\nu}{E} (\sigma_{xx} + \sigma_{yy}) = \frac{1 + \nu}{E} \sigma_{zz} - \frac{\nu}{E} (\sigma_{xx} + \sigma_{yy} + \sigma_{zz})
+\end{aligned}
+\right.
+\tag{40-1}
+\]
+
+三个切应力和切应变的关系式为
+\[
+\varepsilon_{xy} = \frac{1}{2G} \sigma_{xy}, \quad \varepsilon_{yz} = \frac{1}{2G} \sigma_{yz}, \quad \varepsilon_{zx} = \frac{1}{2G} \sigma_{zx} \tag{40-2}
+\]
+
+注意到材料力学材料常数的常用关系式：
+\[
+G = \frac{E}{2(1+\nu)} \tag{40-3}
+\]
+
+故 (40-1) 式和 (40-2) 式可统一地表示为
+\[
+\varepsilon_{ij} = \frac{1+\nu}{E}\sigma_{ij} - \frac{\nu}{E}\sigma_{kk}\delta_{ij} 
+\quad \text{或} \quad 
+\vvec{\varepsilon} = \frac{1+\nu}{E}\vvec{\sigma} - \frac{\nu}{E}(\operatorname{tr}\sigma)\vvec{I} \tag{40-5}
+\]
+
+上述就是用张量表示的应变和应力的线弹性本构关系。
+
+对（40-5）式求迹，有
+\[
+\varepsilon_{kk} = \frac{1+\nu}{E}\sigma_{kk} - 3\frac{\nu}{E}\sigma_{kk} = \frac{1-2\nu}{E}\sigma_{kk} 
+\quad \text{或} \quad 
+\operatorname{tr}\vvec{\varepsilon} = \frac{1+\nu}{E}\operatorname{tr}\vvec{\sigma} - 3\frac{\nu}{E}\operatorname{tr}\vvec{\sigma} = \frac{1-2\nu}{E}\operatorname{tr}\vvec{\sigma} \tag{40-6}
+\]
+
+静水压强 \(\sigma_m\) 定义为 \(\sigma_m = \sigma_{kk}/3\)，由静水压强 \(\sigma_m\) 和体积应变 \(\varepsilon_{kk}\) 可定义体模量 (bulk modulus) \(K\)，利用 (40-6) 式，有
+\[
+K = \frac{\sigma_m}{\varepsilon_{kk}} = \frac{E}{3(1-2\nu)} \tag{40-7}
+\]
+
+由 (40-3) 和 (40-7) 两式，有
+\[
+\frac{1}{9K} - \frac{1}{6G} = \frac{3(1-2\nu)}{9E} - \frac{2(1+\nu)}{6E} = -\frac{\nu}{E} \tag{40-8}
+\]
+
+对比 (40-5) 式、(40-8) 式和 (40-3) 式，线弹性用应力表示的广义胡克定律还十分普遍地表示为
+\[
+\varepsilon_{ij} = \frac{1}{2G}\sigma_{ij} + \left(\frac{1}{9K} - \frac{1}{6G}\right)\sigma_{kk}\delta_{ij} 
+\quad \text{或} \quad 
+\vvec{\varepsilon} = \frac{1}{2G}\vvec{\sigma} + \left(\frac{1}{9K} - \frac{1}{6G}\right)(\text{tr}\vvec{\sigma})\vvec{I} \tag{40-9}
+\]
+\end{defn}
+\begin{lemma}
+    材料力学材料常数的常用关系式的简单证明
+
+    让我们首先讨论应变能密度的表达式，所谓“应变能密度”是指单位体积的应变能。由于应力和应变之间的线弹性关系，通过应力-应变关系中的三角形，所以应变能密度为
+\[
+w = \frac{1}{2} (\sigma_{xx}\epsilon_{xx} + \sigma_{yy}\epsilon_{yy} + \sigma_{zz}\epsilon_{zz} + 2\sigma_{xy}\epsilon_{xy} + 2\sigma_{yz}\epsilon_{yz} + 2\sigma_{zx}\epsilon_{zx}) \tag{40-28}
+\]
+
+式中，右端后三个式子中的 2 是由于剪应力互等的原因，即，\( 2\sigma_{xy}\epsilon_{xy} \) 是 \( \sigma_{xy}\epsilon_{xy} \) 和 \( \sigma_{yz}\epsilon_{yz} \) 两项之和。如果用工程应变，则无此 2 的倍数。将广义胡克定律 (40-1) 和 (40-2) 两式代入 (40-28) 式，得到
+\[
+w = \frac{1}{2E} [(\sigma_{xx}^2 + \sigma_{yy}^2 + \sigma_{zz}^2) - 2\nu (\sigma_{xx}\sigma_{yy} + \sigma_{yy}\sigma_{zz} + \sigma_{zz}\sigma_{xx})] + \frac{1}{2G} (\sigma_{xy}^2 + \sigma_{yz}^2 + \sigma_{zx}^2) \tag{40-29}
+\]
+
+当应用三个主应力 (principal stress) 时，(40-29) 式简化为
+\[
+w = \frac{1}{2E} [(\sigma_1^2 + \sigma_2^2 + \sigma_3^2) - 2\nu (\sigma_1\sigma_2 + \sigma_2\sigma_3 + \sigma_3\sigma_1)] \tag{40-30}
+\]
+
+式中，\( \sigma_1, \sigma_2 \) 和 \( \sigma_3 \) 分别为第一、第二和第三主应力，满足 \( \sigma_1 \geq \sigma_2 \geq \sigma_3 \)。
+
+纯剪切 (pure shear) 时，剪切应变能密度可简单地表示为
+\[
+w = \frac{\tau \gamma}{2} \tag{40-31}
+\]
+
+由剪切胡克定律 \( \tau = G\gamma \)，上式可写为
+\[
+w = \frac{\tau^2}{2G} \tag{40-32}
+\]
+
+由应力的莫尔圆（Mohr's circle）知，纯剪切的两个主应力（principal stresses）分别为
+\[
+\sigma_1 = \tau, \quad \sigma_2 = -\tau \tag{40-33}
+\]
+
+平面应力状态下的应变能密度为
+\[
+w = \frac{1}{2E} \left( \sigma_1^2 + \sigma_2^2 - 2\nu\sigma_1\sigma_2 \right) \tag{40-34}
+\]
+
+将纯剪切时的主应力（40-33）式代入式（40-34），得应变能密度为
+\[
+w = \frac{\tau^2 (1+\nu)}{E} \tag{40-35}
+\]
+
+由（40-32）和（40-35）两式相等，则证得常用关系式（40-3）式：\( G = \frac{E}{2(1+\nu)} \)。
+\end{lemma}
+
+
+
+
+
+
+%  ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ 正文部分
+\ifx\allfiles\undefined
+\end{document}
+\fi
