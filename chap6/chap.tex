@@ -1,0 +1,619 @@
+\ifx\allfiles\undefined
+\documentclass[12pt, a4paper, oneside, UTF8]{ctexbook}  %  这一句是新增加的
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath}   % 数学公式
+\usepackage{graphicx}
+\usetikzlibrary{arrows, calc, decorations.pathmorphing}
+\newcommand{\pa}{\partial}
+\newcommand{\vvec}{\overset{\rightharpoonup\!\!\!\! \rightharpoonup}}
+\newcommand{\X}{\mathtt{X}}
+\newcommand{\mT}{\raisebox{0.1ex}{$\scriptstyle -T$}} % 调整高度为 0.1ex
+\newcommand{\lmT}{\raisebox{-0.85ex}{$\scriptstyle -T$}} % 调整高度为 -0.85ex
+\newcommand{\mone}{\raisebox{0.1ex}{$\scriptstyle -1$}} % 调整高度为 0.1ex
+\newcommand{\lmone}{\raisebox{-0.85ex}{$\scriptstyle -1$}} % 调整高度为 -0.85ex
+\newcommand{\mathminus}{\!\!-\!\!} % 数学环境连字符
+\newcommand{\vsup}[1]{\raisebox{-0.1ex}{$\scriptstyle #1$}}
+\newcommand{\lsup}[1]{\raisebox{-0.85ex}{$\scriptstyle #1$}}
+
+\begin{document}
+%\input{/config/cover} % 单独编译时，其实不用编译封面目录之类的，如需要不注释这句即可
+\else
+\fi
+%  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ 正文部分
+\chapter{守恒律与场方程}
+\section{class 35}
+\begin{add}
+牛顿主义与达尔文主义：两种科学思维的对比\textbf{(此部分内容AIGC)}
+\begin{center}
+	牛顿主义
+\end{center}
+牛顿主义源于艾萨克·牛顿爵士的经典力学，强调自然界的确定性和可预测性。根据牛顿的运动定律，宇宙被视为一个巨大的机械装置，所有物体的运动都可以通过数学公式精确描述。
+
+\textbf{核心思想}
+牛顿主义的核心思想可以归纳为以下几点：
+\begin{itemize}
+    \item 确定性：给定初始条件，系统的未来状态可以被精确预测。
+    \item 线性：系统的行为可以通过分解为线性组成部分来分析。
+    \item 可控性：通过精确控制初始条件，可以实现对系统的完全控制。
+\end{itemize}
+
+\textbf{数学表达}
+牛顿确定性原理的数学表达可以通过初始条件和运动方程来体现。例如，对于一个经典系统，其运动可以通过以下方程组完全确定：
+\begin{equation*} 
+	\frac{d\vec{p}_i}{dt} = \vec{F}_i \quad (i = 1, 2, \dots, N) 
+\end{equation*}
+其中，是$\vec{p}_i$第$i$个粒子的动量，$\vec{F}_i$是$i$作用于第个粒子的力。
+
+如果知道系统在某一时刻的初始状态（位置和动量），以及所有的作用力，那么系统的未来状态可以被唯一地确定。
+\begin{center}
+	达尔文主义
+\end{center}
+达尔文主义源于查尔斯·达尔文的生物进化论，强调自然选择和适应性。根据达尔文的理论，生物通过适应环境实现生存和繁殖。
+
+\textbf{核心思想}
+达尔文主义的核心思想可以归纳为以下几点：
+\begin{itemize}
+    \item 适应性：生物通过适应环境实现生存和繁殖。
+    \item 自然选择：环境对生物的变异进行选择，保留有利变异。
+    \item 复杂性：生物系统具有高度的复杂性和非线性。
+\end{itemize}
+
+\textbf{数学表达}
+达尔文的自然选择可以通过以下公式表示：
+\begin{equation*}
+    \frac{dN}{dt} = rN \left(1 - \frac{N}{K}\right)
+\end{equation*}
+其中，$N$ 是种群数量，$r$ 是增长率，$K$ 是环境容纳量。
+
+\begin{center}
+	群体免疫：两种思维的对比
+\end{center}
+群体免疫是指通过足够比例的人口接种疫苗或患病康复，减少疾病在人群中的传播。牛顿主义和达尔文主义在群体免疫中的应用体现了两种不同的思维方式。
+
+\textbf{牛顿主义视角}
+从牛顿主义的角度来看，群体免疫可以被视为一个机械系统。通过精确控制接种比例，可以预测和控制疾病的传播。这种思维方式强调确定性和可控性。
+
+\textbf{达尔文主义视角}
+从达尔文主义的角度来看，群体免疫是一个复杂的适应系统。疾病和宿主之间存在着不断的适应和进化，系统具有高度的非线性和不确定性。这种思维方式强调适应性和复杂性。
+\end{add}
+\begin{defn}
+	Reynolds' transport theorem
+	\begin{align*}
+		\frac{d}{dt}\int \Phi\,dv&=\int \frac{d}{dt}(\Phi dv)
+		=\int \frac{d\Phi}{dt}\, dv+\int\Phi \frac{d}{dt}( dv)\\
+		&=\int\left(\frac{d\Phi}{dt}+(\nabla\cdot\vec{v}\Phi)\right)\,dv\\
+		&=\int \left(\frac{\pa \Phi}{\pa t}+\frac{\pa \Phi}{\pa\vec{x}}
+		\frac{d\vec{x}}{dt}+(\nabla\cdot\vec{v}\Phi)\right)\,dv\\
+		&=\int \left(\frac{\pa \Phi}{\pa t}+\nabla\cdot(\Phi\vec{v})\right)\,dv
+	\end{align*}
+\end{defn}
+\begin{defn}
+	Continuity equation	(Eulerian viewpoint), $\Phi=\rho$
+	\begin{gather*}
+		\frac{dm}{dt}=\int \left(\frac{\pa \rho}{\pa t}+\nabla\cdot(\rho\vec{v})\right)\,dv=0\\
+		\frac{\pa \rho}{\pa t}+\nabla\cdot(\rho\vec{v})=0\qquad
+		\vec{j}=\rho\vec{v}\quad\text{mass flux density}\\
+		\frac{\pa \rho}{\pa t}+\nabla\cdot(\vec{j})=0\\
+		\underbrace{div\vec{v}}_{\text{胀量}}=0\Leftarrow
+		\begin{cases}
+			\frac{d\rho}{dt}+\rho div\vec{v}\\
+			\text{incompressible}\quad\frac{d\rho}{dt}=0
+		\end{cases}
+	\end{gather*}
+\end{defn}
+\begin{example}
+	charge continuity equation
+	\[\frac{\pa \rho}{\pa t}+\nabla\cdot(\vec{j})=0\]
+	其中：
+	\begin{itemize}
+		\item $\rho$为电荷密度
+		\item $\vec{j}$为电流密度
+	\end{itemize}
+\end{example}
+\begin{defn}
+	Continuity equation	(Lagrangian viewpoint)
+	\begin{gather*}
+		m=\int \rho_0\,d\mathtt{V}=\int \rho\,dv\\
+		\rho_0=J\rho=\rho\det\vvec{F}
+	\end{gather*}
+\end{defn}
+\begin{table}[h!t]
+    \centering
+    \caption{连续性方程综合表}
+    \label{tab:combined_continuity}
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabularx}{\textwidth}{ 
+        >{\hsize=0.5\hsize\raggedright\arraybackslash}X 
+        >{\hsize=1.6\hsize\raggedright\arraybackslash}X 
+        >{\hsize=0.9\hsize\RaggedRight\arraybackslash}X 
+    }
+    \toprule
+    \textbf{类型} & \textbf{方程形式} & \textbf{描述} \\
+    \midrule
+    质量守恒（欧拉描述） & 
+    $\displaystyle \frac{\partial \rho}{\partial t} + \nabla \cdot (\rho \vec{v}) = 0$ & 
+    流体力学中的质量守恒方程，描述质量在流动中的守恒规律 \\[8pt]
+    
+    电荷守恒 & 
+    $\displaystyle \frac{\partial \rho_e}{\partial t} + \nabla \cdot \vec{J} = 0$ & 
+    电荷守恒定律的微分形式，保证电荷总量不变 \\[8pt]
+    
+    量子概率密度 & 
+    $\displaystyle \frac{\partial |\psi|^2}{\partial t} + \nabla \cdot \vec{j} = 0\ \text{其中}\ \vec{j} = \frac{\hbar}{2mi}(\psi^*\nabla\psi - \psi\nabla\psi^*)$ & 
+    量子力学概率流连续性方程，保证概率守恒 \\[8pt]
+    
+    扩散过程 & 
+    $\displaystyle \frac{\partial c}{\partial t} + \nabla \cdot \vec{J} = 0\ (\text{通量}\ \vec{J} = -D \nabla c)$ & 
+    扩散方程的守恒形式，$ D $为扩散系数 \\[8pt]
+    
+    热传导 & 
+    $\displaystyle \rho c_p \frac{\partial \theta}{\partial t} + \nabla \cdot \vec{q} = 0\ (\text{通量}\ \vec{q} = -\kappa \nabla \theta)$ & 
+    能量守恒的热传导形式，$\alpha = \kappa / (\rho c_p)$为温导率 \\[8pt]
+
+    动量扩散 & 
+    $\displaystyle \frac{\partial (\rho \vec{v})}{\partial t} + \nabla \cdot \vvec{\tau} = 0\ (\text{应力}\ \vvec{\tau} = -\mu (\nabla \otimes \vec{v} + \vec{v} \otimes \nabla))$ & 
+    黏性流体的动量守恒方程，$\mu$为动力黏度 \\[8pt]
+    
+    正交曲线坐标系 & 
+    $\displaystyle \frac{\partial \rho}{\partial t} + \frac{1}{\sqrt{g}}\frac{\partial}{\partial x^i}(\rho v^i \sqrt{g}) = 0$ & 
+    广义坐标系下的质量守恒，$g_{ij}$为度量张量，$\sqrt{g}$为雅可比行列式 \\[8pt]
+    
+    笛卡儿坐标系 & 
+    $\displaystyle \frac{\partial \rho}{\partial t} + \sum_{i=x,y,z} \frac{\partial (\rho v_i)}{\partial x_i} = 0$ & 
+    三维直角坐标系展开式，$x_i$为坐标分量 \\[8pt]
+    
+    柱坐标系 & 
+    $\displaystyle \frac{\partial \rho}{\partial t} + \frac{1}{r}\frac{\partial (r\rho v_r)}{\partial r} + \frac{1}{r}\frac{\partial (\rho v_\theta)}{\partial \theta} + \frac{\partial (\rho v_z)}{\partial z} = 0$ & 
+    柱坐标下的展开形式，包含径向、角向和轴向分量 \\[8pt]
+    
+    球坐标系 & 
+    $\displaystyle \frac{\partial \rho}{\partial t} + \frac{1}{r^2}\frac{\partial (r^2\rho v_r)}{\partial r} + \frac{1}{r\sin\theta}\frac{\partial (\sin\theta \rho v_\theta)}{\partial \theta} + \frac{1}{r\sin\theta}\frac{\partial (\rho v_\varphi)}{\partial \varphi} = 0$ & 
+    球坐标系展开式，包含径向、极角和方位角分量 \\
+    \bottomrule
+    \end{tabularx}
+\end{table}
+\section{class 36}
+\begin{add}
+    量子力学中的常见算子
+
+    \textbf{1. 动量算子（Momentum Operator）}
+在量子力学中，动量算子 \(\hat{\vec{p}}\) 是位置算子 \(\hat{\vec{r}}\) 的共轭量，其形式为：
+\[
+\hat{\vec{p}} = -i\hbar \nabla
+\]
+其中 \(\hbar\) 是约化普朗克常数，\(\nabla\) 是梯度算子。动量算子在坐标空间中的表示为：
+\[
+\bra{\vec{r}} \hat{\vec{p}} \ket{\psi} = -i\hbar \nabla \psi(\vec{r})
+\]
+动量算子是量子力学中描述粒子运动的基本算子之一。
+
+\textbf{2. 角动量算子（Angular Momentum Operator）}
+角动量算子 \(\hat{\vec{L}}\) 描述系统的旋转对称性，其定义为：
+\[
+\hat{\vec{L}} = \hat{\vec{r}} \times \hat{\vec{p}}
+\]
+在笛卡尔坐标系中，角动量算子的分量为：
+\[
+\hat{L}_x = -i\hbar \left( y \frac{\partial}{\partial z} - z \frac{\partial}{\partial y} \right), \quad
+\hat{L}_y = -i\hbar \left( z \frac{\partial}{\partial x} - x \frac{\partial}{\partial z} \right), \quad
+\hat{L}_z = -i\hbar \left( x \frac{\partial}{\partial y} - y \frac{\partial}{\partial x} \right)
+\]
+角动量算子的分量满足以下对易关系：
+\[
+[\hat{L}_i, \hat{L}_j] = i\hbar \epsilon_{ijk} \hat{L}_k
+\]
+其中 \(\epsilon_{ijk}\) 是 Levi-Civita 符号。
+
+\textbf{3. 能量算子（Energy Operator）}
+能量算子 \(\hat{E}\) 描述系统的总能量。在量子力学中，能量算子通常与哈密顿算子 \(\hat{H}\) 相关联，但对于某些特定情况（如自由粒子），能量算子可以单独定义。例如，自由粒子的能量算子为：
+\[
+\hat{E} = i\hbar \frac{\partial}{\partial t}
+\]
+
+\textbf{4. 哈密顿算子（Hamiltonian Operator）}
+哈密顿算子 \(\hat{H}\) 是量子力学中描述系统总能量的核心算子。对于一个质量为 \(m\) 的粒子在外势场 \(V(\vec{r})\) 中运动，哈密顿算子为：
+\[
+\hat{H} = \frac{\hat{\vec{p}}^2}{2m} + V(\hat{\vec{r}})
+\]
+在坐标空间中，哈密顿算子的表示为：
+\[
+\hat{H} = -\frac{\hbar^2}{2m} \nabla^2 + V(\vec{r})
+\]
+哈密顿算子的本征值对应于系统的能量本征值。
+\end{add}
+\begin{thm}
+    空间平移不变性$\rightarrow$空间的均匀性
+
+    封闭的力学系统经过平移$\epsilon$
+\begin{gather*}
+    \delta L(\vec{q},\dot{\vec{q}},t)=\sum_{\alpha}\frac{\pa L}{\pa\vec{q}}\delta\vec{q}
+    =\vec{\epsilon}\cdot\sum_{\alpha}\frac{\pa L}{\pa\vec{q}}\\
+    \text{Euler\textminus Lagrange equation}\quad
+    \frac{d}{dt}\frac{\pa L}{\pa\dot{\vec{q}}}-\frac{\pa L}{\pa\vec{q}}=0\\
+    \delta L=\vec{\epsilon}\cdot\sum_{\alpha}\frac{d}{dt}\frac{\pa L}{\pa\dot{\vec{q}}}
+    =\vec{\epsilon}\cdot\frac{d}{dt}\sum_{\alpha}\vec{p_\alpha}\\
+    \because\; \delta L=0\;,\;\epsilon=constant\qquad
+    \therefore\frac{d\vec{p}}{dt}=\vec{0}\\
+    \vec{p}=\sum_{\alpha}p_\alpha=constant\quad\Leftrightarrow\quad\text{空间平移不变性}
+\end{gather*}
+\end{thm}
+\begin{defn}
+    moment equation	(Eulerian viewpoint)
+\begin{align*}
+    \frac{d}{dt}\int \rho\vec{v}\,dv
+    &=\int \left(\frac{\pa \rho\vec{v}}{\pa t}+\nabla\cdot(\rho\vec{v}\otimes\vec{v})\right)\,dv\\
+    &=\int_{V}\rho\vec{f}\,dv+\oiint_\alpha(-\rho\vvec{I}+\vvec{\tau})\vec{n}\,da\\
+    &=\int_{V}\rho\vec{f}\,dv+\int_{V}\nabla\cdot(-\rho\vvec{I}+\vvec{\tau})\vec{n}\,dv
+\end{align*}
+流体力学的动量方程
+\[
+\frac{\pa(\rho\vec{v})}{\pa t}+\nabla\cdot(\rho\vec{v}\otimes\vec{v}+\rho\vvec{I})
+=\nabla\cdot\vvec{\tau}+\rho\vec{f}
+\]
+\[
+    \frac{d}{dt}\int \rho\vec{v}\,dv=\int\rho\frac{d\vec{v}}{dt}\,dt
+    =\int_{V}\rho\vec{f}\,dv+\int\nabla\cdot\vvec{\sigma}\vec{n}\,dv
+\]
+固体力学的动量方程
+\[
+    \nabla\cdot\vvec{\sigma}+\rho\vec{f}=\rho\frac{d\vec{v}}{dt}=\rho\vec{a}
+\]
+\[\text{neglect}\;\rho\vec{f}=\vec{0}\;\rho\vec{a}=\vec{0}\quad\Rightarrow\quad
+\text{equilibrium equation}\quad\nabla\cdot\vvec{\sigma}=\vec{0}\]
+\[\text{fuild mechanics}\begin{cases}
+    body\;force\quad \vec{f}\\
+    stress\begin{cases}
+        normal\;stress\quad -\rho\vvec{I}\\
+        shear\;stress\quad \vvec{\tau}
+    \end{cases}
+\end{cases}\]
+\end{defn}
+\begin{thm}
+    空间旋转不变性 $\rightarrow$ 动量矩守恒 $\rightarrow$ 应力的对称性
+    
+    各向同性 (isotrophy)，封闭的力学系统经过转角\(\delta\vec{\varphi}
+    \begin{cases}
+        displacement\quad \delta\vec{q}=\delta\vec{\varphi}\times\vec{r}\\
+        velocitis\quad \delta\dot{\vec{q}}=\delta\vec{\varphi}\times\vec{v}
+    \end{cases}\)
+    \begin{align*}
+        \delta L&=\sum_{\alpha}\left(\frac{\pa L}{\pa\vec{q_\alpha}}\cdot\delta\vec{q_\alpha}
+        +\frac{\pa L}{\pa\dot{\vec{q_\alpha}}}\cdot\delta\dot{\vec{q_\alpha}}\right)\\
+        &=\sum_{\alpha}\left(\dot{\vec{p_\alpha}}\cdot(\delta\vec{\varphi}\times\vec{r})
+        +\vec{p_\alpha}\cdot(\delta\vec{\varphi}\times\vec{v})\right)\\
+        &=\sum_{\alpha}\left(\delta\vec{\varphi}\cdot(\vec{r}\times\dot{\vec{p_\alpha}})
+        +\delta\vec{\varphi}\cdot(\vec{v}\times\vec{p_\alpha})\right)\\
+        &=\delta\vec{\varphi}\cdot\sum_{\alpha}\frac{d}{dt}(\vec{r}\times\vec{p_\alpha})
+        =\delta\vec{\varphi}\cdot\frac{d}{dt}\sum_{\alpha}\vec{M_\alpha}=0
+    \end{align*}
+    \[\delta\vec{\varphi}=constant\quad\Rightarrow\quad \frac{d}{dt}\sum_{\alpha}\vec{M_\alpha}=0
+    \quad\Rightarrow\quad\sum_{\alpha}\vec{M_\alpha}=constant\]
+    \begin{align*}
+        \int F_i\,dv&=\int \frac{\pa \sigma_{ik}}{\pa x_k}\,dv=\oiint \sigma_{ik}\,da_k\\
+        moment\quad M_{ik}&=\int (x_iF_k-x_kF_i)\,dv=\int\left(x_i\frac{\pa \sigma_{kl}}{x_l}-x_k\frac{\pa \sigma_{il}}{x_l}\right)\,dv\\
+        &=\int\frac{\pa (x_i\sigma_{kl}-x_k\sigma_{il})}{\pa x_l}\,dv
+        -\int\left(\sigma_{kl}\frac{\pa x_i}{x_l}-\sigma_{il}\frac{\pa x_k}{x_l}\right)\,dv\\
+        &=\oiint (x_i\sigma_{kl}-x_k\sigma_{il})\,da_l 
+        -\int(\sigma_{kl}\delta_{il}-\sigma_{il}\delta_{kl})\,dv\\
+        &=\oiint (x_i\sigma_{kl}-x_k\sigma_{il})\,da_l 
+        -\int(\sigma_{ki}-\sigma_{ik})\,dv=0
+    \end{align*}
+\end{thm}
+\begin{proposition}
+    应力张量的散度在正交曲线坐标系中的表达式：
+
+    \begin{align*}
+    (\nabla \cdot \vvec{\sigma})_1 &= \frac{1}{H_1 H_2 H_3} \left[ 
+        \frac{\partial (H_2 H_3 \sigma_{11})}{\partial q_1} + 
+        \frac{\partial (H_1 H_3 \sigma_{12})}{\partial q_2} + 
+        \frac{\partial (H_1 H_2 \sigma_{13})}{\partial q_3} 
+    \right] \\
+    &\quad + \frac{\sigma_{12}}{H_1 H_2} \frac{\partial H_1}{\partial q_2} + 
+        \frac{\sigma_{13}}{H_1 H_3} \frac{\partial H_1}{\partial q_3} \\
+    &\quad - \frac{\sigma_{22}}{H_1 H_2} \frac{\partial H_2}{\partial q_1} - 
+        \frac{\sigma_{33}}{H_1 H_3} \frac{\partial H_3}{\partial q_1}
+    \end{align*}
+    
+    \begin{align*}
+    (\nabla \cdot \vvec{\sigma})_2 &= \frac{1}{H_1 H_2 H_3} \left[ 
+        \frac{\partial (H_2 H_3 \sigma_{21})}{\partial q_1} + 
+        \frac{\partial (H_1 H_3 \sigma_{22})}{\partial q_2} + 
+        \frac{\partial (H_1 H_2 \sigma_{23})}{\partial q_3} 
+    \right] \\
+    &\quad + \frac{\sigma_{21}}{H_2 H_1} \frac{\partial H_2}{\partial q_1} + 
+        \frac{\sigma_{23}}{H_2 H_3} \frac{\partial H_2}{\partial q_3} \\
+    &\quad - \frac{\sigma_{11}}{H_2 H_1} \frac{\partial H_1}{\partial q_2} - 
+        \frac{\sigma_{33}}{H_2 H_3} \frac{\partial H_3}{\partial q_2}
+    \end{align*}
+    
+    \begin{align*}
+    (\nabla \cdot \vvec{\sigma})_3 &= \frac{1}{H_1 H_2 H_3} \left[ 
+        \frac{\partial (H_2 H_3 \sigma_{31})}{\partial q_1} + 
+        \frac{\partial (H_1 H_3 \sigma_{32})}{\partial q_2} + 
+        \frac{\partial (H_1 H_2 \sigma_{33})}{\partial q_3} 
+    \right] \\
+    &\quad + \frac{\sigma_{31}}{H_3 H_1} \frac{\partial H_3}{\partial q_1} + 
+        \frac{\sigma_{32}}{H_3 H_2} \frac{\partial H_3}{\partial q_2} \\
+    &\quad - \frac{\sigma_{11}}{H_3 H_1} \frac{\partial H_1}{\partial q_3} - 
+        \frac{\sigma_{22}}{H_3 H_2} \frac{\partial H_2}{\partial q_3}
+    \end{align*}
+    \begin{tui}
+    正交曲线坐标系下应力张量的散度 \( e_1 \) 方向表达式推导
+        
+        在直线坐标系中，应力张量的散度 \( \nabla \cdot \vvec{\sigma} \) 在 \( e_1 \) 方向的分量可以表示为：
+        \[
+        (\nabla \cdot \vvec{\sigma})_1 = \frac{1}{H_1 H_2 H_3} \left[
+            \frac{\partial (H_2 H_3 \sigma_{11})}{\partial q_1} + 
+            \frac{\partial (H_1 H_3 \sigma_{12})}{\partial q_2} + 
+            \frac{\partial (H_1 H_2 \sigma_{13})}{\partial q_3}
+        \right]
+        \]
+        
+        由于曲线坐标系的曲率效应，需要添加修正项。这些修正项来源于基矢量的导数。
+
+        因此，曲率修正项为：
+        \[
+        \frac{\sigma_{12}}{H_1 H_2} \frac{\partial H_1}{\partial q_2} + 
+        \frac{\sigma_{13}}{H_1 H_3} \frac{\partial H_1}{\partial q_3} - 
+        \frac{\sigma_{22}}{H_1 H_2} \frac{\partial H_2}{\partial q_1} - 
+        \frac{\sigma_{33}}{H_1 H_3} \frac{\partial H_3}{\partial q_1}
+        \]
+        
+        将上述结果合并，得到 \( e_1 \) 方向的散度表达式。
+    \end{tui}
+\end{proposition}
+\begin{proposition}
+    正交曲线坐标系中基矢量对坐标的偏导
+    \[\begin{cases}
+        \frac{\pa \vec{e_i}}{\pa q_i}=-\frac{1}{H_j}\frac{\pa H_i}{\pa q_j}\vec{e_j}
+        -\frac{1}{H_k}\frac{\pa H_i}{\pa q_k}\vec{e_k}\\
+        \frac{\pa\vec{e_i}}{\pa q_j}=\frac{1}{H_i}\frac{\pa H_j}{\pa q_i}\vec{e_j}
+    \end{cases}\]
+\begin{proof}
+    在正交曲线坐标系中，坐标 \( (q_1, q_2, q_3) \) 对应的基矢量为 \( \vec{e}_1, \vec{e}_2, \vec{e}_3 \)，拉梅系数为 \( H_1, H_2, H_3 \)。基矢量的导数可以通过以下步骤推导。
+
+    基矢量的导数 \( \frac{\partial \vec{e}_i}{\partial q_j} \) 可以通过对基矢量的定义求导得到：
+    \[
+    \frac{\partial \vec{e}_i}{\partial q_j} = \frac{\partial}{\partial q_j} \left( \frac{1}{H_i} \frac{\partial \vec{r}}{\partial q_i} \right).
+    \]
+    利用乘积法则展开：
+    \[
+    \frac{\partial \vec{e}_i}{\partial q_j} = \frac{\partial}{\partial q_j} \left( \frac{1}{H_i} \right) \frac{\partial \vec{r}}{\partial q_i} + \frac{1}{H_i} \frac{\partial^2 \vec{r}}{\partial q_j \partial q_i}.
+    \]
+    
+    利用链式法则：
+    \[
+    \frac{\partial}{\partial q_j} \left( \frac{1}{H_i} \right) \frac{\partial \vec{r}}{\partial q_i} = -\frac{1}{H_i^2} \frac{\partial H_i}{\partial q_j} \cdot H_i \vec{e}_i = -\frac{1}{H_i} \frac{\partial H_i}{\partial q_j} \vec{e}_i.
+    \]
+    
+    由于 \( \vec{r} \) 是光滑函数，混合偏导数可以交换顺序：
+    \[
+    \frac{\partial^2 \vec{r}}{\partial q_i \partial q_j} = \frac{\partial}{\partial q_i} \left( H_j \vec{e}_j \right) = \frac{\partial H_j}{\partial q_i} \vec{e}_j + H_j \frac{\partial \vec{e}_j}{\partial q_i}.
+    \]
+    
+    将上述结果代入基矢量的导数表达式：
+    \[
+    \frac{\partial \vec{e}_i}{\partial q_j} = \frac{1}{H_i} \frac{\partial H_j}{\partial q_i} \vec{e}_j + \frac{H_j}{H_i} \frac{\partial \vec{e}_j}{\partial q_i} - \frac{1}{H_i} \frac{\partial H_i}{\partial q_j} \vec{e}_i.
+    \]
+    
+    \textbf{当 \( i \neq j \) 时}，基矢量的导数为：
+    \[
+    \frac{\partial \vec{e}_i}{\partial q_j} = \frac{1}{H_i} \frac{\partial H_j}{\partial q_i} \vec{e}_j.
+    \]
+
+    这是因为 \( \frac{\partial \vec{e}_j}{\partial q_i} \) 在正交坐标系中与 \( \vec{e}_i \) 无关。
+    
+    \textbf{当 \( i = j \) 时}，\( \frac{\partial \vec{e}_i}{\partial q_i} \) 与 \( \vec{e}_i \) 正交,基矢量的导数可表示为：
+\[
+\frac{\partial \vec{e}_i}{\partial q_i} = \sum_{k \neq i} c_k \vec{e}_k.
+\]
+    通过几何关系确定系数 \( c_k \) 的步骤如下：
+
+    基矢量满足正交性 \( \vec{e}_i \cdot \vec{e}_j = 0 \, (i \neq j) \)，对 \( \vec{e}_i \cdot \vec{e}_k = 0 \) 关于 \( q_i \) 求导（\( k \neq i \)）：
+    \[
+    \frac{\partial}{\partial q_i} (\vec{e}_i \cdot \vec{e}_k) = \frac{\partial \vec{e}_i}{\partial q_i} \cdot \vec{e}_k + \vec{e}_i \cdot \frac{\partial \vec{e}_k}{\partial q_i} = 0
+    \]
+    整理得：
+    \[
+    \frac{\partial \vec{e}_i}{\partial q_i} \cdot \vec{e}_k = -\vec{e}_i \cdot \frac{\partial \vec{e}_k}{\partial q_i}
+    \]
+    
+    已知当 \( i \neq k \) 时，基矢量的导数为：
+    \[
+    \frac{\partial \vec{e}_k}{\partial q_i} = \frac{1}{H_k} \frac{\partial H_i}{\partial q_k} \vec{e}_i \quad (i \neq k)
+    \]
+    将其代入正交性条件：
+    \[
+    \frac{\partial \vec{e}_i}{\partial q_i} \cdot \vec{e}_k = -\vec{e}_i \cdot \left( \frac{1}{H_k} \frac{\partial H_i}{\partial q_k} \vec{e}_i \right) = -\frac{1}{H_k} \frac{\partial H_i}{\partial q_k} (1)
+    \]
+
+    由于 \( \frac{\partial \vec{e}_i}{\partial q_i} = \sum_{m \neq i} c_m \vec{e}_m \)，将其与 \( \vec{e}_k \) 点乘：
+    \[
+    \frac{\partial \vec{e}_i}{\partial q_i} \cdot \vec{e}_k = \sum_{m \neq i} c_m \vec{e}_m \cdot \vec{e}_k = c_k
+    \]
+    
+    结合(1)式：
+    \[
+    c_k = -\frac{1}{H_k} \frac{\partial H_i}{\partial q_k}
+    \]
+    
+    基矢量的导数为：
+    \[
+    \frac{\partial \vec{e}_i}{\partial q_i} = -\sum_{k \neq i} \frac{1}{H_k} \frac{\partial H_i}{\partial q_k} \vec{e}_k
+    \]
+
+    综上所述，正交曲线坐标系下基矢量的导数为：
+    \[
+    \frac{\partial \vec{e}_i}{\partial q_j} = 
+    \begin{cases}
+    \frac{1}{H_i} \frac{\partial H_j}{\partial q_i} \vec{e}_j, & i \neq j, \\
+    -\sum_{k \neq i} \frac{1}{H_k} \frac{\partial H_i}{\partial q_k} \vec{e}_k, & i = j.
+    \end{cases}
+    \]
+\end{proof}
+\end{proposition}
+\section{class 37}
+\begin{defn}
+    正交曲线坐标系中的加速度
+    \begin{gather*}
+        \vec{a}=\frac{d\vec{v}}{dt}=\frac{d}{dt}(v_1\vec{e_1})+\frac{d}{dt}(v_2\vec{e_2})
+        +\frac{d}{dt}(v_3\vec{e_3})\\
+        \text{正交}\text{曲线坐标系}\quad\frac{d\vec{e_i}}{dt}\neq\vec{0}
+    \end{gather*}
+    \begin{align*}
+        \vec{a_1}&=\frac{d}{dt}(v_1\vec{e_1})=\frac{dv_1}{dt}\vec{e_1}
+        +v_1\frac{d\vec{e_1}}{dt}\\
+        \frac{d}{dt}&=\frac{\pa}{\pa t}+\vec{v}\cdot\nabla
+        =\frac{\pa}{\pa t}+\frac{v_1}{H_1}\frac{\pa}{\pa q_1}
+        +\frac{v_2}{H_2}\frac{\pa}{\pa q_2}+\frac{v_3}{H_3}\frac{\pa}{\pa q_3}\\
+        \frac{d\vec{e_1}}{dt}&=\frac{v_1}{H_1}\frac{\pa\vec{e_1}}{\pa q_1}
+        +\frac{v_2}{H_2}\frac{\pa\vec{e_1}}{\pa q_2}+\frac{v_3}{H_3}\frac{\pa\vec{e_1}}{\pa q_3}
+    \end{align*}
+    单位矢量的导数公式：
+\[
+\frac{d\hat{e}_i}{dt} = \sum_{j=1}^3 \frac{v_j}{H_j} \frac{\partial \hat{e}_i}{\partial q_j}
+\]
+    对于正交曲线坐标系 \( (q_1, q_2, q_3) \)，加速度的各方向分量表达式为：
+\begin{align*}
+\left(\frac{d\vec{v}}{dt}\right)_1 &=
+    \left(\frac{\partial}{\partial t} + \frac{v_1}{H_1}\frac{\partial}{\partial q_1}
+    + \frac{v_2}{H_2}\frac{\partial}{\partial q_2} + \frac{v_3}{H_3}\frac{\partial}{\partial q_3}
+\right)v_1 \\&\quad+ \frac{v_2}{H_1 H_2}\left(v_1 \frac{\partial H_1}{\partial q_2} - v_2 \frac{\partial H_2}{\partial q_1}\right)
+\\&\quad+ \frac{v_3}{H_1 H_3}\left(v_1 \frac{\partial H_1}{\partial q_3} - v_3 \frac{\partial H_3}{\partial q_1}\right)
+\end{align*}
+\begin{align*}
+    \left(\frac{d\vec{v}}{dt}\right)_2 &=
+        \left(\frac{\partial}{\partial t} + \frac{v_1}{H_1}\frac{\partial}{\partial q_1}
+        + \frac{v_2}{H_2}\frac{\partial}{\partial q_2} + \frac{v_3}{H_3}\frac{\partial}{\partial q_3}
+    \right)v_2 \\&\quad+ \frac{v_3}{H_2 H_3}\left(v_2 \frac{\partial H_2}{\partial q_3} - v_3 \frac{\partial H_3}{\partial q_2}\right)
+    \\&\quad+ \frac{v_1}{H_2 H_1}\left(v_2 \frac{\partial H_2}{\partial q_1} - v_1 \frac{\partial H_1}{\partial q_2}\right)
+\end{align*}
+\begin{align*}
+    \left(\frac{d\vec{v}}{dt}\right)_3 &=
+        \left(\frac{\partial}{\partial t} + \frac{v_1}{H_1}\frac{\partial}{\partial q_1}
+        + \frac{v_2}{H_2}\frac{\partial}{\partial q_2} + \frac{v_3}{H_3}\frac{\partial}{\partial q_3}
+    \right)v_3 \\&\quad+ \frac{v_1}{H_3 H_1}\left(v_3 \frac{\partial H_3}{\partial q_1} - v_1 \frac{\partial H_1}{\partial q_3}\right)
+    \\&\quad+ \frac{v_2}{H_3 H_2}\left(v_3 \frac{\partial H_3}{\partial q_2} - v_2 \frac{\partial H_2}{\partial q_3}\right)
+\end{align*}
+    对于正交曲线坐标系中的加速度分量，第\( i \)个方向的表达式为：
+    \[
+    a_i = h_i \ddot{q}_i + \frac{\partial h_i}{\partial q_i} \dot{q}_i^2 + 2 \sum_{\substack{j=1 \\ j \neq i}}^3 \frac{\partial h_i}{\partial q_j} \dot{q}_j \dot{q}_i - \frac{1}{h_i} \sum_{\substack{j=1 \\ j \neq i}}^3 h_j \frac{\partial h_j}{\partial q_i} \dot{q}_j^2
+    \]
+\begin{tui}
+\(\left(\frac{d\vec{v}}{dt}\right)_1\) 的表达式
+
+在正交曲线坐标系 \( (q_1, q_2, q_3) \) 中，速度矢量 \(\vec{v}\) 可以表示为：
+\[
+\vec{v} = v_1 \hat{e}_1 + v_2 \hat{e}_2 + v_3 \hat{e}_3
+\]
+其中 \( v_i = H_i \dot{q}_i \) 是速度在 \( q_i \) 方向的分量，\( H_i \) 是拉梅系数。
+
+加速度矢量 \(\frac{d\vec{v}}{dt}\) 的表达式为：
+\[
+\frac{d\vec{v}}{dt} = \frac{d}{dt}(v_1 \hat{e}_1 + v_2 \hat{e}_2 + v_3 \hat{e}_3)
+\]
+
+展开后得到：
+\[
+\frac{d\vec{v}}{dt} = \frac{dv_1}{dt} \hat{e}_1 + v_1 \frac{d\hat{e}_1}{dt} + \frac{dv_2}{dt} \hat{e}_2 + v_2 \frac{d\hat{e}_2}{dt} + \frac{dv_3}{dt} \hat{e}_3 + v_3 \frac{d\hat{e}_3}{dt}
+\]
+
+考虑 \( \hat{e}_1 \) 方向的分量 \(\left(\frac{d\vec{v}}{dt}\right)_1\)，我们有：
+\[
+\left(\frac{d\vec{v}}{dt}\right)_1 = \frac{dv_1}{dt} + v_2 \left(\frac{d\hat{e}_2}{dt} \cdot \hat{e}_1\right) + v_3 \left(\frac{d\hat{e}_3}{dt} \cdot \hat{e}_1\right)
+\]
+
+利用单位矢量的导数公式：
+\[
+\frac{d\hat{e}_i}{dt} = \sum_{j=1}^3 \frac{v_j}{H_j} \frac{\partial \hat{e}_i}{\partial q_j}
+\]
+以及正交曲线坐标系下基矢量的导数为：
+\[
+\frac{\partial \vec{e}_i}{\partial q_j} = 
+\begin{cases}
+\frac{1}{H_i} \frac{\partial H_j}{\partial q_i} \vec{e}_j, & i \neq j, \\
+-\sum_{k \neq i} \frac{1}{H_k} \frac{\partial H_i}{\partial q_k} \vec{e}_k, & i = j.
+\end{cases}
+\]
+可以得到：
+\[
+\frac{d\hat{e}_2}{dt} \cdot \hat{e}_1 = \frac{v_1}{H_1} \frac{\partial \hat{e}_2}{\partial q_1} \cdot \hat{e}_1 + \frac{v_2}{H_2} \frac{\partial \hat{e}_2}{\partial q_2} \cdot \hat{e}_1 + \frac{v_3}{H_3} \frac{\partial \hat{e}_2}{\partial q_3} \cdot \hat{e}_1
+\]
+由于 \(\frac{\partial \hat{e}_2}{\partial q_2} \cdot \hat{e}_1 = -\frac{1}{H_1} \frac{\partial H_2}{\partial q_1}\)，且 \(\frac{\partial \hat{e}_2}{\partial q_1} \cdot \hat{e}_1 = \frac{1}{H_2} \frac{\partial H_1}{\partial q_2}\)，\(\frac{\partial \hat{e}_2}{\partial q_3} \cdot \hat{e}_1 = 0\)，因此：
+\[
+\frac{d\hat{e}_2}{dt} \cdot \hat{e}_1 = \frac{v_1}{H_1 H_2} \frac{\partial H_1}{\partial q_2}-\frac{v_2}{H_1 H_2} \frac{\partial H_2}{\partial q_1}
+\]
+同理：
+\[
+\frac{d\hat{e}_3}{dt} \cdot \hat{e}_1 = \frac{v_1}{H_1 H_3}\frac{\partial H_1}{\partial q_3}-\frac{v_3}{H_1 H_3}\frac{\partial H_3}{\partial q_1}
+\]
+
+利用 \( v_i = H_i \dot{q}_i \)，可以将 \(\frac{dv_1}{dt}\) 展开为：
+\[
+\frac{dv_1}{dt} = \frac{\partial v_1}{\partial t} + \frac{v_1}{H_1} \frac{\partial v_1}{\partial q_1} 
++ \frac{v_2}{H_2} \frac{\partial v_1}{\partial q_2} + \frac{v_3}{H_3} \frac{\partial v_1}{\partial q_3}
+\]
+
+最终，\(\left(\frac{d\vec{v}}{dt}\right)_1\) 的表达式为：
+\begin{align*}
+    \left(\frac{d\vec{v}}{dt}\right)_1 &= \left(\frac{\partial}{\partial t} + \frac{v_1}{H_1} \frac{\partial}{\partial q_1} + \frac{v_2}{H_2} \frac{\partial}{\partial q_2} + \frac{v_3}{H_3} \frac{\partial}{\partial q_3}\right) v_1\\&\quad
+    + \frac{v_2}{H_1 H_2} \left(v_1 \frac{\partial H_1}{\partial q_2} - v_2 \frac{\partial H_2}{\partial q_1}\right)
+    \\&\quad+ \frac{v_3}{H_1 H_3} \left(v_1 \frac{\partial H_1}{\partial q_3} - v_3 \frac{\partial H_3}{\partial q_1}\right) 
+\end{align*}
+\end{tui}
+\end{defn}
+\begin{corollary}
+    正交曲线坐标系中流体力学的动量方程
+    \begin{align*}
+            \rho\frac{d\vec{v}}{dt}=\rho\vec{f}+\nabla\cdot\vvec{P}
+    \end{align*}
+\end{corollary}
+\begin{thm}
+    时间的均匀性 $\rightarrow$ 能量守恒
+
+    封闭的力学系统和时间无关
+    \begin{align*}
+        \frac{dL}{dt}&=\sum\left(\frac{\pa L}{\pa q}\delta\dot{q}
+        +\frac{\pa L}{\pa \dot{q}}\ddot{q}\right)\\
+        &=\sum\left(\frac{d}{dt}\left(\frac{\pa L}{\pa \dot{q}}\right)\delta\dot{q}
+        +\frac{\pa L}{\pa \dot{q}}\ddot{q}\right)\\
+        &=\frac{d}{dt}\left(\sum\frac{\pa L}{\pa \dot{q}}\delta\dot{q}\right)
+    \end{align*}
+    \[
+        \frac{d}{dt}\left(\sum\frac{\pa L}{\pa \dot{q}}\delta\dot{q}-L\right)=0
+        \quad\Rightarrow\quad
+        2T-(T-V)=T+V=constant
+    \]
+\end{thm}
+\begin{example}
+    欧拉描述下流体的能量守恒
+\begin{gather*}
+        \text{热力学第一定律}\quad
+        \frac{d\varepsilon}{dt}=\frac{dQ}{dt}-\frac{dW}{dt}\\
+        \varepsilon=\rho V(u+k)=\rho V(u+\frac{1}{2}\vec{v}\cdot\vec{v})\\
+        dW=\vec{F}\cdot d\vec{x}=\vec{F}\cdot \vec{v}dt\\
+        \frac{d}{dt}\int \rho(u+\frac{1}{2}\vec{v}\cdot\vec{v})\,dv=\int(-q_i)n_i\,da
+        -\int (-n_i\sigma_{ij}v_j)\,da-\int(-\rho f_i v)\,dv\\
+        \frac{\pa}{\pa t}\left(\rho(u+\frac{1}{2}\vec{v}\cdot\vec{v})\right)+
+        \nabla\cdot\left(\rho\vec{v}(u+\frac{1}{2}\vec{v}\cdot\vec{v})\right)=
+        -\nabla\cdot\vec{q}+\nabla\cdot(\vvec{\sigma}\cdot\vec{v})+\rho\vec{v}\cdot\vec{f}\\
+        \vvec{\sigma}=-P\vvec{I}+\vvec{\tau}\\
+        \frac{\pa}{\pa t}\left(\rho(u+\frac{1}{2}\vec{v}\cdot\vec{v})\right)+
+        \nabla\cdot\left(\rho\vec{v}(u+\frac{1}{2}\vec{v}\cdot\vec{v}+\frac{P}{\rho})\right)=
+        -\nabla\cdot\vec{q}+\nabla\cdot(\vvec{\tau}\cdot\vec{v})+\rho\vec{v}\cdot\vec{f}
+\end{gather*}
+\end{example}
+
+
+
+
+
+
+
+
+
+
+%  ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ 正文部分
+\ifx\allfiles\undefined
+\end{document}
+\fi
