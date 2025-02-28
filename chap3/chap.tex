@@ -1,0 +1,961 @@
+\ifx\allfiles\undefined
+\documentclass[12pt, a4paper, oneside, UTF8]{ctexbook}  %  这一句是新增加的
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath}   % 数学公式
+\usetikzlibrary{arrows, calc, decorations.pathmorphing}
+\newcommand{\pa}{\partial}
+
+\begin{document}
+%\input{/config/cover} % 单独编译时，其实不用编译封面目录之类的，如需要不注释这句即可
+\else
+\fi
+%  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ 正文部分
+\chapter{curvilinear coordinates曲线(曲纹)坐标系}
+\section{class 23}
+\begin{defn}
+
+    \textbf{正交}曲线坐标系,\textbf{不区分斜边和逆变}。
+    \[
+  \begin{cases}
+          &  q_1=q_1\left(x_1,x_2,x_3\right) \\
+          &  q_2=q_2\left(x_1,x_2,x_3\right) \\
+          &  q_3=q_3\left(x_1,x_2,x_3\right)
+  \end{cases}
+    \]
+    \[
+        \begin{cases}
+            &  x_1=x_1\left(q_1,q_2,q_3\right) \\
+            &  x_2=x_2\left(q_1,q_2,q_3\right) \\
+            &  x_3=x_3\left(q_1,q_2,q_3\right)
+        \end{cases}
+    \]
+    存在逆映射，需要满足
+    $\begin{cases}
+        & \mathbb{R}^3,continous\, C^1\\
+        & Jacobian \frac{\pa \left(q_1,q_2,q_3\right)}{\pa \left(x_1,x_2,x_3\right)}\neq 0
+    \end{cases}$
+\end{defn}
+\begin{center}
+    \textbf{本节内容默认在正交曲线坐标系讨论}
+\end{center}
+\begin{defn}
+    Lam$\acute{e}$ coefficients
+\[
+    d\vec{r}=\frac{\pa \vec{r}}{\pa q_1}d q_1+\frac{\pa \vec{r}}{\pa q_2}d q_2+\frac{\pa \vec{r}}{\pa q_3}d q_3
+\]
+\begin{align*}
+    \lvert\frac{\pa \vec{v}}{\pa q_1}\rvert&
+    =\sqrt{\left(\frac{\pa x_1}{\pa q_1}\right)^2+\left(\frac{\pa x_2}{\pa q_1}\right)^2+\left(\frac{\pa x_3}{\pa q_1}\right)^2}
+    =H_1 \\
+    \lvert\frac{\pa \vec{v}}{\pa q_2}\rvert&
+    =\sqrt{\left(\frac{\pa x_1}{\pa q_2}\right)^2+\left(\frac{\pa x_2}{\pa q_2}\right)^2+\left(\frac{\pa x_3}{\pa q_2}\right)^2}
+    =H_2 \\
+    \lvert\frac{\pa \vec{v}}{\pa q_3}\rvert&
+    =\sqrt{\left(\frac{\pa x_1}{\pa q_3}\right)^2+\left(\frac{\pa x_2}{\pa q_3}\right)^2+\left(\frac{\pa x_3}{\pa q_3}\right)^2}
+    =H_3
+\end{align*}
+\end{defn}
+\begin{example}
+    柱坐标系(Cylindrical Coordinates)中拉梅系数的推导
+
+    柱坐标系的坐标表示为 \((\rho, \theta, z)\)，其中：
+\begin{itemize}
+    \item \(\rho\) 是点到 \(z\)-轴的径向距离，
+    \item \(\theta\) 是点在 \(xy\)-平面上的方位角，
+    \item \(z\) 是点在 \(z\)-轴上的高度。
+\end{itemize}
+在柱坐标系中，长度元 \(d\vec{r}\) 可以表示为：
+\[
+d\vec{r} = \frac{\partial \vec{r}}{\partial \rho} d\rho + \frac{\partial \vec{r}}{\partial \theta} d\theta + \frac{\partial \vec{r}}{\partial z} dz,
+\]
+其中，\(\vec{r} = \rho \cos \theta \vec{i} + \rho \sin \theta \vec{j} + z \vec{k}\)。
+
+计算偏导数：
+\begin{align*}
+    \frac{\partial \vec{r}}{\partial \rho} &= \cos \theta \vec{i} + \sin \theta \vec{j},
+    \\\frac{\partial \vec{r}}{\partial \theta} &= -\rho \sin \theta \vec{i} + \rho \cos \theta \vec{j},
+    \\\frac{\partial \vec{r}}{\partial z} &= \vec{k}
+\end{align*}
+拉梅系数 \(H_\rho\)、\(H_\theta\)、\(H_z\) 分别为：
+\begin{align*}
+    H_\rho &= \left| \frac{\partial \vec{r}}{\partial \rho} \right| = \sqrt{(\cos \theta)^2 + (\sin \theta)^2} = 1,
+    \\H_\theta &= \left| \frac{\partial \vec{r}}{\partial \theta} \right| = \sqrt{(-\rho \sin \theta)^2 + (\rho \cos \theta)^2} = \rho,
+    \\H_z &= \left| \frac{\partial \vec{r}}{\partial z} \right| = 1
+\end{align*}
+\end{example}
+\begin{example}
+    球坐标系(Spherical Coordinates)中拉梅系数的推导
+
+    球坐标系的坐标表示为 \((r, \theta, \varphi)\)，其中：
+\begin{itemize}
+    \item \(r\) 是点到原点的距离，
+    \item \(\theta\) 是点与 \(z\)-轴的极角，
+    \item \(\varphi\) 是点在 \(xy\)-平面上的方位角。
+\end{itemize}
+
+在球坐标系中，长度元 \(d\vec{r}\) 可以表示为：
+\[
+d\vec{r} = \frac{\partial \vec{r}}{\partial r} dr + \frac{\partial \vec{r}}{\partial \theta} d\theta + \frac{\partial \vec{r}}{\partial \varphi} d\varphi,
+\]
+其中，\(\vec{r} = r \sin \theta \cos \varphi \vec{i} + r \sin \theta \sin \varphi \vec{j} + r \cos \theta \vec{k}\)。
+
+计算偏导数：
+\begin{align*}
+    \frac{\partial \vec{r}}{\partial r} &= \sin \theta \cos \varphi \vec{i} + \sin \theta \sin \varphi \vec{j} + \cos \theta \vec{k},
+    \\\frac{\partial \vec{r}}{\partial \theta} &= r \cos \theta \cos \varphi \vec{i} + r \cos \theta \sin \varphi \vec{j} -r \sin \theta \vec{k},
+    \\\frac{\partial \vec{r}}{\partial \varphi} &= -r \sin \theta \sin \varphi \vec{i} + r \sin \theta \cos \varphi \vec{j}
+\end{align*}
+拉梅系数 \(H_r\)、\(H_\theta\)、\(H_\varphi\) 分别为：
+\begin{align*}
+    H_r &= \left| \frac{\partial \vec{r}}{\partial r} \right| = \sqrt{(\sin \theta \cos \varphi)^2 + (\sin \theta \sin \varphi)^2 + (\cos \theta)^2} = 1,
+    \\H_\theta &= \left| \frac{\partial \vec{r}}{\partial \theta} \right| = \sqrt{(r \cos \theta \cos \varphi)^2 + (r \cos \theta \sin \varphi)^2 + (-r \sin \theta)^2} = r,
+    \\H_\varphi &= \left| \frac{\partial \vec{r}}{\partial \varphi} \right| = \sqrt{(-r \sin \theta \sin \varphi)^2 + (r \sin \theta \cos \varphi)^2} = r \sin \theta
+\end{align*}
+\end{example}
+\begin{defn}
+    梯度$\nabla\varphi$,方向导数$\frac{\pa \varphi}{\pa q_1},\frac{\pa \varphi}{\pa q_2},\frac{\pa \varphi}{\pa q_3}$。
+    \[
+    grad\varphi=\nabla\varphi=\frac{1}{H_1}\frac{\pa \varphi}{\pa q_1}\vec{e_1}+\frac{1}{H_2}\frac{\pa \varphi}{\pa q_2}\vec{e_2}+\frac{1}{H_3}\frac{\pa \varphi}{\pa q_3}\vec{e_3}
+    \]
+\end{defn}
+\begin{corollary}
+    \[
+    \frac{d}{dt}=\frac{\pa}{\pa t}+\vec{v}\cdot\nabla
+    =\frac{\pa}{\pa t}+\frac{v_1}{H_1}\frac{\pa \varphi}{\pa q_1}+\frac{v_2}{H_2}\frac{\pa \varphi}{\pa q_2}
+    +\frac{v_3}{H_3}\frac{\pa \varphi}{\pa q_3}
+    \]
+\end{corollary}
+\begin{example}
+    柱坐标系下标量函数 \(f(\rho, \theta, z)\) 的梯度为：
+\[
+\nabla f = \frac{\partial f}{\partial \rho} \vec{e}_\rho + \frac{1}{\rho} \frac{\partial f}{\partial \theta} \vec{e}_\theta + \frac{\partial f}{\partial z} \vec{e}_z
+\]
+\end{example}
+\begin{example}
+    球坐标系下标量函数 \(f(r, \theta, \varphi)\) 的梯度为：
+\[
+\nabla f = \frac{\partial f}{\partial r} \vec{e}_r + \frac{1}{r} \frac{\partial f}{\partial \theta} \vec{e}_\theta + \frac{1}{r \sin \theta} \frac{\partial f}{\partial \varphi} \vec{e}_\varphi
+\]
+\end{example}
+\begin{defn}
+    散度$\nabla\cdot\vec{F}$
+ 
+    在一般曲线坐标系 \((q_1, q_2, q_3)\) 中，向量场 \(\vec{F} = F_1 \vec{e}_1 + F_2 \vec{e}_2 + F_3 \vec{e}_3\) 的散度为：
+    \[
+    \nabla \cdot \vec{F} = \frac{1}{H_1 H_2 H_3} \left( \frac{\partial}{\partial q_1} (H_2 H_3 F_1) 
+    + \frac{\partial}{\partial q_2} (H_1 H_3 F_2) + \frac{\partial}{\partial q_3} (H_1 H_2 F_3) \right)
+    \]
+\begin{tui}
+    由Gauss\textminus Ostrogradsky formula，知向量场 \(\vec{F}\) 的散度为：
+    \[
+    \nabla \cdot \vec{F} = \lim_{V \to 0} \frac{1}{V} \oint_{\partial V} \vec{F} \cdot d\vec{S},
+    \]
+    
+    考虑一个微小体积元 \(dV = H_1 H_2 H_3 \, dq_1 \, dq_2 \, dq_3\)，其边界由六个面组成。计算通过每个面的通量：
+
+1 沿 \(q_1\) 方向的通量：
+   
+左侧面：\(\vec{F} \cdot d\vec{S}_1 = -F_1 H_2 H_3 \, dq_2 \, dq_3\),
+   
+   右侧面：\(\vec{F} \cdot d\vec{S}_1 = F_1 H_2 H_3 \, dq_2 \, dq_3 + \frac{\partial}{\partial q_1} (F_1 H_2 H_3) dq_1 \, dq_2 \, dq_3\)
+
+   因此，沿 \(q_1\) 方向的净通量为：
+   \[
+   \frac{\partial}{\partial q_1} (F_1 H_2 H_3) dq_1 \, dq_2 \, dq_3
+   \]
+
+2 沿 \(q_2\) 方向的通量：
+   
+前侧面：\(\vec{F} \cdot d\vec{S}_2 = -F_2 H_1 H_3 \, dq_1 \, dq_3\),
+   
+   后侧面：\(\vec{F} \cdot d\vec{S}_2 = F_2 H_1 H_3 \, dq_1 \, dq_3 + \frac{\partial}{\partial q_2} (F_2 H_1 H_3) dq_1 \, dq_2 \, dq_3\)
+
+   因此，沿 \(q_2\) 方向的净通量为：
+   \[
+   \frac{\partial}{\partial q_2} (F_2 H_1 H_3) dq_1 \, dq_2 \, dq_3
+   \]
+
+3 沿 \(q_3\) 方向的通量：
+   
+底面：\(\vec{F} \cdot d\vec{S}_3 = -F_3 H_1 H_2 \, dq_1 \, dq_2\),
+   
+   顶面：\(\vec{F} \cdot d\vec{S}_3 = F_3 H_1 H_2 \, dq_1 \, dq_2 + \frac{\partial}{\partial q_3} (F_3 H_1 H_2) dq_1 \, dq_2 \, dq_3\)
+
+   因此，沿 \(q_3\) 方向的净通量为：
+   \[
+   \frac{\partial}{\partial q_3} (F_3 H_1 H_2) dq_1 \, dq_2 \, dq_3
+   \]
+
+   4 将三个方向的净通量相加，得到总通量：
+\[
+\oint_{\partial V} \vec{F} \cdot d\vec{S} = \left( \frac{\partial}{\partial q_1} (F_1 H_2 H_3) 
++ \frac{\partial}{\partial q_2} (F_2 H_1 H_3) + \frac{\partial}{\partial q_3} (F_3 H_1 H_2) \right) dq_1 \, dq_2 \, dq_3
+\]
+
+根据散度的定义：
+\begin{align*}
+    &\nabla \cdot \vec{F} 
+    \\=& \lim_{V \to 0} \frac{1}{H_1 H_2 H_3 \, dq_1 \, dq_2 \, dq_3} \left( \frac{\partial}{\partial q_1} (F_1 H_2 H_3) 
+    + \frac{\partial}{\partial q_2} (F_2 H_1 H_3) + \frac{\partial}{\partial q_3} (F_3 H_1 H_2) \right) dq_1 \, dq_2 \, dq_3
+    \\=&\frac{1}{H_1 H_2 H_3} \left( \frac{\partial}{\partial q_1} (H_2 H_3 F_1) + \frac{\partial}{\partial q_2} (H_1 H_3 F_2) 
+    + \frac{\partial}{\partial q_3} (H_1 H_2 F_3) \right)
+\end{align*}
+\end{tui}    
+\end{defn}
+\begin{lemma}
+    divergence theorem(Gauss\textminus Ostrogradsky formula)
+\[
+\int_V (\nabla \cdot \vec{F}) \, dV = \oint_{\partial V} \vec{F} \cdot d\vec{S},
+\]
+其中：
+\begin{itemize}
+    \item \(\vec{F}\) 是一个向量场，
+    \item \(V\) 是体积区域，
+    \item \(\partial V\) 是体积 \(V\) 的边界曲面，
+    \item \(d\vec{S}\) 是曲面上的面积元向量。
+\end{itemize}
+
+    在一般曲线坐标系 \((q_1, q_2, q_3)\) 中：
+\[
+\int_V \left( \frac{\partial}{\partial q_1} (H_2 H_3 F_1) + \frac{\partial}{\partial q_2} (H_1 H_3 F_2) 
++ \frac{\partial}{\partial q_3} (H_1 H_2 F_3) \right) dq_1 \, dq_2 \, dq_3 = \oint_{\partial V} \vec{F} \cdot d\vec{S}
+\]
+\end{lemma}
+\begin{corollary}
+    Continuity equation for curvilinear coordinates
+    \begin{align*}
+        0&=\frac{\pa \rho}{\pa t}+\nabla\cdot\left(\rho\vec{v}\right)\\
+        0&=\frac{\pa \rho}{\pa t}+\frac{1}{H_1 H_2 H_3} \left( \frac{\partial(H_2 H_3 \rho v_1)}{\partial q_1}  + \frac{\partial(H_1 H_3 \rho v_2)}{\partial q_2}  
+        + \frac{\partial(H_1 H_2 \rho v_3)}{\partial q_3}  \right)
+    \end{align*}
+\end{corollary}
+\begin{example}
+    柱坐标下散度
+
+    向量场 \(\vec{F} = F_\rho \vec{e}_\rho + F_\theta \vec{e}_\theta + F_z \vec{e}_z\) 的散度为：
+    \[
+    \nabla \cdot \vec{F} = \frac{1}{\rho} \frac{\partial}{\partial \rho} (\rho F_\rho) + \frac{1}{\rho} \frac{\partial F_\theta}{\partial \theta} + \frac{\partial F_z}{\partial z}
+    \]
+\end{example}
+\begin{example}
+    球坐标下散度
+    
+    向量场 \(\vec{F} = F_r \vec{e}_r + F_\theta \vec{e}_\theta + F_\varphi \vec{e}_\varphi\) 的散度为：
+    \[
+    \nabla \cdot \vec{F} = \frac{1}{r^2} \frac{\partial}{\partial r} (r^2 F_r) + \frac{1}{r \sin \theta} \frac{\partial}{\partial \theta} (\sin \theta F_\theta) + \frac{1}{r \sin \theta} \frac{\partial F_\varphi}{\partial \varphi}
+    \]
+\end{example}
+\begin{defn}
+    旋度$\nabla\times\vec{F}$
+
+    在一般曲线坐标系 \((q_1, q_2, q_3)\) 中，向量场
+    $
+    \vec{F} = F_1 \vec{e}_1 + F_2 \vec{e}_2 + F_3 \vec{e}_3,
+    $
+    的旋度公式为：
+    \[
+    \nabla \times \vec{F} = \frac{1}{H_1 H_2 H_3}
+    \begin{vmatrix}
+    H_1 \vec{e}_1 & H_2 \vec{e}_2 & H_3 \vec{e}_3 \\
+    \frac{\partial}{\partial q_1} & \frac{\partial}{\partial q_2} & \frac{\partial}{\partial q_3} \\
+    H_1 F_1 & H_2 F_2 & H_3 F_3
+    \end{vmatrix}
+    \]
+    \begin{tui}
+        由Green's theorem，知向量场 \(\vec{F}\) 的旋度为：
+    \[
+(\nabla \times \vec{F}) \cdot \vec{n} = \lim_{A \to 0} \frac{1}{A} \oint_{\partial A} \vec{F} \cdot d\vec{r},
+    \]
+
+    考虑一个微小面积元 \(dA = H_1 H_2 \, dq_1 \, dq_2\)，其边界由四条边组成。计算沿每条边的环量：
+
+    1 沿 \(q_1\) 方向的环量：
+
+       左侧边：\(\vec{F} \cdot d\vec{r}_2 = F_2 H_2 \, dq_2\),
+
+       右侧边：\(\vec{F} \cdot d\vec{r}_2 = -F_2 H_2 \, dq_2 - \frac{\partial}{\partial q_1} (F_2 H_2) dq_1 \, dq_2\)
+    
+       因此，沿 \(q_1\) 方向的净环量为：
+       \[
+       -\frac{\partial}{\partial q_1} (F_2 H_2) dq_1 \, dq_2
+       \]
+    
+    2 沿 \(q_2\) 方向的环量：
+
+       底边：\(\vec{F} \cdot d\vec{r}_1 = F_1 H_1 \, dq_1\),
+
+       顶边：\(\vec{F} \cdot d\vec{r}_1 = -F_1 H_1 \, dq_1 - \frac{\partial}{\partial q_2} (F_1 H_1) dq_2 \, dq_1\)
+    
+       因此，沿 \(q_2\) 方向的净环量为：
+       \[
+       \frac{\partial}{\partial q_2} (F_1 H_1) dq_1 \, dq_2
+       \]
+    
+    3 将两个方向的净环量相加，得到总环量：
+       \[
+       \oint_{\partial A} \vec{F} \cdot d\vec{r} = \left( \frac{\partial}{\partial q_2} (F_1 H_1) - \frac{\partial}{\partial q_1} (F_2 H_2) \right) dq_1 \, dq_2
+       \]
+
+    4 对于面积元 \(dA_3 = H_1 H_2 \, dq_1 \, dq_2\)，旋度的分量为：
+       \[
+       (\nabla \times \vec{F})_3 = \frac{1}{H_1 H_2} \left( \frac{\partial}{\partial q_1} (F_2 H_2) - \frac{\partial}{\partial q_2} (F_1 H_1) \right)
+       \]
+
+    5 其余方向同理，组合后，即旋度公式
+    \end{tui}
+
+\end{defn}
+\begin{lemma}
+    Green's theorem
+
+    在二维平面中，格林公式将曲线积分与二重积分联系起来。设 \(D\) 是一个有界的闭区域，其边界为 \(\partial D\)，向量场 \(\vec{F} = P(x, y) \vec{i} + Q(x, y) \vec{j}\) 在 \(D\) 上连续可微，则格林公式为：
+    \[
+    \oint_{\partial D} \vec{F} \cdot d\vec{r} = \iint_D \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right) dx \, dy
+    \]
+    
+    在一般曲线坐标系 \((q_1, q_2)\) 中，格林公式的形式为：
+    \[
+    \oint_{\partial D} \vec{F} \cdot d\vec{r} = \iint_D \left( \frac{\partial}{\partial q_1} (H_2 F_2) - \frac{\partial}{\partial q_2} (H_1 F_1) \right) dq_1 \, dq_2
+    \]
+\end{lemma}
+\begin{defn}
+    拉普拉斯算子$\nabla^2\varphi=\nabla\cdot\left(\nabla\varphi\right)$
+\[
+    \nabla^2\varphi=\frac{1}{H_1 H_2 H_3} \left( \frac{\partial}{\partial q_1} (\frac{H_2 H_3}{H_1} \frac{\pa \varphi}{\pa q_1}) 
+    + \frac{\partial}{\partial q_2} (\frac{H_1 H_3}{H_2}\frac{\pa\varphi}{\pa q_2} ) 
+    + \frac{\partial}{\partial q_3} (\frac{H_1 H_2}{H_3} \frac{\pa \varphi}{\pa q_3}) \right)
+\]
+\end{defn}
+\section{class 24}
+\begin{add}
+    非欧几何早期重要发展节点\textbf{(此部分内容AIGC)}
+    
+    \begin{itemize}
+        \item \textbf{欧几里得《几何原本》 (公元前300年)} \\
+        欧几里得提出第五公设（平行公设）：
+        \begin{quote}
+            若一条直线与两条直线相交，并且在同一侧的内角之和小于两直角，则这两条直线在该侧延长后必相交。
+        \end{quote}
+    
+        \item \textbf{萨凯里 (Girolamo Saccheri, 1733)} \\
+        研究四边形（萨凯里四边形），假设钝角或锐角情况，试图证明第五公设。钝角假设导致矛盾，而锐角假设未导致矛盾，暗示非欧几何的可能性。
+    
+        \item \textbf{兰伯特 (Johann Heinrich Lambert, 1766)} \\
+        研究钝角假设，发现几何性质与球面几何的相似性。例如，球面三角形的面积公式：
+        \[
+        A = R^2 (\alpha + \beta + \gamma - \pi),
+        \]
+        其中 \( R \) 是球面半径，\( \alpha, \beta, \gamma \) 是三角形的内角。
+    
+        \item \textbf{高斯 (Carl Friedrich Gauss, 1810s)} \\
+        高斯在非欧几何中的贡献包括：
+        \begin{itemize}
+            \item \textbf{曲率概念的引入} \\
+            高斯提出曲面的高斯曲率 \( K \)，并发现非欧几何与负曲率曲面的联系：
+            \[
+            K = \frac{1}{R_1 R_2},
+            \]
+            其中 \( R_1 \) 和 \( R_2 \) 是曲面的主曲率半径。
+    
+            \item \textbf{非欧几何的早期探索} \\
+            高斯通过测量三角形内角和来验证空间的几何性质。例如，他尝试通过测量德国哈尔茨山脉的三角形内角和来检验空间是否可能是非欧几里得的。
+    
+            \item \textbf{双曲几何的发现} \\
+            高斯独立发现了双曲几何的基本性质，并意识到在双曲几何中，三角形的内角和小于 \( \pi \)：
+            \[
+            \alpha + \beta + \gamma < \pi.
+            \]
+    
+            \item \textbf{未发表的研究} \\
+            高斯担心非欧几何的发表会引起争议，因此未公开发表他的研究成果，但他的思想通过信件和笔记影响了波约伊和罗巴切夫斯基。
+        \end{itemize}
+    
+        \item \textbf{波约伊 (János Bolyai, 1832)} \\
+        波约伊独立发现非欧几何，提出双曲几何中的平行公设替代：
+        \begin{quote}
+            给定一条直线和直线外一点，存在无数条直线通过该点且不与原直线相交。
+        \end{quote}
+    
+        \item \textbf{罗巴切夫斯基 (Nikolai Lobachevsky, 1829)} \\
+        罗巴切夫斯基系统阐述双曲几何，提出双曲几何中的平行角公式：
+        \[
+        \Pi(p) = 2 \arctan(e^{-p/k}),
+        \]
+        其中 \( p \) 是点到直线的距离，\( k \) 是曲率半径。
+    
+        \item \textbf{黎曼 (Bernhard Riemann, 1854)} \\
+        黎曼提出黎曼几何，推广了非欧几何的概念。黎曼度量张量 \( g_{ij} \) 定义了曲面的弧长：
+        \[
+        ds^2 = \sum_{i,j} g_{ij} dx^i dx^j.
+        \]
+        黎曼曲率张量 \( R_{ijkl} \) 描述了空间的弯曲性质：
+        \[
+        R_{ijkl} = \partial_k \Gamma_{ijl} - \partial_l \Gamma_{ijk} + \Gamma_{iks} \Gamma_{jls} - \Gamma_{ils} \Gamma_{jks},
+        \]
+        其中 \( \Gamma_{ijk} \) 是克里斯托费尔符号。
+    \end{itemize}
+\end{add}
+\begin{add}
+欧氏几何、黎曼几何与双曲几何对比\textbf{(此部分内容AIGC)}
+
+\centerline{\textbf{欧氏几何 (Euclidean Geometry)}}
+\begin{itemize}
+    \item \textbf{平行公设}: 给定一条直线和直线外一点，存在唯一一条直线通过该点且与原直线不相交。
+    \item \textbf{曲率}: \( K = 0 \)（平坦空间）
+    \item \textbf{三角形内角和}: 
+    \[
+    \alpha + \beta + \gamma = \pi
+    \]
+    \item \textbf{度量}: 笛卡尔坐标系中的勾股定理：
+    \[
+    ds^2 = dx^2 + dy^2
+    \]
+\end{itemize}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=0.8]
+    \draw[->] (-2,0) -- (2,0) node[right] {$x$};
+    \draw[->] (0,-2) -- (0,2) node[above] {$y$};
+    \draw[red] (-1.5,-1.5) -- (1.5,1.5) node[right] {$L$};
+    \draw[blue] (0.5, -1.5) -- (0.5,1.5) node[above] {平行线};
+    \draw[fill=black] (0.5,0) circle (2pt) node[below right] {$P$};
+    \node at (0,-3) {欧氏平面：唯一平行线};
+\end{tikzpicture}
+\end{figure}
+
+\centerline{\textbf{黎曼几何 (Riemannian Geometry)}}
+\begin{itemize}
+    \item \textbf{平行公设}: 无平行线（所有直线最终相交）
+    \item \textbf{曲率}: \( K > 0 \)（正曲率，如球面）
+    \item \textbf{三角形内角和}: 
+    \[
+    \alpha + \beta + \gamma > \pi
+    \]
+    \item \textbf{度量}: 球面坐标系的弧长公式：
+    \[
+    ds^2 = R^2 \left( d\theta^2 + \sin^2\theta \, d\phi^2 \right)
+    \]
+    其中 \( R \) 是球面半径。
+\end{itemize}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.2]
+    \shade[ball color=gray!20] (0,0) circle (2cm);
+    \draw[thick] (0,0) circle (2cm);
+    \draw[red] (0,0) -- (2,0) arc (0:60:2cm) -- cycle;
+    \draw[blue] (0,0) -- (2,0) arc (0:90:2cm) -- cycle;
+    \node at (1.2,0.3) {$\alpha$};
+    \node at (0.3,1.2) {$\beta$};
+    \node at (1.5,1.5) {$\gamma$};
+    \node at (0,-2.5) {球面几何：内角和 > $\pi$};
+\end{tikzpicture}
+\end{figure}
+
+\centerline{\textbf{双曲几何 (Lobachevsky-Bolyai-Gauss Geometry)}}
+\begin{itemize}
+    \item \textbf{平行公设}: 存在无限多条平行线
+    \item \textbf{曲率}: \( K < 0 \)（负曲率，如伪球面）
+    \item \textbf{三角形内角和}: 
+    \[
+    \alpha + \beta + \gamma < \pi
+    \]
+    \item \textbf{度量}: 庞加莱圆盘模型的度量：
+    \[
+    ds^2 = \frac{4(dx^2 + dy^2)}{(1 - x^2 - y^2)^2}
+    \]
+\end{itemize}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.5]
+    \draw (0,0) circle (2cm);
+    \draw[red, thick] (-1.5,0) -- (1.5,0) node[midway, below] {测地线};
+    \draw[blue, thick] (0.5,0) arc (0:30:1.5cm) -- (0.5,0);
+    \draw[blue, thick] (0.5,0) arc (0:-30:1.5cm) -- (0.5,0);
+    \node at (0.5,-0.2) {$P$};
+    \node at (0,-2.5) {庞加莱圆盘：无限多平行线};
+\end{tikzpicture}
+\end{figure}
+
+\centerline{\textbf{数学对比}}
+\begin{center}
+    \begin{tabular}{|l|c|c|c|}
+    \hline
+    \textbf{性质} & \textbf{欧氏几何} & \textbf{黎曼几何} & \textbf{双曲几何} \\
+    \hline
+    曲率 \( K \) & 0 & >0 & <0 \\
+    平行线数量 & 1 & 0 & $\infty$ \\
+    三角形内角和 & \( = \pi \) & \( > \pi \) & \( < \pi \) \\
+    典型模型 & 平面 & 球面 & 伪球面 \\
+    \hline
+    \end{tabular}
+\end{center}
+\end{add}
+\begin{defn}
+    混合积$\left[\vec{e_i}\;\vec{e_j}\;\vec{e_k}\right]$
+\begin{align*}
+    \left[\vec{e_i}\;\vec{e_j}\;\vec{e_k}\right]
+    &=\vec{e_i}\cdot\left(\vec{e_j}\times\vec{e_k}\right)
+    =\vec{e_j}\cdot\left(\vec{e_k}\times\vec{e_i}\right)
+    =\vec{e_k}\cdot\left(\vec{e_i}\times\vec{e_j}\right)\\
+    &=\vec{e_i}\cdot\vec{\vec{\epsilon}}_{jkl}\vec{e_l}\\
+    &=\vec{\vec{\epsilon}}_{jkl}\delta_{il}\\
+    &=\vec{\vec{\epsilon}}_{jki}=\vec{\vec{\epsilon}}_{ijk}
+\end{align*}
+\end{defn}
+\begin{defn}
+    Eddington tensor of rank three
+    \begin{align*}
+        \vec{\vec{\varepsilon}}=\vec{\vec{\epsilon}}_{ijk}\vec{e_i}\otimes\vec{e_j}\otimes\vec{e_k}
+    \end{align*}
+\end{defn}
+\begin{defn}
+    \[
+    \vec{g_1}=\frac{\pa \vec{r}}{\pa x^1},
+    \vec{g_2}=\frac{\pa \vec{r}}{\pa x^2},
+    \vec{g_3}=\frac{\pa \vec{r}}{\pa x^3}
+    \]
+    line element$\quad d\vec{r}=dx\hat{i}+dy\hat{j}+dz\hat{k}$,
+    \begin{align*}
+        &(ds)^2=d\vec{r}\cdot d\vec{r}=(dx)^2+(dy)^2+(dz)^2\\
+        =&g_{\mu\nu}dx^\mu dx^\nu=\left(dx^\mu \vec{g_\mu}\right)\cdot\left(dx^\nu\vec{g_\nu}\right)
+    \end{align*}
+\end{defn}
+\begin{defn}
+    \(\nabla=\vec{g^i}\frac{\pa}{\pa x^i}=\vec{g_i}\frac{\pa}{\pa x_i}\)
+    \[
+    \frac{\pa \psi}{\pa \vec{u}}\cdot\vec{u}=
+    \nabla\psi\cdot d\vec{u}
+    =\left(g^i\frac{\pa\psi}{\pa x^i}\cdot\left(du^j\vec{g_j}\right)\right)
+    =\frac{\pa\psi}{\pa x^i}du^j\delta_j^{\cdot i}=\frac{\pa\psi}{\pa x^i}du^i
+    \]
+\end{defn}
+\begin{defn}
+    Curved spacetime(弯曲时空)
+\[
+\mathcal{L}=\int_{0}^{\tau}\sqrt{g_{ij}\frac{d\lambda^i}{dt}\frac{d\lambda^j}{dt}}\,dt
+\]
+\end{defn}
+\begin{example}
+    Riemann metric tensor性质
+    \begin{itemize}
+        \item symmetric $g_{\mu\nu}=g_{\nu\mu}$
+        \item invertible,Jacobian
+        \item 在欧氏空间中,$g_{\mu\nu}=\delta_{\mu\nu}$
+        \begin{equation*}
+            (ds)^2=(dx)^2+(dy)^2+(dz)^2
+            =\underbrace{g_{xx}(dx)^2+g_{yy}(dy)^2+g_{zz}(dz)^2}_{
+                \begin{aligned}
+                    \begin{cases}
+                        g_{xx}=\delta_{xx}=1\\
+                        g_{yy}=\delta_{yy}=1\\
+                        g_{zz}=\delta_{zz}=1
+                    \end{cases}
+                    \;\begin{cases}
+                        g_{xy}=\delta_{xy}=0\\
+                        g_{xz}=\delta_{xz}=0\\
+                        g_{yz}=\delta_{yz}=0
+                    \end{cases}
+                \end{aligned}}
+        \end{equation*}
+    \end{itemize}
+\end{example}
+\begin{example}
+    闵可夫斯基空间
+\[
+    ds^2=g_{\alpha\beta}dx^\alpha dx^\beta=(dx^t)^2-(dx^1)^2-(dx^2)^2-(dx^3)^2
+\]
+\end{example}
+\begin{example}
+    cylinderical coordinates $\quad g_{\mu\nu}=diag(1\quad r^2\quad 1)$
+    \[
+        ds^2=g_{\alpha\beta}dx^\alpha dx^\beta=dr^2+r^2d\theta^2+dz^2
+    \]
+\end{example}
+\begin{example}
+    spherical coordinates $\quad g_{\mu\nu}=diag(1\quad r^2\quad r^2sin^2\theta)$
+    \[
+    ds^2=dr^2+r^2d\theta^2+r^2sin^2\theta d\varphi^2
+    \]
+\end{example}
+\begin{example}
+    Schwarzschild(施瓦西) metric tensor
+    \[
+    g_{\mu\nu}=diag\left(-\left(1 - \frac{r_s}{r}\right)\quad
+    \frac{1}{1 - \frac{r_s}{r}}\quad r^2\quad r^2 \sin^2\theta\right)
+    \]
+    \[
+ds^2 = -\left(1 - \frac{r_s}{r}\right) dt^2 + \frac{1}{1 - \frac{r_s}{r}} dr^2 + r^2 d\theta^2 + r^2 \sin^2\theta d\phi^2
+\]
+
+其中：施瓦西半径\(r_s=\frac{2GM}{c^2}\)
+\begin{itemize}
+    \item 在$r = r_s$处，对应于施瓦茨半径，是事件视界的位置。
+\end{itemize}
+\end{example}
+\section{class 25}
+\begin{defn}
+    Christoffel symbol of the $2^{nd}$ kind $\quad\Gamma^k_{ij}$
+\begin{itemize}
+    \item symmetrical
+    \[\Gamma^k_{ij}=\frac{\pa \vec{g}_{ij}}{\pa x^i}=\frac{\pa}{\pa x^i}\left(\frac{\pa \vec{r}}{\pa x^j}\right)
+    =\frac{\pa}{\pa x^j}\left(\frac{\pa \vec{r}}{\pa x^i}\right)=\Gamma^k_{ji}
+    \]
+    \item Christoffel symbol is NOT a tensor
+    \[
+        \because Euclidean\, space,\Gamma^k_{ij}=0;Curved\, spacetime,\Gamma^k_{ij}\neq0
+    \]
+\end{itemize}
+\end{defn}
+\begin{corollary}
+\begin{align*}
+    \frac{\pa\vec{g_\nu}}{\pa x^\mu}&=\Gamma^\lambda_{\mu\nu}\vec{g_\lambda}\\
+    \frac{\pa\vec{g}_{\mu\nu}}{\pa x^\alpha}&=\frac{\pa\left(\vec{g_\mu}\cdot\vec{g_\nu}\right)}{\pa x^\alpha}\\
+    &=\frac{\pa\vec{g_\mu}}{\pa x^\alpha}\cdot\vec{g_\nu}+
+    \vec{g_\nu}\cdot\frac{\pa\vec{g_\nu}}{\pa x^\alpha}\\
+    &=\Gamma^\lambda_{\mu\alpha}g_{\lambda\nu}+\Gamma^\lambda_{\alpha\nu}g_{\lambda\mu}\\
+    \text{for the symmetric proporties}
+    &\begin{cases}
+        \frac{\pa\vec{g}_{\mu\nu}}{\pa x^\alpha}
+        =\Gamma^\lambda_{\mu\alpha}g_{\lambda\nu}
+        +\Gamma^\lambda_{\alpha\nu}g_{\lambda\mu}(1)\\
+        \frac{\pa\vec{g}_{\nu\alpha}}{\pa x^\mu}
+        =\Gamma^\lambda_{\mu\alpha}g_{\lambda\nu}
+        +\Gamma^\lambda_{\mu\nu}g_{\lambda\alpha}(2)\\
+        \frac{\pa\vec{g}_{\mu\alpha}}{\pa x^\nu}
+        =\Gamma^\lambda_{\nu\alpha}g_{\lambda\mu}
+        +\Gamma^\lambda_{\mu\nu}g_{\lambda\alpha}(3)
+    \end{cases}\\
+    \text{(2)+(3)-(1),we obtain}&\\
+    2\Gamma^\lambda_{\mu\nu}g_{\lambda\alpha}&=
+    \frac{\pa g_{\nu\alpha}}{\pa x^\mu}
+    +\frac{\pa g_{\mu\alpha}}{\pa x^\nu}
+    -\frac{\pa g_{\mu\nu}}{\pa x^\alpha}\\
+    \because 1&=g_{\lambda\alpha}\cdot g^{\lambda\alpha}\\
+    \therefore 2\Gamma^\lambda_{\mu\nu}&=\frac{1}{2}g^{\lambda\alpha}
+    \left(\frac{\pa g_{\nu\alpha}}{\pa x^\mu}
+    +\frac{\pa g_{\mu\alpha}}{\pa x^\nu}
+    -\frac{\pa g_{\mu\nu}}{\pa x^\alpha}\right)
+\end{align*}
+\end{corollary}
+\begin{defn}
+    矢量场协变导数
+    \begin{align*}
+        \frac{\pa\vec{A}}{\pa x_\mu}&=\frac{\pa \left(A^\nu\vec{g_\nu}\right)}{\pa x_\mu}\\
+        &=\frac{\pa A^\nu}{\pa x_\mu}\vec{g_\nu}+A^\nu\frac{\pa \vec{g_\nu}}{\pa x_\mu}\\
+        &=\left(\frac{\pa A^\lambda}{\pa x_\mu}+A^\nu\Gamma^\lambda_{\mu\nu}\right)\vec{g_\lambda}
+    \end{align*}
+\end{defn}
+\begin{corollary}
+    全导数
+    \[
+    D_\mu A^\lambda=\frac{D A^\lambda}{Dx_\mu}
+    =\frac{\pa A^\lambda}{\pa x_\mu}+A^\nu\Gamma^\lambda_{\mu\nu}
+    \]
+\end{corollary}
+\begin{defn}
+    时间导数
+    \[\vec{u}(t)=u^i(t)\vec{g_i}(t)=u^i(t)\vec{g_i}(x^k(t))\]
+    \begin{align*}
+        \frac{D\vec{u}}{Dt}&=\frac{du^i}{dt}\vec{g_i}
+        +u^i\frac{\pa\vec{g_i}}{\pa x^k}\frac{dx^k}{dt}
+        =\frac{du^i}{dt}\vec{g_i}
+        +u^iv^k\frac{\pa\vec{g_i}}{\pa x^k}\\
+        &=\frac{du^i}{dt}\vec{g_i}
+        +u^iv^k\Gamma^m_{ik}\vec{g_m}\\
+        &=\left(\frac{du^i}{dt}+u^jv^k\Gamma^i_{jk}\right)\vec{g_i}
+    \end{align*}
+\end{defn}
+\begin{corollary}
+    \[
+        \frac{Du^i}{Dt}=\frac{du^i}{dt}+u^jv^k\Gamma^i_{jk}
+    \]\[
+    a^i=\frac{Dv^i}{Dt}=\frac{dv^i}{dt}+v^jv^k\Gamma^i_{jk}
+    \]
+    Newton's $2^{nd}$ Law in Curved spacetime
+    \[
+    f^i=ma^i=m\left(\frac{dv^i}{dt}+v^jv^k\Gamma^i_{jk}\right)
+    \]
+\end{corollary}
+\begin{defn}
+    divergence in Curved spacetime
+    \begin{align*}
+        \nabla\cdot\vec{A}&=\left(\frac{\pa \vec{g_\mu}}{\pa x_\mu}\right)
+        \cdot\left(A^\nu\vec{g_\nu}\right)
+        =\vec{g_\mu}\cdot\frac{\pa\left(A^\nu\vec{g_\nu}\right)}{\pa \mu}\\
+        &=\vec{g_\mu}\cdot\left(\frac{\pa A^\nu}{\pa\mu}\vec{g_\nu}+
+        A^\nu\frac{\pa\vec{g_\nu}}{\pa \mu}\vec{g_\nu}\right)\\
+        &=\frac{\pa A^\nu}{\pa\mu}\delta_{\mu\nu}+A^\nu\Gamma^\lambda_{\mu\nu}\vec{g_\lambda}\cdot\vec{g_\mu}\\
+        &=\frac{\pa A^\mu}{\pa\mu}+A^\nu\Gamma^\mu_{\mu\nu}
+    \end{align*}
+\end{defn}
+\begin{corollary}
+    \begin{align*}
+        \nabla\cdot\vec{v}&=\left(\frac{\pa \vec{g^\mu}}{\pa x^\mu}\right)
+        \cdot\left(v^\nu\vec{g_\nu}\right)\\
+        &=\vec{g^\mu}\cdot\left(\frac{\pa v^\nu}{\pa\mu}\vec{g_\nu}+
+        v^\nu\frac{\pa\vec{g_\nu}}{\pa \mu}\vec{g_\nu}\right)\\
+        &=\frac{\pa v^\nu}{\pa\mu}\delta_\nu^\mu+v^\nu\Gamma^\lambda_{\mu\nu}\vec{g_\lambda}\cdot\vec{g^\mu}\\
+        &=\frac{\pa v^\mu}{\pa\mu}+v^\nu\Gamma^\mu_{\mu\nu}
+    \end{align*}
+\end{corollary}
+\begin{defn}
+    gradient of a vector in Curved spacetime
+    \begin{align*}
+        \nabla\vec{A}&=\left(\vec{g_\mu}\frac{\pa}{\pa x_\mu}\right)
+        \left(A^\nu \vec{g_\nu}\right)\\
+        &=\vec{g_\mu}\frac{\pa A^\nu}{\pa x_\mu}g_\nu
+        +A^\nu\vec{g_\mu}\frac{\pa\vec{g_\nu}}{\pa x_\mu}\\
+        &=\frac{\pa A^\nu}{\pa x_\mu}\vec{g_\mu}\otimes\vec{g_\nu}
+        +A^\nu\Gamma^\lambda_{\mu\nu}\vec{g_\mu}\otimes\vec{g_\lambda}\\
+        &=\frac{\pa A^\lambda}{\pa x_\mu}\vec{g_\mu}\otimes\vec{g_\lambda}
+        +A^\nu\Gamma^\lambda_{\mu\nu}\vec{g_\mu}\otimes\vec{g_\lambda}\\
+        &=\left(\frac{\pa A^\lambda}{\pa x_\mu}+A^\nu\Gamma^\lambda_{\mu\nu}\right)\vec{g_\mu}\otimes\vec{g_\lambda}
+    \end{align*}
+\end{defn}
+\begin{defn}
+    curl of a vector in Curved spacetime
+    \begin{align*}
+        \nabla\times\vec{A}&=\left(\vec{g_\mu}\frac{\pa}{\pa x_\mu}\right)
+        \times\left(A^\nu \vec{g_\nu}\right)\\
+        &=\vec{g_\mu}\times\frac{\pa\left(A^\nu\vec{g_\nu}\right)}{\pa \mu}\\
+        &=\frac{\pa A^\nu}{\pa\mu}\left(\vec{g_\mu}\times\vec{g_\lambda}\right)
+        +A^\nu\Gamma^\lambda_{\mu\nu}\left(\vec{g_\lambda}\times\vec{g_\mu}\right)\\
+        &=\left(\frac{\pa A^\nu}{\pa\mu}+A^\nu\Gamma^\lambda_{\mu\nu}\right)
+        \vec{g_\lambda}\times\vec{g_\mu}\\
+        &=\left(\frac{\pa A^\nu}{\pa\mu}+A^\nu\Gamma^\lambda_{\mu\nu}\right)
+        \varepsilon_{\mu\lambda\alpha}\vec{g_\alpha}
+    \end{align*}
+\end{defn}
+\section{class 26}
+\begin{defn}
+    geodesics测地线
+
+    Newton's $2^{nd}$ Law \(\vec{F}=m\vec{a}=m\frac{d^2\vec{t}}{dt^2}\)
+
+    free particle(\(\vec{F}=0\))
+
+    在欧氏几何,\(\frac{d^2\vec{t}}{dt^2}=0\),\(r=v_0t+r_0\)
+
+    for a Curved space,\(\frac{d\vec{v}}{d\tau}=0\)
+    \begin{align*}
+        \frac{d\vec{v}}{d\tau} &=\frac{d}{d\tau}\left(v^\mu\vec{g_\mu}\right)
+        =\frac{dv^\mu}{d\tau}\vec{g_\mu}+v^\mu\frac{d\vec{g_\mu}}{d\tau}\\
+        &=\frac{dv^\mu}{d\tau}\vec{g_\mu}+v^\mu\Gamma^\lambda_{\mu\nu}
+        \frac{dx^\mu}{d\tau}\vec{g_\lambda}
+        =\frac{d^2x^\mu}{d\tau^2}\vec{g_\mu}+\Gamma^\lambda_{\mu\nu}
+        \frac{dx^\mu}{d\tau}\frac{dx^\mu}{d\tau}\vec{g_\lambda}\\
+        &=\left(\frac{d^2x^\mu}{d\tau^2}+\Gamma^\lambda_{\mu\nu}
+        \frac{dx^\mu}{d\tau}\frac{dx^\mu}{d\tau}\right)\vec{g_\lambda}\\
+    \end{align*}
+    \begin{center}
+        \textbf{geodesics equation 测地线方程}
+    \end{center}
+    \begin{align*}
+        &\underbrace{\frac{d^2x^\mu}{d\tau^2}}+\Gamma^\lambda_{\mu\nu}\frac{dx^\mu}{d\tau}\frac{dx^\mu}{d\tau}=0\\
+        \text{欧氏空}&\text{间牛顿加速度}
+    \end{align*}
+\end{defn}
+\begin{example}
+    另一种方法推导测地线方程
+    \begin{tui}
+        \[
+        ds^2=g_{\mu\nu}dg^\mu dg^\nu
+        \]
+        \begin{align*}
+            S(l)&=\int_{l}\,ds=\int_{l}\sqrt{g_{\mu\nu}dg^\mu dg^\nu}\\
+            &=\int_{l}\sqrt{g_{\mu\nu}\frac{dg^\mu}{d\lambda}\frac{dg^\nu}{d\lambda}}\,d\lambda\\
+            Let.&\quad Lagrangian\quad L=g_{\mu\nu}\frac{dg^\mu}{d\lambda}\frac{dg^\nu}{d\lambda}
+        \end{align*}
+
+        Euler\textminus Lagrangian equation
+        \[\frac{d}{d\lambda}\frac{\pa L}{\pa\frac{dg^\kappa}{d\lambda}}
+        -\frac{\pa L}{\pa g^\kappa}=0
+        \]
+
+        其中：\(degree\; of\; freedom\quad\kappa=1,2,\cdots,s\),
+        \(\frac{dg^\kappa}{d\lambda}=\dot{g^\kappa}\)
+        \begin{align*}
+            \frac{\pa L}{\pa g^\kappa}
+            &=\frac{\pa g_{\mu\nu}}{\pa g^\kappa}\frac{dg^\mu}{d\lambda}\frac{dg^\nu}{d\lambda}\\
+            \frac{\pa L}{\pa\frac{dg^\kappa}{d\lambda}}
+            &=g_{\mu\nu}\delta_{\nu\kappa}\frac{dg^\mu}{d\lambda}
+            +g_{\mu\nu}\delta_{\mu\kappa}\frac{dg^\nu}{d\lambda}\\
+            &=g_{\mu\kappa}\frac{dg^\mu}{d\lambda}+g_{\kappa\nu}\frac{dg^\nu}{d\lambda}
+        \end{align*}
+
+        代入 Euler\textminus Lagrangian equation
+        \begin{align*}
+            \underbrace{\frac{d}{d\lambda}\left(
+                g_{\mu\kappa}\frac{dg^\mu}{d\lambda}+g_{\kappa\nu}\frac{dg^\nu}{d\lambda}
+            \right)}
+            -\frac{\pa g_{\mu\nu}}{\pa g^\kappa}\frac{dg^\mu}{d\lambda}\frac{dg^\nu}{d\lambda}&=0\\
+            g_{\mu\kappa}\frac{d^2g^\mu}{d\lambda^2}
+            +g_{\kappa\nu}\frac{d^2g^\nu}{d\lambda^2}
+            +\frac{\pa g_{\mu\kappa}}{\pa g^\nu}\frac{dg^\nu}{d\lambda}\frac{dg^\mu}{d\lambda}
+            +\frac{\pa g_{\nu\kappa}}{\pa g^\mu}\frac{dg^\mu}{d\lambda}\frac{dg^\nu}{d\lambda}\\
+            2g_{\mu\kappa}\frac{d^2g^\mu}{d\lambda^2}
+            +\left(\frac{\pa g_{\mu\kappa}}{\pa g^\nu}
+            +\frac{\pa g_{\nu\kappa}}{\pa g^\mu}
+            -\frac{\pa g_{\mu\nu}}{\pa g^\kappa}\right)
+            \frac{dg^\mu}{d\lambda}\frac{dg^\nu}{d\lambda}&=0   
+        \end{align*}
+
+        同时点乘$g^{\kappa\gamma}$
+        \begin{gather*}
+            g_{\mu\kappa}\cdot g^{\kappa\gamma}\frac{d^2g^\mu}{d\lambda^2}
+            =\frac{d^2g^\gamma}{d\lambda^2}\\
+            \frac{1}{2}g^{\gamma\kappa}\left(\frac{\pa g_{\mu\kappa}}{\pa g^\nu}
+            +\frac{\pa g_{\nu\kappa}}{\pa g^\mu}-\frac{\pa g_{\mu\nu}}{\pa g^\kappa}\right)
+            =\Gamma^\gamma_{\mu\nu}\\
+            \frac{d^2g^\gamma}{d\lambda^2}+\Gamma^\gamma_{\mu\nu}\frac{dg^\mu}{d\lambda}\frac{dg^\nu}{d\lambda}=0
+        \end{gather*}        
+    \end{tui}
+\end{example}
+\begin{lemma}
+    Christoffel 符号 $\Gamma^\lambda_{\mu\nu}$ 的表达式
+    \[
+           \Gamma^\lambda_{\mu\nu} = \frac{1}{2} g^{\gamma\lambda} \left( \frac{\pa}{\pa x_\mu} g_{\nu\gamma} + \frac{\pa}{\pa x_\nu} g_{\gamma\mu} - \frac{\pa}{\pa x_\gamma} g_{\mu\nu} \right).
+    \]  
+    \begin{tui}
+        1. 度量张量的导数关系
+        
+           度量张量 \(g_{\mu\nu}\) 的协变导数为零（度量兼容条件）：
+           \[
+           \nabla_\gamma g_{\mu\nu} = \frac{\pa}{\pa x_\gamma} g_{\mu\nu} - \Gamma^\kappa_{\gamma\mu} g_{\kappa\nu} - \Gamma^\kappa_{\gamma\nu} g_{\mu\kappa} = 0.
+           \]
+           这是一个关键条件，用于推导 Christoffel 符号的表达式。
+        
+        2. 展开度量兼容条件
+        
+           将度量兼容条件 \(\nabla_\gamma g_{\mu\nu} = 0\) 展开：
+           \[
+           \frac{\pa}{\pa x_\gamma} g_{\mu\nu} = \Gamma^\kappa_{\gamma\mu} g_{\kappa\nu} + \Gamma^\kappa_{\gamma\nu} g_{\mu\kappa}.
+           \]
+           这是一个关于 Christoffel 符号的方程。
+        
+        3. 循环排列指标
+        
+           对指标进行循环排列，得到以下三个方程：
+           \[
+           \begin{cases}
+           \frac{\pa}{\pa x_\gamma} g_{\mu\nu} = \Gamma^\kappa_{\gamma\mu} g_{\kappa\nu} + \Gamma^\kappa_{\gamma\nu} g_{\mu\kappa}, \\
+           \frac{\pa}{\pa x_\mu} g_{\nu\gamma} = \Gamma^\kappa_{\mu\nu} g_{\kappa\gamma} + \Gamma^\kappa_{\mu\gamma} g_{\nu\kappa}, \\
+           \frac{\pa}{\pa x_\nu} g_{\gamma\mu} = \Gamma^\kappa_{\nu\gamma} g_{\kappa\mu} + \Gamma^\kappa_{\nu\mu} g_{\gamma\kappa}.
+           \end{cases}
+           \]
+        
+        4. 组合方程
+        
+           将第二个方程和第三个方程相加，并减去第一个方程：
+           \[
+           \frac{\pa}{\pa x_\mu} g_{\nu\gamma} + \frac{\pa}{\pa x_\nu} g_{\gamma\mu} - \frac{\pa}{\pa x_\gamma} g_{\mu\nu} = \Gamma^\kappa_{\mu\nu} g_{\kappa\gamma} + \Gamma^\kappa_{\mu\gamma} g_{\nu\kappa} + \Gamma^\kappa_{\nu\gamma} g_{\kappa\mu} + \Gamma^\kappa_{\nu\mu} g_{\gamma\kappa} - \Gamma^\kappa_{\gamma\mu} g_{\kappa\nu} - \Gamma^\kappa_{\gamma\nu} g_{\mu\kappa}.
+           \]
+           利用 Christoffel 符号的对称性 \(\Gamma^\kappa_{\mu\nu} = \Gamma^\kappa_{\nu\mu}\)，可以简化上式。
+        
+        5. 解出 Christoffel 符号
+        
+           将上述方程整理后，可以得到：
+           \[
+           \frac{\pa}{\pa x_\mu} g_{\nu\gamma} + \frac{\pa}{\pa x_\nu} g_{\gamma\mu} - \frac{\pa}{\pa x_\gamma} g_{\mu\nu} = 2 \Gamma^\kappa_{\mu\nu} g_{\kappa\gamma}.
+           \]
+           两边乘以 \(g^{\gamma\lambda}\) 并利用 \(g^{\gamma\lambda} g_{\kappa\gamma} = \delta^\lambda_\kappa\)，得到：
+           \[
+           \Gamma^\lambda_{\mu\nu} = \frac{1}{2} g^{\gamma\lambda} \left( \frac{\pa}{\pa x_\mu} g_{\nu\gamma} + \frac{\pa}{\pa x_\nu} g_{\gamma\mu} - \frac{\pa}{\pa x_\gamma} g_{\mu\nu} \right).
+           \]        
+    \end{tui}
+\end{lemma}
+\begin{add}
+张量场的协变导数推导
+
+1. 协变导数的定义
+
+设 $ M $ 是一个光滑流形，$ \nabla $ 是 $ M $ 上的一个线性联络。对于向量场 $ X $ 和 $ Y $，协变导数 $ \nabla_X Y $ 满足：
+
+\begin{align*}
+\nabla_{fX + gY} Z &= f \nabla_X Z + g \nabla_Y Z \\
+\nabla_X (fY) &= X(f) Y + f \nabla_X Y
+\end{align*}
+
+2. 协变导数的局部表示
+
+在局部坐标系 $ \{x^\mu\} $ 中，向量场 $ X $ 和 $ Y $ 表示为：
+\[
+X = X^\mu \partial_\mu, \quad Y = Y^\nu \partial_\nu\]
+
+协变导数 $ \nabla_X Y $ 的局部表示为：
+\[
+\nabla_X Y = X^\mu \nabla_{\partial_\mu} (Y^\nu \partial_\nu)\]
+
+根据莱布尼茨法则：
+\[
+\nabla_{\partial_\mu} (Y^\nu \partial_\nu) = (\partial_\mu Y^\nu) \partial_\nu + Y^\nu \nabla_{\partial_\mu} \partial_\nu\]
+
+定义克里斯托费尔符号 $ \Gamma^\lambda_{\mu\nu} $：
+\[
+\nabla_{\partial_\mu} \partial_\nu = \Gamma^\lambda_{\mu\nu} \partial_\lambda\]
+
+因此：
+\[
+\nabla_X Y = X^\mu \left( \partial_\mu Y^\lambda + Y^\nu \Gamma^\lambda_{\mu\nu} \right) \partial_\lambda\]
+
+协变导数的分量为：
+\[
+(\nabla_X Y)^\lambda = X^\mu \left( \partial_\mu Y^\lambda + Y^\nu \Gamma^\lambda_{\mu\nu} \right)\]
+
+3. 张量场的协变导数
+
+对于一般的 $ (p, q) $ 型张量场 $ T $，其协变导数 $ \nabla_\lambda T $ 的分量为：
+\[
+\nabla_\lambda T^{\mu_1 \dots \mu_p}_{\nu_1 \dots \nu_q} = \partial_\lambda T^{\mu_1 \dots \mu_p}_{\nu_1 \dots \nu_q} 
++ \sum_{i=1}^p \Gamma^{\mu_i}_{\lambda \sigma} T^{\mu_1 \dots \sigma \dots \mu_p}_{\nu_1 \dots \nu_q} 
+-\sum_{j=1}^q \Gamma^\sigma_{\lambda \nu_j} T^{\mu_1 \dots \mu_p}_{\nu_1 \dots \sigma \dots \nu_q}\]
+\end{add}
+\begin{add}
+证明协变导数与度量张量 $ g_{\mu\nu} $ 满足度量兼容条件
+
+在黎曼几何中，度量兼容条件要求度量张量 $ g_{\mu\nu} $ 的协变导数为零，即：\[
+\nabla_\lambda g_{\mu\nu} = 0\]
+
+对于任意二阶张量 $ T_{\mu\nu} $，其协变导数定义为：\[
+\nabla_\lambda T_{\mu\nu} = \partial_\lambda T_{\mu\nu} - \Gamma^\rho_{\lambda\mu} T_{\rho\nu} - \Gamma^\rho_{\lambda\nu} T_{\mu\rho}\]
+其中，$ \Gamma^\rho_{\lambda\mu} $ 是 Christoffel 符号，描述了流形的联络。
+
+将度量张量 $ g_{\mu\nu} $ 代入协变导数的定义，得到：\[
+\nabla_\lambda g_{\mu\nu} = \partial_\lambda g_{\mu\nu} - \Gamma^\rho_{\lambda\mu} g_{\rho\nu} - \Gamma^\rho_{\lambda\nu} g_{\mu\rho}\]
+
+Christoffel 符号 $ \Gamma^\rho_{\lambda\mu} $ 由度量张量及其导数决定，其定义为：\[
+\Gamma^\rho_{\lambda\mu} = \frac{1}{2} g^{\rho\sigma} \left( \partial_\lambda g_{\sigma\mu} + \partial_\mu g_{\sigma\lambda} - \partial_\sigma g_{\lambda\mu} \right)\]
+
+将 $ \Gamma^\rho_{\lambda\mu} $ 和 $ \Gamma^\rho_{\lambda\nu} $ 代入协变导数的表达式：\[
+\nabla_\lambda g_{\mu\nu} = \partial_\lambda g_{\mu\nu} - \frac{1}{2} g^{\rho\sigma} \left( \partial_\lambda g_{\sigma\mu} + \partial_\mu g_{\sigma\lambda} - \partial_\sigma g_{\lambda\mu} \right) g_{\rho\nu}
+- \frac{1}{2} g^{\rho\sigma} \left( \partial_\lambda g_{\sigma\nu} + \partial_\nu g_{\sigma\lambda} - \partial_\sigma g_{\lambda\nu} \right) g_{\mu\rho}\]
+
+利用 $ g^{\rho\sigma} g_{\rho\nu} = \delta^\sigma_\nu $ 和 $ g^{\rho\sigma} g_{\mu\rho} = \delta^\sigma_\mu $，上式可简化为：\[
+\nabla_\lambda g_{\mu\nu} = \partial_\lambda g_{\mu\nu} - \frac{1}{2} \left( \partial_\lambda g_{\nu\mu} + \partial_\mu g_{\nu\lambda} - \partial_\nu g_{\lambda\mu} \right)
+- \frac{1}{2} \left( \partial_\lambda g_{\mu\nu} + \partial_\nu g_{\mu\lambda} - \partial_\mu g_{\lambda\nu} \right)\]
+
+由于 $ g_{\mu\nu} $ 是对称的，即 $ g_{\mu\nu} = g_{\nu\mu} $，上式可进一步简化为：\[
+\nabla_\lambda g_{\mu\nu} = \partial_\lambda g_{\mu\nu} - \frac{1}{2} \left( \partial_\lambda g_{\mu\nu} + \partial_\mu g_{\lambda\nu} - \partial_\nu g_{\lambda\mu} \right)
+- \frac{1}{2} \left( \partial_\lambda g_{\mu\nu} + \partial_\nu g_{\lambda\mu} - \partial_\mu g_{\lambda\nu} \right)\]
+
+将同类项合并后，得到：\[
+\nabla_\lambda g_{\mu\nu} = \partial_\lambda g_{\mu\nu} - \partial_\lambda g_{\mu\nu} = 0\]
+\end{add}
+
+
+
+
+
+
+
+
+
+
+
+%  ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ 正文部分
+\ifx\allfiles\undefined
+\end{document}
+\fi
