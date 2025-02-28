@@ -1,0 +1,778 @@
+\ifx\allfiles\undefined
+\documentclass[12pt, a4paper, oneside, UTF8]{ctexbook}  %  这一句是新增加的
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath}   % 数学公式
+\usepackage{graphicx}
+\usetikzlibrary{arrows, calc, decorations.pathmorphing}
+\newcommand{\pa}{\partial}
+\newcommand{\vvec}{\overset{\rightharpoonup\!\!\!\! \rightharpoonup}}
+\newcommand{\X}{\mathtt{X}}
+\newcommand{\mT}{\raisebox{0.1ex}{$\scriptstyle -T$}} % 调整高度为 0.1ex
+\newcommand{\lmT}{\raisebox{-0.85ex}{$\scriptstyle -T$}} % 调整高度为 -0.85ex
+\newcommand{\mone}{\raisebox{0.1ex}{$\scriptstyle -1$}} % 调整高度为 0.1ex
+\newcommand{\lmone}{\raisebox{-0.85ex}{$\scriptstyle -1$}} % 调整高度为 -0.85ex
+\newcommand{\mathminus}{\!\!-\!\!} % 数学环境连字符
+\newcommand{\vsup}[1]{\raisebox{-0.1ex}{$\scriptstyle #1$}}
+\newcommand{\lsup}[1]{\raisebox{-0.85ex}{$\scriptstyle #1$}}
+
+\begin{document}
+%\input{/config/cover} % 单独编译时，其实不用编译封面目录之类的，如需要不注释这句即可
+\else
+\fi
+%  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ 正文部分
+\chapter{构形configuration}
+\section{class 31}
+\begin{add}
+数学上的流形manifold和物质流形material manifold的联系(\textbf{此部分内容AIGC})
+
+\begin{center}
+    \textbf{数学上的流形（Manifold）}
+\end{center}
+数学中的流形是一个\textbf{局部欧几里得空间化}的拓扑空间，其定义为：
+\begin{itemize}
+  \item \textbf{局部坐标映射}：对任意点 \( p \in M \)，存在邻域 \( U \subseteq M \) 和同胚映射 \( \varphi: U \to \varphi(U) \subseteq \mathbb{R}^n \)。
+  \item \textbf{光滑结构}：若坐标卡 \( (U_\alpha, \varphi_\alpha) \) 与 \( (U_\beta, \varphi_\beta) \) 的交集非空，则转移映射 \( \varphi_\beta \circ \varphi_\alpha^{-1} \) 需为 \( C^\infty \) 光滑。
+  \item \textbf{全局性质}：流形可具有复杂拓扑（如紧致性、亏格），但不依赖嵌入更高维空间。
+\end{itemize}
+\noindent 典型例子包括球面 \( S^n \)、环面 \( T^n \)，以及在物理中描述时空（广义相对论）或相空间（经典力学）。
+
+\begin{center}
+    \textbf{物质流形（Material Manifold）}
+\end{center}
+物质流形是连续介质力学中描述材料\textbf{未变形状态}的几何对象，其特性为：
+\begin{itemize}
+  \item \textbf{参考构形}：记为 \( \mathcal{B}_0 \)，代表材料初始状态的3维流形，每个点 \( \mathbf{X} \in \mathcal{B}_0 \) 对应材料粒子。
+  \item \textbf{物质坐标}：通过坐标映射 \( \mathbf{X} = (X^1, X^2, X^3) \) 唯一标记粒子。
+  \item \textbf{变形映射}：随时间 \( t \)，材料变形由光滑映射 \( \phi_t: \mathcal{B}_0 \to \mathcal{B}_t \subseteq \mathbb{R}^3 \) 描述，将物质坐标 \( \mathbf{X} \) 映射到空间坐标 \( \mathbf{x} = \phi(\mathbf{X}, t) \)。
+\end{itemize}
+
+\begin{center}
+    \textbf{数学流形与物质流形的联系}
+\end{center}
+\textbf{几何结构}
+物质流形 \( \mathcal{B}_0 \) 是3维微分流形，其坐标卡对应材料标签系统。数学流形的光滑结构允许定义：
+\begin{itemize}
+  \item \textbf{变形梯度张量}：\( F = \nabla_X \phi \)，描述局部变形，满足 \( F_{iJ} = \frac{\partial x_i}{\partial X_J} \)。
+  \item \textbf{质量守恒}：通过雅可比行列式 \( J = \det F \) 表达为 \( \rho_t J = \rho_0 \)，其中 \( \rho_0 \) 为参考构形密度。
+\end{itemize}
+
+\textbf{映射的微分几何}
+变形映射 \( \phi \) 需满足微分同胚（弹性力学）或允许不可逆性（塑性力学）：
+\begin{equation}
+  \phi \in \text{Diff}(\mathcal{B}_0, \mathcal{B}_t) \quad \text{（弹性变形）}.
+\end{equation}
+塑性变形中，\( \phi \) 可能破坏微分同胚性，导致物质流形上出现\textbf{非完整结构}（如位错对应的非可积Burgers回路）。
+
+\textbf{张量场与物理量}
+\begin{itemize}
+  \item \textbf{物质描述}：在 \( \mathcal{B}_0 \) 上定义Piola应力 \( P(\mathbf{X}, t) \)，满足 \( P = J \sigma F^{-\top} \)，其中 \( \sigma \) 为柯西应力。
+  \item \textbf{空间描述}：在 \( \mathcal{B}_t \) 上定义速度场 \( \mathbf{v}(\mathbf{x}, t) \)，通过李导数 \( \mathcal{L}_v \sigma \) 描述应力演化。
+\end{itemize}
+
+\textbf{拓扑与缺陷}
+物质流形的拓扑不变量对应材料缺陷：
+\begin{itemize}
+  \item \textbf{位错}：Burgers矢量 \( \mathbf{b} \) 通过闭合回路 \( \gamma \subseteq \mathcal{B}_t \) 的不可闭合性定义：
+  \[
+  \mathbf{b} = \oint_\gamma d\mathbf{x} = \oint_{\phi^{-1}(\gamma)} F \, d\mathbf{X}.
+  \]
+  \item \textbf{裂纹}：物质流形的边界或非光滑结构对应宏观断裂。
+\end{itemize}
+\begin{example}
+圆柱体的均匀膨胀与拉伸
+
+考虑一个圆柱体材料（如橡胶圆柱），在受力后发生均匀的径向膨胀和轴向拉伸，使用 Material Manifold 描述其变形过程。
+
+\textbf{1. 参考构形（未变形状态）}
+\begin{itemize}
+  \item 几何描述：
+    \begin{itemize}
+      \item 径向坐标：\( R \in [0, R_0] \)，\( R_0 \) 为初始半径
+      \item 轴向坐标：\( Z \in [0, L_0] \)，\( L_0 \) 为初始长度
+      \item 角度坐标：\( \Theta \in [0, 2\pi) \)
+    \end{itemize}
+  \item 坐标系：\( (R, \Theta, Z) \)
+\end{itemize}
+
+\textbf{2. 当前构形（变形状态）}
+\begin{itemize}
+  \item 变形后几何描述：
+    \begin{itemize}
+      \item 径向膨胀：\( r = \lambda_r R \)（\(\lambda_r\) 为径向拉伸比）
+      \item 轴向拉伸：\( z = \lambda_z Z \)（\(\lambda_z\) 为轴向拉伸比）
+      \item 角度不变：\( \theta = \Theta \)
+    \end{itemize}
+  \item 坐标系：\( (r, \theta, z) \)
+\end{itemize}
+
+\textbf{3. 变形梯度张量 \(\vvec{F}\)}
+在柱坐标系中，变形梯度张量 \(\vvec{F}\) 的表达式为：
+\[
+\vvec{F} = \frac{\partial \mathbf{x}}{\partial \mathbf{X}} = 
+\begin{bmatrix}
+  \frac{\partial r}{\partial R}       & \frac{1}{R}\frac{\partial r}{\partial \Theta} & \frac{\partial r}{\partial Z} \\
+  r\frac{\partial \theta}{\partial R} & \frac{r}{R}\frac{\partial \theta}{\partial \Theta} & r\frac{\partial \theta}{\partial Z} \\
+  \frac{\partial z}{\partial R}       & \frac{1}{R}\frac{\partial z}{\partial \Theta} & \frac{\partial z}{\partial Z}
+\end{bmatrix}
+\]
+对于均匀变形（无剪切和旋转）：
+\[
+\vvec{F} = 
+\begin{bmatrix}
+  \lambda_r & 0         & 0 \\
+  0         & \lambda_r & 0 \\
+  0         & 0         & \lambda_z
+\end{bmatrix}
+\]
+其中：
+\begin{itemize}
+  \item \(\lambda_r = \frac{r}{R}\) 为径向拉伸比
+  \item \(\lambda_z = \frac{z}{Z}\) 为轴向拉伸比
+\end{itemize}
+
+\textbf{4. Material Manifold 的作用}
+\begin{itemize}
+  \item 参考构形 \((R, \Theta, Z)\) 描述未变形几何。
+  \item 当前构形 \((r, \theta, z)\) 描述变形后几何。
+  \item 通过 \(\vvec{F}\) 建立两构形间的映射，量化局部变形。
+\end{itemize}
+
+\textbf{5. 物理意义}
+\begin{itemize}
+  \item 若 \(\lambda_r = \lambda_z = 1\)：无变形。
+  \item 若 \(\lambda_r > 1, \lambda_z > 1\)：径向膨胀与轴向拉伸并存。
+  \item 若 \(\lambda_r \neq \lambda_z\)：非均匀变形（如各向异性膨胀）。
+\end{itemize}
+
+\textbf{6. 变形前后圆柱体对比图}
+\begin{center}
+\begin{tikzpicture}[scale=1]
+  % 未变形圆柱体
+  \draw[thick, fill=blue!20] (0,0) ellipse (1 and 0.5);
+  \draw[thick] (-1,0) -- (-1,2);
+  \draw[thick] (1,0) -- (1,2);
+  \draw[thick, fill=blue!20] (0,2) ellipse (1 and 0.5);
+  \node at (0,-1.5) {参考构形};
+  \draw[->, thick] (1.2,0.7) -- (2.2,0.7) 
+  node[midway, above] {变} 
+  node[midway, below] {形};
+
+  % 变形后圆柱体
+  \begin{scope}[xshift=4cm]
+    \draw[thick, fill=red!20] (0,0) ellipse (1.5 and 0.75);
+    \draw[thick] (-1.5,0) -- (-1.5,3);
+    \draw[thick] (1.5,0) -- (1.5,3);
+    \draw[thick, fill=red!20] (0,3) ellipse (1.5 and 0.75);
+    \node at (0,-1.5) {当前构形};
+  \end{scope}
+
+  % 标注尺寸
+  \draw[<->, thick] (-1.2,-0.7) -- (1.2,-0.7) node[midway, below] {\(2R_0\)};
+  \draw[<->, thick] (-1.7,0) -- (-1.7,2) node[midway, left] {\(L_0\)};
+  \draw[<->, thick] (4-1.7,0) -- (4-1.7,3) node[midway, left] {\(\lambda_z L_0\)};
+  \draw[<->, thick] (4+1.7,-0.7) -- (4-1.7,-0.7) node[midway, below] {\(2\lambda_r R_0\)};
+\end{tikzpicture}
+\end{center}
+\end{example}
+\end{add}
+% \begin{add}
+%     mechanies on the material manifold
+
+% 构形configuration，构形
+% \end{add}
+\begin{defn}
+	变形函数$\vec{x}$
+	\begin{gather*}
+	\vec{x}=\vec{\mathcal{X}}(\vec{\X},t)\\
+	inverse\;mapping\quad
+	\vec{\X}=\vec{\mathcal{X}}^{-1}(\vec{x},t)
+	\end{gather*}
+	\begin{align*}
+		d\vec{x}&=\vec{\mathcal{X}}(\vec{\X}+d\vec{\X},t)-\vec{\mathcal{X}}(\vec{\X},t)\\
+		&=\frac{\pa \vec{\mathcal{X}}}{\pa \vec{\X}}\cdot d\vec{\X}
+		=\vvec{F}d\vec{\X}=d\vec{\X}\vvec{F^T}\\
+		\vec{x}=x_i\vec{e_i},\vec{\X}=\X_K\vec{e_K}\\
+		\vvec{F}&=\frac{\pa \vec{x}}{\pa \vec{\X}}=\vec{x}\otimes\vec{\nabla}_{\vec{\X}}
+		\quad\text{对参考构形的右梯度}\\
+		&=\frac{\pa x_i}{\pa \X_K}\vec{e_i}\otimes\vec{e_K}
+		\quad\text{两点张量场two\textminus point tensor}\\
+		\vvec{F^T}&=\frac{\pa x_i}{\pa \X_K}\vec{e_K}\otimes\vec{e_i}\\
+		inverse\;mapping\quad
+		\vec{\X}=\vec{\mathcal{X}}^{-1}(\vec{x},t)\\
+		d\vec{\X}&=\vec{\mathcal{X}}^{-1}(\vec{x}+d\vec{x},t)
+		-\vec{\mathcal{X}}^{-1}(\vec{x},t)\\
+		&=\vvec{F}^{\mone}d\vec{x}=d\vec{x}\vvec{F}^{\mT}\\
+		\vvec{F}^{\mone}&=\frac{\pa \X_L}{\pa x_m}\vec{e_L}\otimes\vec{e_m}
+	\end{align*}
+	\begin{align*}
+		\vvec{F}\vvec{F}^{\lmone}&=\left(\frac{\pa x_i}{\pa \X_K}\vec{e_i}\otimes\vec{e_K}\right)
+		\cdot\left(\frac{\pa \X_L}{\pa x_m}\vec{e_L}\otimes\vec{e_m}\right)\\
+		&=\frac{\pa x_i}{\pa \X_K}\frac{\pa \X_L}{\pa x_m}\delta_{KL}\vec{e_i}\otimes\vec{e_m}\\
+		&=\frac{\pa x_i}{\pa x_m}\vec{e_i}\otimes\vec{e_m}
+	\end{align*}
+\end{defn}
+\begin{defn}
+	二阶张量的分类
+
+	1.两个基矢量均在参考构形 Lagrangian type
+
+	2.两个基矢量均在当前构形 Eulerian type
+
+	3.两个基矢量在不同构形中
+	$\begin{cases}
+		mixed\; Lagrangian\mathminus Eulerian\; type\\
+		mixed\; Eulerian\mathminus Lagrangian\; type
+	\end{cases}$
+\end{defn}
+\begin{example}
+	right Cauchy\textminus Green deformation tensor (拉格朗日型)
+	\[\vvec{C}=\vvec{F^T}\vvec{F}=
+	\left(\frac{\pa x_i}{\pa \X_K}\vec{e_K}\otimes\vec{e_i}\right)\cdot
+	\left(\frac{\pa \vec{x_j}}{\pa \vec{\X_L}}\vec{e_j}\otimes\vec{e_L}\right)=
+	\frac{\pa x_i}{\pa \X_K}\frac{\pa \vec{x_i}}{\pa \vec{\X_L}}\vec{e_K}\vec{e_L}\]
+	\[\vvec{C^T}=(\vvec{F^T}\vvec{F})^T=\vvec{F^T}\vvec{F}=\vvec{C}\]
+\end{example}
+\begin{example}
+	left Cauchy\textminus Green deformation tensor (欧拉型)
+	\[\vvec{B}=\vvec{F}\vvec{F^T}=
+	\left(\frac{\pa x_i}{\pa \X_K}\vec{e_i}\otimes\vec{e_K}\right)\cdot
+	\left(\frac{\pa \vec{x_j}}{\pa \vec{\X_L}}\vec{e_L}\otimes\vec{e_j}\right)=
+	\frac{\pa x_i}{\pa \X_K}\frac{\pa \vec{x_j}}{\pa \vec{\X_K}}\vec{e_i}\vec{e_j}\]
+	\[\vvec{B^T}=(\vvec{F}\vvec{F^T})^T=\vvec{F}\vvec{F^T}=\vvec{B}\]
+\end{example}
+\begin{add}
+	如何区分“左”和“右”?
+\end{add}
+\begin{example}
+	Cauchy deformation tensor (欧拉型)
+	\[\vvec{c}=\vvec{F}^{\lmT}\vvec{F}^{\lmone}=
+	\left(\frac{\pa \X_K}{\pa x_i}\vec{e_i}\otimes\vec{e_K}\right)
+	\cdot\left(\frac{\pa \X_L}{\pa x_j}\vec{e_L}\otimes\vec{e_j}\right)=
+	\frac{\pa \X_K}{\pa x_i}\frac{\pa \X_K}{\pa x_j}\vec{e_i}\otimes\vec{e_j}\]
+	\[\vvec{B}^{\lmone}=(\vvec{F}\vvec{F^T})^{-1}=\vvec{F}^{\lmT}\vvec{F}^{\lmone}=\vvec{c}\]
+\end{example}
+\begin{example}
+	Finger tensor
+\end{example}
+\begin{defn}
+	polar decomposition of deformation gradient
+	\begin{gather*}
+		\vvec{F}=\vvec{R}\vvec{U}=\vvec{V}\vvec{R}\\
+		\vvec{R}\rightarrow orthogonal\quad\vvec{R^T}=\vvec{R}^{\lmone}\\
+		\vvec{U}=\vvec{U^T},\vvec{v}=\vvec{v^T}\rightarrow symmetrical
+	\end{gather*}
+
+	right decomposition 
+	\begin{gather*}
+		\vvec{F^T}=(\vvec{R}\vvec{U})^T=\vvec{U}\vvec{R}^{\lmone}\\
+		\sum_{\tau}\lambda_\tau^2\vec{e_\tau}\otimes\vec{e_\tau}
+		=\vvec{C}=\vvec{F^T}\vvec{F}=\vvec{U}\vvec{R}^{\lmone}\cdot\vvec{R}\vvec{U}
+		=\vvec{U}^2\\
+		\vvec{U}=\sqrt{\vvec{C}}=\sum_{\tau}\lambda_\tau^2\vec{e_\tau}\otimes\vec{e_\tau}
+	\end{gather*}
+
+	left decomposition 
+	\begin{gather*}
+		\vvec{F}=\vvec{V}\vvec{R},\vvec{F}^{\lmT}=\vvec{R}^{\lmone}\vvec{V}\\
+		\vvec{B}=\vvec{F}\vvec{F^T}=\vvec{V}\vvec{R}\cdot\vvec{R}^{\lmone}\vvec{V}=\vvec{V}^2\\
+		\vvec{v}=\sqrt{\vvec{B}}=\sum_{\gamma}\lambda_\gamma\vec{e_\gamma}\otimes\vec{e_\gamma}
+	\end{gather*}
+\end{defn}
+\section{class 32}
+\begin{center}
+	\textbf{四种常用应变的定义}
+\end{center}
+\begin{defn}
+	engineering strain (small deformation)
+\end{defn}
+\begin{example}
+	one\textminus dimensional
+
+一维工程应变 \(\epsilon\) 定义为：
+\[
+\epsilon = \frac{\Delta L}{L_0} = \frac{L - L_0}{L_0}
+\]
+其中：
+\begin{itemize}
+    \item \( L_0 \) 是物体的原始长度，
+    \item \( L \) 是物体变形后的长度，
+    \item \( \Delta L = L - L_0 \) 是长度的变化量。
+\end{itemize}
+\end{example}
+\begin{example}
+	two\textminus dimensional(欧拉方法)
+
+	在小变形假设下，二维工程应变的定义可以通过位移场的偏导数推导得出。假设物体在二维平面内发生变形，其位移场为 \( u(x, y) \) 和 \( v(x, y) \)，分别表示在 \( x \) 和 \( y \) 方向上的位移。首先，定义位移梯度张量 \( \vvec{F} \) 为：
+	\[
+	\vvec{F} = \begin{bmatrix}
+	\frac{\partial u}{\partial x} & \frac{\partial u}{\partial y} \\
+	\frac{\partial v}{\partial x} & \frac{\partial v}{\partial y}
+	\end{bmatrix}
+	\]
+	在小变形假设下，应变张量 \( \mathbf{E} \) 可表示为位移梯度张量的对称部分：
+	\[
+	\mathbf{E} = \begin{bmatrix}
+		\varepsilon_{xx} & \frac{1}{2} \gamma_{xy} \\
+		\frac{1}{2} \gamma_{xy} & \varepsilon_{yy}
+		\end{bmatrix}
+	\]
+	其中应变分量分别为：
+	\[
+	\varepsilon_{xx} = \frac{\partial u}{\partial x}, \quad \varepsilon_{yy} = \frac{\partial v}{\partial y}, \quad \gamma_{xy} = \frac{\partial u}{\partial y} + \frac{\partial v}{\partial x}
+	\]
+	其中：
+	\begin{itemize}
+		\item \(\varepsilon_{xx}\) 和 \(\varepsilon_{yy}\) 分别是 \(x\) 和 \(y\) 方向的正应变，
+		\item \(\gamma_{xy}\) 是工程剪应变，
+		
+		注意：工程剪应变 \( \gamma_{xy} \) 是总角度变化，
+		而应变张量中的剪应变项为 \( \varepsilon_{xy}=\frac{1}{2} \gamma_{xy} \)，以符合张量的对称性要求。
+		\item \(\frac{\partial u}{\partial x}\)、\(\frac{\partial u}{\partial y}\)、
+		\(\frac{\partial v}{\partial x}\)、\(\frac{\partial v}{\partial y}\) 是位移场的偏导数。
+	\end{itemize}
+\end{example}
+\begin{defn}
+	对数应变logrithmic strain（真应变true strain或亨奇应变Hencky strain）描述大变形的应变度量。
+
+假设材料的初始长度为 \( L_0 \)，变形后的长度为 \( L \)。在变形过程中，考虑每一微小增量的应变，应变增量可表示为：
+\[
+d\epsilon = \frac{dL}{L}
+\]
+对上述微分方程从初始长度 \( L_0 \) 到最终长度 \( L \) 进行积分，得到对数应变：
+\[
+\epsilon_{\text{true}} = \int_{L_0}^{L} \frac{dL}{L} = \ln\left(\frac{L}{L_0}\right)
+=\ln(1+\varepsilon)
+\]
+因此，对数应变（亨奇应变）的定义为：
+\[
+\epsilon_{\text{true}} = \epsilon_{\text{Hencky}} = \ln\left(\frac{L}{L_0}\right)
+\]
+\end{defn}
+\begin{defn}
+	格林应变 (Green-Lagrange) 是用于描述大变形的应变度量，基于参考构形中的长度变化定义。
+	
+	设参考构形中的位置向量为 \(\vec{\X}\)，变形后的位置向量为 \(\vec{x}\)，变形梯度张量 \(\vvec{F}\) 定义为：
+\[
+\vvec{F} = \frac{\partial \vec{x}}{\partial \vec{X}}
+\]
+考虑参考构形中的线元 \(d\vec{\X}\) 和变形后的线元 \(d\vec{x}\)，其关系为：
+\[
+d\vec{x} = \vvec{F} \cdot d\vec{\X}
+\]
+线元长度的平方变化为：
+\[
+|d\vec{x}|^2 - |d\vec{\X}|^2 = d\vec{\X} \cdot (\vvec{F^T} \vvec{F} - \vvec{I}) \cdot d\vec{\X}
+\]
+其中 \(\vvec{F^T}\) 是变形梯度张量的转置，\(\vvec{I}\) 是单位张量。定义格林应变张量 \(\vvec{E}\) 为：
+\[
+\vvec{E} = \frac{1}{2} (\vvec{F^T} \vvec{F} - \vvec{I})=
+\frac{1}{2}(\vvec{C}-\vvec{I})=\frac{1}{2}\sum(\lambda_\Gamma^2-1)\vec{m_\Gamma}\otimes\vec{m_\Gamma}
+\]
+其中 \(\lambda_\Gamma\) 是主伸长比。因此，线元长度的平方变化可表示为：
+\[
+|d\vec{x}|^2 - |d\vec{\X}|^2 = 2 \, d\vec{\X} \cdot \vvec{E} \cdot d\vec{\X}
+\]
+\end{defn}
+\begin{defn}
+	Almansi strain是一种基于变形后构形（当前构形）的应变度量，适用于有限变形分析。
+
+	设参考构形中的位置向量为 \(\vec{\X}\)，变形后的位置向量为 \(\vec{x}\)，变形梯度张量 \(\vvec{F}\) 定义为：
+\[
+\vvec{F} = \frac{\partial \vec{x}}{\partial \vec{X}}
+\]
+考虑参考构形中的线元 \(d\vec{\X}\) 和变形后的线元 \(d\vec{x}\)，其关系为：
+\[
+d\vec{x} = \vvec{F} \cdot d\vec{\X}
+\]
+线元长度的平方变化为：
+\[
+|d\vec{x}|^2 - |d\vec{\X}|^2 = d\vec{x}^2-(\vvec{F}^{\lmone}d\vec{x})\cdot(\vvec{F}^{\lmone}d\vec{x})
+=d\vec{x}\cdot(\vvec{I}-\vvec{F}^{\lmT}\vvec{F}^{\lmone})\cdot d\vec{x}
+\]
+其中 \(\vvec{I}\) 是单位张量。定义Almansi strain张量 \(\vvec{e}\) 为：
+\[
+	\vvec{e}=\frac{1}{2} (\vvec{I}-\vvec{F}^{\lmT}\vvec{F}^{\lmone})
+	= \frac{1}{2} (\vvec{I}-\vvec{B}^{\lmone})
+	= \frac{1}{2} (\vvec{I}-\vvec{c})
+	=\frac{1}{2}\sum(\lambda_\gamma^2-1)\vec{n_\gamma}\otimes\vec{n_\gamma}
+\]
+因此，线元长度的平方变化可表示为：
+\[
+|d\vec{x}|^2 - |d\vec{\X}|^2 = 2 \, d\vec{x} \cdot \vvec{e} \cdot d\vec{x}
+\]
+\end{defn}
+\section{class 33}
+\begin{defn}
+	Hill strain measures (希尔应变度量)
+
+	Rodney Hill,1968---a general class 通类
+
+	strain measure function(Lagrangian type)
+	\[
+	\vvec{E}_{Hill}=\vvec{f}(\vvec{U})=\vvec{f}(\sqrt{\vvec{C}})=\sum f(\lambda_\Gamma)
+	\vec{m_\Gamma}\otimes\vec{m_\Gamma}
+	\]
+
+	\(f(\lambda_\Gamma)\) satisfies：
+	\begin{itemize}
+		\item $\lambda_\Gamma=1$ ,no deformation, $f(1)=0$
+		\item $\frac{df}{d\lambda_\Gamma}>0$ ,strain is a increasing function
+		\item \(\frac{df}{d\lambda_\Gamma}|_{\lambda_\Gamma=1}=
+		f'(1)=1\Rightarrow df=d\lambda_\Gamma\)
+	\end{itemize}
+\begin{proof}
+		\begin{gather*}
+			\lambda_\Gamma\approx1+\varDelta\lambda,\varDelta\lambda\ll1\\
+			small\; strain\quad\epsilon=\frac{1+\varDelta\lambda-1}{1}=\varDelta\lambda\\
+			f(\lambda_\Gamma)\approx f(1+\varDelta\lambda)=f(1)+f'(1)\varDelta\lambda
+			+o((\varDelta\lambda)^2)=f'(1)\varDelta\lambda\\
+			only\; if\; f'(1)=1,\quad f(\lambda_\Gamma)=\varDelta\lambda\\
+			df\approx f(1+d\lambda)-f(1)=d\lambda
+		\end{gather*}
+\end{proof}
+
+	strain measure function(Lagrangian type)
+	\[
+		\vvec{e}_{Hill}=\vvec{f}(\vvec{V})=\vvec{f}(\sqrt{\vvec{B}})=\sum f(\lambda_\gamma)
+		\vec{n_\gamma}\otimes\vec{n_\gamma}
+	\]
+
+	两种描述的关联
+	\begin{align*}
+		\vvec{E}_{Hill}&=\vvec{R^T}\vvec{e}_{Hill}\vvec{R}\quad\quad
+		\vvec{R}=\sum\vec{n_\gamma}\otimes\vec{m_\Gamma}\\
+		&=\sum(\vec{m_\Gamma}\otimes\vec{n_\gamma})\cdot f(\lambda_\gamma)
+		(\vec{n_\gamma}\otimes\vec{n_\gamma})\cdot(\vec{n_\gamma}\otimes\vec{m_\Gamma})\\
+		&=\sum f(\lambda_\gamma)\vec{m_\Gamma}\otimes\vec{m_\Gamma}
+	\end{align*}
+\end{defn}
+\begin{defn}
+	Seth 应变度量是一种广义的应变度量，适用于有限变形分析。
+	
+	\textbf{1. 拉格朗日法（基于参考构形）}
+	Seth 应变度量定义为右 Cauchy-Green 变形张量 \(\vvec{C}\) 的函数：
+	\[
+	\vvec{E}^{(m)} = \frac{1}{2m} (\vvec{C}^m - \vvec{I}),
+	\]
+	其中：
+	\begin{itemize}
+		\item \(\vvec{C} = \vvec{F}^{\lsup{T}} \vvec{F}\) 是右 Cauchy-Green 变形张量；
+		\item \(\vvec{F} = \frac{\partial \vec{x}}{\partial \vec{\X}}\) 是变形梯度张量；
+		\item \(\vec{\X}\) 为参考构形位置向量，\(\vec{x}\) 为当前构形位置向量；
+		\item \(m \in \mathbb{R}\) 为控制应变形式的参数；
+		\item \(\vvec{I}\) 是单位张量。
+	\end{itemize}
+
+	\textbf{2. 欧拉法（基于当前构形）}
+	Seth 应变度量定义为左 Cauchy-Green 变形张量 \(\vvec{B}\) 的逆的函数：
+	\[
+	\vvec{e}^{(m)} = \frac{1}{2m} (\vvec{I} - \vvec{B}^{-m}),
+	\]
+	其中：
+	\begin{itemize}
+    \item \(\vvec{B} = \vvec{F} \vvec{F}^{\lsup{T}}\) 是左 Cauchy-Green 变形张量；
+    \item \(\vvec{F}^{-1} = \frac{\partial \vec{\X}}{\partial \vec{x}}\) 是变形梯度张量的逆；
+    \item \(\vvec{B}^{-m}\) 表示 \(\vvec{B}\) 的逆的 \(m\) 次幂；
+    \item 其他符号含义与拉格朗日法定义一致。
+\end{itemize}
+
+Seth 应变度量在不同 \(m\) 值下退化为常见的应变度量：
+\begin{itemize}
+    \item \textbf{当 \(m = 1\) 时}：
+        \begin{itemize}
+            \item 拉格朗日法退化为 Green-Lagrange 应变：\(\vvec{E}^{(1)} = \frac{1}{2}(\vvec{C} - \vvec{I})\)；
+            \item 欧拉法退化为 Almansi 应变：\(\vvec{e}^{(1)} = \frac{1}{2}(\vvec{I} - \vvec{B}^{-1})\)。
+        \end{itemize}
+    \item \textbf{当 \(m = 1/2\) 时}：
+        \begin{itemize}
+            \item 拉格朗日法退化为 Biot 应变：\(\vvec{E}^{(1/2)} = \vvec{U} - \vvec{I}\)（\(\vvec{C} = \vvec{U}^2\)）；
+            \item 欧拉法退化为 Eulerian Biot 应变：\(\vvec{e}^{(1/2)} = \vvec{I} - \vvec{V}^{-1}\)（\(\vvec{B} = \vvec{V}^2\)）。
+        \end{itemize}
+    \item \textbf{当 \(m \to 0\) 时}：
+        \begin{itemize}
+            \item 拉格朗日法退化为 Hencky（对数）应变：\(\vvec{E}^{(0)} = \frac{1}{2} \ln \vvec{C}\)；
+            \item 欧拉法退化为 Eulerian Hencky 应变：\(\vvec{e}^{(0)} = \frac{1}{2} \ln \vvec{B}\)。
+        \end{itemize}
+\end{itemize}
+
+两种描述通过变形梯度张量 \(\vvec{F}\) 关联：
+\[
+\vvec{e}^{(m)} = \vvec{F}^{\lmT} \vvec{E}^{(m)} \vvec{F}^{-1}, \quad \vvec{E}^{(m)} = \vvec{F}^{\lsup{T}} \vvec{e}^{(m)} \vvec{F}.
+\]
+\end{defn}
+\begin{add}
+	line element, \(d\vec{x} = \vvec{F} \cdot d\vec{\X}=d\vec{\X} \cdot \vvec{F^T}\)	
+	
+	volume element, \(J=\frac{dv}{d\mathtt{V}}=\det\vvec{F}\)
+\end{add}
+\begin{defn}
+	area element
+	\begin{align*}
+		dv&=d\vec{x}\cdot d\vec{a}=Jd\mathtt{V}=Jd\vec{\X}\cdot d\vec{\mathtt{A}}\\
+		&=d\vec{\X}\vvec{F}^{\lsup{T}}\cdot d\vec{a}\\
+		\Rightarrow&d\vec{\X}\left(\vvec{F}^{\lsup{T}}\cdot d\vec{a}-Jd\vec{\mathtt{A}}\right)=0\\
+		\Rightarrow&d\vec{a}=J\vvec{F}^{\lmT}d\vec{\mathtt{A}}
+		=\left(\text{Cof}\vvec{F}\right)d\vec{A}\quad\quad\text{Nanson's formula}
+	\end{align*}
+\end{defn}
+\begin{add}
+	Nanson's Formula \textbf{(此部分内容AIGC)}
+
+	Nanson's formula 是连续介质力学中描述变形过程中面积元矢量变换的重要公式。其数学表达式为：
+	\[
+	d\vec{a} = J \vvec{F}^{\lmT} d\vec{A} = (\text{Cof}\, \vvec{F}) d\vec{A}
+	\]
+	其中：
+	\begin{itemize}
+		\item \(d\vec{a}\) 是变形后的面积元矢量。
+		\item \(d\vec{A}\) 是变形前的面积元矢量。
+		\item \(\vvec{F}\) 是变形梯度张量（\(\vvec{F} = \frac{\partial \vec{x}}{\partial \vec{X}}\)，其中 \(\vec{x}\) 是变形后的坐标，\(\vec{X}\) 是变形前的坐标）。
+		\item \(J = \det(\vvec{F})\) 是变形梯度张量的行列式，表示体积变化率。
+		\item \(\text{Cof}\, \vvec{F}\) 是 \(\vvec{F}\) 的余因子矩阵（cofactor matrix），满足 \(\text{Cof}\, \vvec{F} = J \vvec{F}^{\lmT}\)。
+	\end{itemize}
+	\begin{center}
+	\textbf{物理意义}
+	\end{center}
+
+	Nanson's formula 描述了变形过程中面积元矢量的变换关系，其物理意义可以从以下几个方面理解：
+	
+	\textbf{1. 面积元的缩放}
+	\begin{itemize}
+		\item 公式中的 \(J = \det(\vvec{F})\) 表示体积变化率。如果 \(J > 1\)，表示材料在变形过程中体积膨胀；如果 \(J < 1\)，表示体积收缩。
+		\item 面积元的大小也会随 \(J\) 变化，具体表现为 \(|d\vec{a}| = J |\vvec{F}^{\lmT} d\vec{A}|\)。
+	\end{itemize}
+	
+	\textbf{2. 法向量的旋转}
+	\begin{itemize}
+		\item 变形梯度张量的逆的转置 \(\vvec{F}^{\lmT}\) 描述了法向量的旋转。变形后的法向量 \(d\vec{a}\) 与变形前的法向量 \(d\vec{A}\) 通过 \(\vvec{F}^{\lmT}\) 相关联。
+		\item 这种旋转反映了材料在变形过程中方向的变化。
+	\end{itemize}
+	
+	\textbf{3. 面积元矢量的变换}
+	\begin{itemize}
+		\item 公式整体描述了变形前后面积元矢量的变换关系，结合了缩放和旋转效应。
+		\item 特别地，\(\text{Cof}\, \vvec{F}\) 是变形梯度张量的余因子矩阵，它直接与面积元的变换相关。
+	\end{itemize}
+	\begin{center}
+	\textbf{应用}
+	\end{center}
+
+	Nanson's formula 在连续介质力学中有重要应用，特别是在有限变形理论中。以下是其主要应用场景：
+	
+	\textbf{1. 应力变换}
+	在连续介质力学中，应力的描述可以分为两种形式：
+	\begin{itemize}
+		\item \textbf{Cauchy 应力（真实应力）} \(\vvec{\sigma}\)：
+			\begin{itemize}
+				\item Cauchy 应力定义在变形后的构形上，表示单位变形后面积上的力。
+				\item 其数学表达式为：
+					\[
+					\vvec{\sigma} = \frac{d\vec{f}}{d\vec{a}}
+					\]
+					其中 \(d\vec{f}\) 是作用在变形后面积元 \(d\vec{a}\) 上的力。
+			\end{itemize}
+		\item \textbf{第一类 Piola-Kirchhoff 应力（名义应力）} \(\vvec{P}\)：
+			\begin{itemize}
+				\item 第一类 Piola-Kirchhoff 应力定义在变形前的构形上，表示单位变形前面积上的力。
+				\item 其数学表达式为：
+					\[
+					\vvec{P} = \frac{d\vec{f}}{d\vec{A}}
+					\]
+					其中 \(d\vec{f}\) 是作用在变形前面积元 \(d\vec{A}\) 上的力。
+			\end{itemize}
+		\item 两者之间的关系可以通过 Nanson's formula 推导得到：
+			\begin{align*}
+				\vvec{P} &= J \vvec{\sigma} \vvec{F}^{\lsup{-T}}=\vvec{\sigma} J\vvec{F}^{\lsup{-T}}
+				=\vvec{\sigma}\text{Cof}\vvec{F}\\
+				&=J\left(\sigma_{ij}\vec{e_i}\otimes\vec{e_j}\right)\cdot
+				\left(\frac{\pa \X_K}{\pa x_l}\vec{e_l}\otimes\vec{e_K}\right)\\
+				&=J\sigma_{ij}\frac{\pa \X_K}{\pa x_j}\vec{e_i}\otimes\vec{e_K}\quad\quad two\mathminus point\; tensor
+			\end{align*}
+						
+	\end{itemize}
+	
+	\textbf{2. 有限元分析}
+	\begin{itemize}
+		\item 在有限元方法中，Nanson's formula 用于计算变形后的面积元，从而准确描述边界条件和载荷的变换。
+	\end{itemize}
+\end{add}
+\section{class 34}
+\begin{defn}
+	第二类 Piola-Kirchhoff 应力 (拉格朗日型)
+	\begin{align*}
+		\vvec{T}&=\vvec{F}^{\lmone}\vvec{P}=\vvec{F}^{\lmone} J\vvec{\sigma}\vvec{F}^{\lmT}\\
+		&=J\left(\frac{\pa \X_A}{\pa x_b}\vec{e_A}\otimes\vec{e_b}\right)\cdot\left(\sigma_{ij}\vec{e_i}\otimes\vec{e_j}\right)\cdot
+		\left(\frac{\pa \X_K}{\pa x_l}\vec{e_l}\otimes\vec{e_K}\right)\\
+		&=J\frac{\pa \X_A}{\pa x_b}\sigma_{ij}\frac{\pa \X_K}{\pa x_l}\vec{e_A}\otimes\vec{e_K}
+	\end{align*}
+	\[\vvec{T}^{\lsup{T}}=(\vvec{F}^{\lmone} J\vvec{\sigma}\vvec{F}^{\lmT})^T
+	=\vvec{F}^{\lmone} J\vvec{\sigma}\vvec{F}^{\lmT}=\vvec{T}\]
+\end{defn}
+\begin{defn}
+	Kirchhoff 应力 (欧拉型)
+	\[\vvec{\tau}=J\vvec{\sigma}\]
+\end{defn}
+\begin{defn}
+	功共轭 (Work Conjugate)
+	\begin{align*}
+		\dot{W}=\int \dot{w}\,dv&=\int \vvec{\sigma}:\vvec{d}\,dv
+		=\int J\vvec{\sigma}:\vvec{d}\,d\mathtt{V}\\
+		&=\int \vvec{\tau}:\vvec{d}\,d\mathtt{V}\quad\quad\vvec{d}\quad\text{strain rate}
+	\end{align*}
+	\begin{table}[ht]
+		\centering
+		\caption{功共轭关系对照表}
+		\label{tab:work_conjugate}
+		\begin{tabular}{lll}
+		\toprule
+		\textbf{力学变量} & \textbf{共轭变量} & \textbf{领域} \\
+		\midrule
+		柯西应力张量 $\vvec{\sigma}$ & 应变率张量 $\vvec{d}$ & 连续介质力学 \\
+		Kirchhoff应力 $\vvec{\tau}$ & 应变率张量 $\vvec{d}$ & 连续介质力学 \\
+		名义应力 $\vvec{P}$ & 变形梯度率 $\dot{\vvec{F}}$ & 非线性力学 \\
+		第二类Piola-Kirchhoff应力 $\vvec{T}$ & Green-Lagrange应变率 $\dot{\vvec{E}}$ & 有限变形理论 \\
+		力矢量 $\vec{F}$ & 位移矢量 $\vec{u}$ & 质点力学 \\
+		热流矢量 $\vec{q}$ & 温度梯度 $-\nabla T$ & 热力学 \\
+		偶应力张量 $\vvec{m}$ & 曲率张量 $\vvec{\kappa}$ & 微极连续介质力学 \\
+		\bottomrule
+		\end{tabular}
+		\end{table}
+		\begin{center}
+			功共轭关系式
+		\[\boxed{\dot{w}=J\vvec{\sigma}:\vvec{d}=\vvec{\tau}:\vvec{d}
+		=\vvec{P}:\dot{\vvec{F}}=\vvec{T}:\dot{\vvec{E}}}\]
+		\end{center}
+	\begin{gather*}
+		\dot{\omega}=\vvec{\tau}:\vvec{d}=\vvec{\tau}:(\vvec{l}-\vvec{\omega})\\
+		\because\;\vvec{\tau}=\vvec{\tau}^{\lsup{T}},\vvec{\omega}^{\lsup{T}}=-\vvec{\omega}\quad
+		\therefore\;\vvec{\tau}:\vvec{\omega}=0\\
+		\dot{\omega}=\vvec{\tau}:\vvec{l}=\vvec{\tau}:\dot{\vvec{F}}\vvec{F}^{\lmone}\\
+		\because\;\vvec{A}:(\vvec{B}\vvec{C})=(\vvec{B}^{\lsup{T}}\vvec{A}):\vvec{C}
+		=(\vvec{A}\vvec{C}^{\lsup{T}}):\vvec{B}\\
+		\dot{\omega}=\vvec{\tau}\vvec{F}^{\lmT}:\dot{\vvec{F}}=J\vvec{\sigma}\vvec{F}^{\lmT}:\dot{\vvec{F}}
+		=\vvec{P}:\dot{\vvec{F}}
+	\end{gather*}
+	\begin{gather*}
+		\dot{\omega}=J\vvec{F}^{\lmone}\vvec{F}\vvec{\sigma}\vvec{F}^{\lmT}:\dot{\vvec{F}}
+		=\vvec{F}^{\lmone}J\vvec{\sigma}\vvec{F}^{\lmT}:(\vvec{F}^{\lsup{T}}\dot{\vvec{F}})
+		=\vvec{T}:(\vvec{F}^{\lsup{T}}\dot{\vvec{F}})\\
+		\because\;\vvec{T}=\vvec{T}^{\lsup{T}}\quad
+		\therefore\;\dot{\omega}=\vvec{T}:\frac{\vvec{F}^{\lsup{T}}\dot{\vvec{F}}+(\vvec{F}^{\lsup{T}}\dot{\vvec{F}})^T}{2}
+		=\vvec{T}:\frac{\vvec{F}^{\lsup{T}}\dot{\vvec{F}}
+		+\dot{\vvec{F}^{\lsup{T}}}\vvec{F}}{2}=\vvec{T}:\dot{\vvec{E}}\\
+		\vvec{E}=\frac{\vvec{C}-\vvec{I}}{2}=\frac{1}{2}(\vvec{F}^{\lsup{T}}\vvec{F}-\vvec{I})\\
+		\dot{\vvec{E}}=\frac{1}{2}(\vvec{F}^{\lsup{T}}\dot{\vvec{F}}
+		+\dot{\vvec{F}^{\lsup{T}}}\vvec{F})
+	\end{gather*}
+	\begin{zhu}
+		计算双点积 $\vvec{\tau} : \vvec{\omega}$：
+		\[
+		\vvec{\tau} : \vvec{\omega} = \sum_{i,j} \tau_{ij} \omega_{ij}
+		\]
+		
+		由于 $\vvec{\tau}$ 是对称的，$\tau_{ij} = \tau_{ji}$；而 $\vvec{\omega}$ 是反对称的，$\omega_{ij} = -\omega_{ji}$。因此，可以将双点积改写为：
+		\[
+		\vvec{\tau} : \vvec{\omega} = \sum_{i,j} \tau_{ij} \omega_{ij} = \sum_{i,j} \tau_{ji} (-\omega_{ji})
+		\]
+		
+		将下标 $i$ 和 $j$ 互换（因为求和是对所有 $i,j$ 进行的）：
+		\[
+		\vvec{\tau} : \vvec{\omega} = -\sum_{i,j} \tau_{ij} \omega_{ij} = -\vvec{\tau} : \vvec{\omega}
+		\quad \Rightarrow \quad (\vvec{\tau} : \vvec{\omega}) = 0
+		\]
+	\end{zhu}
+\end{defn}
+\begin{defn}
+	速度梯度 (velocity gradient)
+		\[\vvec{l}=\vec{v}\nabla_{\vec{x}}=\frac{\pa \vec{v}}{\pa \vec{x}}
+		=\frac{\pa}{\pa \vec{\X}}\left(\frac{d\vec{x}}{dt}\right)\vvec{F}^{\lmone}
+		=\frac{d}{dt}\left(\frac{\pa \vec{x}}{\pa \vec{\X}}\right)\vvec{F}^{\lmone}
+		=\dot{\vvec{F}}\vvec{F}^{\lmone}\]	
+	
+	应变率 (strain rate)
+	\(\vvec{d}=\frac{\vvec{l}+\vvec{l}^{\lsup{T}}}{2}\; ,\; \vvec{d}^{\lsup{T}}=\vvec{d}\), 
+	旋率 (spin)
+	\(\vvec{\omega}=\frac{\vvec{l}-\vvec{l}^{\lsup{T}}}{2}\; ,\; \vvec{\omega}^{\lsup{T}}=-\vvec{\omega}\)
+\end{defn}
+\begin{example}
+	\begin{gather*}
+		\vvec{F}^{\lmone}\vvec{F}=\vvec{I}\quad\Rightarrow\quad
+		\dot{\vvec{F}^{\lmone}}\vvec{F}+\vvec{F}^{\lmone}\dot{\vvec{F}}=\vvec{0}\\
+		\because\; \vvec{l}=\dot{\vvec{F}}\vvec{F}^{\lmone}\quad
+		\therefore\; \dot{\vvec{F}^{\lmone}}=-\vvec{F}^{\lmone}\vvec{l}
+	\end{gather*}
+\end{example}
+\begin{example}
+	\[
+		\dot{\vvec{F}^{\lmT}}=\left(\dot{\vvec{F}^{\lmone}}\right)^T
+		=(-\vvec{F}^{\lmone}\vvec{l})^T=-\vvec{l}^{\lsup{T}}\vvec{F}^{\lmT}
+	\]
+\end{example}
+\begin{example}
+	\begin{gather*}
+		\frac{\pa J}{\pa \vvec{F}}=\frac{\pa \det\vvec{F}}{\pa \vvec{F}}
+		=(\det\vvec{F})\vvec{F}^{\lmT}=J\vvec{F}^{\lmT}\\
+		\dot{J}=\frac{\pa J}{\pa \vvec{F}}:\dot{\vvec{F}}=J tr(\vvec{F}^{\lmone}\dot{\vvec{F}})
+		=J tr(\dot{\vvec{F}}\vvec{F}^{\lmone})=J tr\vvec{l}\\
+		\because\; \vvec{l}=\vvec{d}+\vvec{\omega}\quad,\quad tr\vvec{\omega}=0\\
+		\dot{J}=Jtr\vvec{d}
+	\end{gather*}
+\end{example}
+\begin{example}
+	\begin{gather*}
+		d\vec{a}=J\vvec{F}^{\lmT}d\vec{A}\\
+		\because\; \dot{d\vec{A}}=\vec{0}\\
+		\dot{d\vec{a}}=\dot{J\vvec{F}^{\lmT}}d\vec{A}
+		=(\dot{J}\vvec{F}^{\lmT}+J\dot{\vvec{F}^{\lmT}})d\vec{A}
+		= J \vvec{F}^{\lmT} \left( \text{div} \vec{v} \vvec{I} - \vvec{l}^{\lsup{T}} \right) d\vec{A}\\
+		\because\; J\vvec{F}^{\lmT} d\vec{A} = d\vec{a} \\
+		\dot{d\vec{a}} = \left( (\text{div} \vec{v}) \vvec{I} - \vvec{l}^{\lsup{T}} \right) d\vec{A}
+	\end{gather*}
+\end{example}
+\begin{example}
+	\begin{gather*}
+		\dot{dv}=\dot{Jd\mathtt{V}}=\dot{J}d\mathtt{V}=J(div\vec{v})d\mathtt{V}\\
+		\because\; Jd\mathtt{V}=dv\quad
+		\therefore\; \dot{dv}=(div\vec{v})dv
+	\end{gather*}
+\end{example}
+\begin{example}
+	\begin{gather*}
+		\vvec{E} = \frac{1}{2} (\vvec{F}^{\lsup{T}} \vvec{F} - \vvec{I})\\
+		\dot{\vvec{E}}=\frac{\dot{\vvec{F}^{\lsup{T}}} \vvec{F}+\vvec{F}^{\lsup{T}} \dot{\vvec{F}}}{2}
+		=\frac{\vvec{F}^{\lsup{T}}\vvec{l}^{\lsup{T}} \vvec{F}+\vvec{F}^{\lsup{T}}\vvec{F}^{\lsup{T}} \vvec{F}}{2}
+		=\vvec{F}^{\lsup{T}}\frac{\vvec{l}^{\lsup{T}} +\vvec{F}^{\lsup{T}}}{2}\vvec{F}
+		=\vvec{F}^{\lsup{T}}\vvec{d}\vvec{F}
+	\end{gather*}
+
+	operation
+	\begin{gather*}
+		\vvec{F}^{\lsup{T}}\cdot(\text{当前构形})\cdot\vvec{F}\quad\text{pull\textminus back 拉回}
+		\quad\dot{\vvec{E}}=\vvec{F}^{\lsup{T}}\vvec{d}\vvec{F}\\
+		\vvec{F}^{\lsup{T}}\cdot(\text{参考构形})\cdot\vvec{F}\quad\text{push\textminus forward 推前}
+		\quad\vvec{d}=\vvec{F}^{\lmT}\dot{\vvec{E}}\vvec{F}^{\lmone}
+	\end{gather*}
+\end{example}
+\begin{example}
+	介质不可压缩的seven equivalent conditions
+\begin{center}
+		\begin{tabular*}{0.7\textwidth}{@{\extracolsep{\fill}}ccc@{}}
+			\(J=\det\vvec{F}=\frac{dv}{d\mathtt{V}}=1\) & \(\dot{J}=0\) &	\(div\vec{v}=\nabla\cdot\vec{v}=0\)\\
+			\(tr\vvec{d}=0\) & \(tr\vvec{l}=0\) & \(dv=constant\)\\
+			\(\vvec{F}^{\lmT}:\dot{\vvec{F}}=0\) & & \\
+		\end{tabular*}
+\end{center}
+\end{example}
+
+
+
+
+
+
+
+
+
+%  ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ 正文部分
+\ifx\allfiles\undefined
+\end{document}
+\fi
