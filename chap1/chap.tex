@@ -1,0 +1,479 @@
+\ifx\allfiles\undefined
+\documentclass[12pt, a4paper, oneside, UTF8]{ctexbook}  %  这一句是新增加的
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath}   % 数学公式
+
+
+\begin{document}
+%\input{/config/cover} % 单独编译时，其实不用编译封面目录之类的，如需要不注释这句即可
+\else
+\fi
+%  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ 正文部分
+
+    \chapter{张量分析}
+    \section{class 14}
+    \begin{add}
+        \textbf{此部分内容AIGC}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=1.2, ->={Stealth[scale=1.2]}]
+      \draw[->, thick] (0,0,0) -- (2,0,0) node[right] {$i$};
+      \draw[->, thick] (0,0,0) -- (0,2,0) node[above] {$j$};
+      \draw[->, thick] (0,0,0) -- (0,0,2) node[below left] {$k$};
+      \node at (0,-2) {一阶张量 (向量)};
+    \end{tikzpicture}
+    \caption{一阶张量}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=1.2]
+      % 立方体框架
+      \draw[thick] (0,0,0) -- (1,0,0) -- (1,1,0) -- (0,1,0) -- cycle;
+      \draw[thick] (0,0,0) -- (0,0,1);
+      \draw[thick] (1,0,0) -- (1,0,1);
+      \draw[thick] (1,1,0) -- (1,1,1);
+      \draw[thick] (0,1,0) -- (0,1,1);
+      \draw[thick] (0,0,1) -- (1,0,1) -- (1,1,1) -- (0,1,1) -- cycle;
+
+      % 网格线
+      \foreach \x in {0.2,0.4,0.6,0.8} {
+        \draw[gray] (\x,0,0) -- (\x,1,0);
+        \draw[gray] (0,\x,0) -- (1,\x,0);
+        \draw[gray] (\x,0,1) -- (\x,1,1);
+      }
+      \node at (0.5,-0.3,0) {$i$};
+      \node at (-0.3,0.5,0) {$j$};
+      \node at (0,-2,0) {二阶张量 (矩阵)};
+    \end{tikzpicture}
+    \caption{二阶张量}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \tdplotsetmaincoords{70}{110} % 设置视角
+    \begin{tikzpicture}[scale=1.2, tdplot_main_coords]
+      % 立方体框架
+      \draw[thick] (0,0,0) -- (1,0,0) -- (1,1,0) -- (0,1,0) -- cycle;
+      \draw[thick] (0,0,0) -- (0,0,1);
+      \draw[thick] (1,0,0) -- (1,0,1);
+      \draw[thick] (1,1,0) -- (1,1,1);
+      \draw[thick] (0,1,0) -- (0,1,1);
+      \draw[thick] (0,0,1) -- (1,0,1) -- (1,1,1) -- (0,1,1) -- cycle;
+
+      % 数据点
+      \foreach \x in {0.25,0.75} {
+        \foreach \y in {0.25,0.75} {
+          \foreach \z in {0.25,0.75} {
+            \fill[red] (\x,\y,\z) circle (1.5pt);
+          }
+        }
+      }
+      \node at (1.3,0,0) {$i$};
+      \node at (0,1.3,0) {$j$};
+      \node at (0,0,1.3) {$k$};
+      \node at (0,0,-2) {三阶张量 (立方体)};
+    \end{tikzpicture}
+    \caption{三阶张量}
+  \end{subfigure}
+
+  \vspace{1cm} % 增加垂直间距
+
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \tdplotsetmaincoords{70}{110} % 设置视角
+    \begin{tikzpicture}[scale=1.2, tdplot_main_coords]
+      % 主立方体
+      \draw[thick] (0,0,0) -- (1,0,0) -- (1,1,0) -- (0,1,0) -- cycle;
+      \draw[thick] (0,0,0) -- (0,0,1);
+      \draw[thick] (1,0,0) -- (1,0,1);
+      \draw[thick] (1,1,0) -- (1,1,1);
+      \draw[thick] (0,1,0) -- (0,1,1);
+      \draw[thick] (0,0,1) -- (1,0,1) -- (1,1,1) -- (0,1,1) -- cycle;
+
+      % 第四维度投影
+      \begin{scope}[canvas is yz plane at x=1.2]
+        \draw[thick, dashed] (0,0) rectangle (1,1);
+        \foreach \y in {0.2,0.4,0.6,0.8} {
+          \draw[gray] (0,\y) -- (1,\y);
+        }
+      \end{scope}
+      \draw[->, dashed] (1.1,0.5,0.5) -- (1.9,0.5,0.5) node[right] {$l$};
+      \node at (0,0,-2) {四阶张量 (超立方体投影)};
+    \end{tikzpicture}
+    \caption{四阶张量}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+      \centering
+      \begin{tikzpicture}[scale=1.2]
+        % 主立方体
+        \draw[thick] (0,0,0) -- (1,0,0) -- (1,1,0) -- (0,1,0) -- cycle;
+        \draw[thick] (0,0,0) -- (0,0,1);
+        \draw[thick] (1,0,0) -- (1,0,1);
+        \draw[thick] (1,1,0) -- (1,1,1);
+        \draw[thick] (0,1,0) -- (0,1,1);
+        \draw[thick] (0,0,1) -- (1,0,1) -- (1,1,1) -- (0,1,1) -- cycle;
+  
+        % 分层结构
+        \foreach \z in {0.2,0.4,0.6,0.8} {
+          \draw[gray, thin] (0,0,\z) -- (1,0,\z) -- (1,1,\z) -- (0,1,\z) -- cycle;
+        }
+  
+        % 第五维度指示
+        \draw[->, thick, blue] (1.2,0.5,0.5) -- (2.5,0.5,0.5) node[right] {第五维度};
+        \node at (0.5,-0.3,0) {$i$};
+        \node at (-0.3,0.5,0) {$j$};
+        \node at (0,0,1.3) {$k$};
+        \node at (0,-2,0) {五阶张量 (分层结构)};
+      \end{tikzpicture}
+      \caption{分层结构表示}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+      \centering
+      \tdplotsetmaincoords{70}{110} % 设置视角
+      \begin{tikzpicture}[scale=1.2, tdplot_main_coords]
+        % 主立方体
+        \draw[thick] (0,0,0) -- (1,0,0) -- (1,1,0) -- (0,1,0) -- cycle;
+        \draw[thick] (0,0,0) -- (0,0,1);
+        \draw[thick] (1,0,0) -- (1,0,1);
+        \draw[thick] (1,1,0) -- (1,1,1);
+        \draw[thick] (0,1,0) -- (0,1,1);
+        \draw[thick] (0,0,1) -- (1,0,1) -- (1,1,1) -- (0,1,1) -- cycle;
+  
+        % 第五维度投影
+        \begin{scope}[canvas is yz plane at x=1.2]
+          \draw[thick, dashed] (0,0) rectangle (1,1);
+          \foreach \y in {0.2,0.4,0.6,0.8} {
+            \draw[gray, thin] (0,\y) -- (1,\y);
+          }
+        \end{scope}
+        \draw[->, thick, blue] (1.1,0.5,0.5) -- (2.5,0.5,0.5) node[right] {第五维度};
+  
+        \node at (0,0,-2) {五阶张量 (投影表示)};
+      \end{tikzpicture}
+      \caption{投影表示}
+    \end{subfigure}
+
+\end{figure}
+
+    \end{add}
+    \begin{defn}
+        geometric equation 几何方程
+        \begin{align*}
+            d\vec{u}&=\vec{u}\left(\vec{r}+d\vec{r}\right)-\vec{u}\left(\vec{r}\right)\\\text{linear elasticity}
+            &\approx\frac{\partial{\vec{u}}}{\partial{\vec{r}}}\cdot
+            d\vec{r}\\
+            &=\underbrace{\left(\vec{u}\otimes\nabla\right)}_{ \text{right gradient右梯度}}d\vec{r}\\
+            &=\frac{\left(\vec{u}\otimes\nabla\right)+\left(\nabla\otimes\vec{u}\right)}{2}d\vec{r}+
+            \frac{\left(\vec{u}\otimes\nabla\right)-\left(\nabla\otimes\vec{u}\right)}{2}d\vec{r}\\
+            &=\underbrace{\frac{\left(\vec{u}\otimes\nabla\right)+\left(\vec{u}\otimes\nabla\right)^T}{2}}_{\text{cauchy strain}}d\vec{r}+
+            \underbrace{\frac{\left(\vec{u}\otimes\nabla\right)-\left(\vec{u}\otimes\nabla\right)^T}{2}}_{=\frac{1}{2}\nabla\times\vec{u}=\vec{\omega}}d\vec{r}\\
+            &=\vec{\vec{\epsilon}}d\vec{r}+\vec{\omega}\times d\vec{r}
+        \end{align*}
+    \end{defn}
+    \begin{defn}
+        \begin{align*}
+            \text{弹性动力学方程} Lam\acute{e}\mathminus Navier\quad \rho\ddot{\vec{u}}&=\left(\lambda+\mu\right)\nabla\left(\nabla\cdot\vec{u}\right)+\mu\nabla^2\vec{u}\\
+            \text{其中}\quad\lambda=\frac{\nu E}{(1+\nu)(1-2\nu)}\quad,&\quad\mu=\frac{E}{2(1+\nu)}\\
+            \text{Poisson's ratio}\quad \nu\quad,&\quad\text{Young's modulus}\quad E
+            \\\text{注：满足homogeneous，isotropic，linear}
+        \end{align*}
+        \begin{yzh}
+            \begin{align*}
+                \text{几何方程cauchy strain}\vec{\vec{\epsilon}}&=\frac{\left(\vec{u}\otimes\nabla\right)+\left(\nabla\otimes\vec{u}\right)}{2}\\
+                \text{本构关系}\vec{\vec{\sigma}}&=2\mu\vec{\vec{\epsilon}}+\lambda\left(tr\vec{\vec{\epsilon}}\right)\vec{\vec{I}}\\
+                \text{牛顿第二定律}\nabla\cdot\vec{\vec{\sigma}}&=\rho\ddot{\vec{u}}
+            \end{align*}
+        \end{yzh}
+        \begin{tui}
+        \begin{align*}
+            \text{首先推导}\quad tr\vec{\vec{\epsilon}}\quad,\quad\nabla\cdot\left(\left(tr\vec{\vec{\epsilon}}\right)\vec{\vec{I}}\right)\quad\text{。}\\
+            \text{由于}\quad tr\left(\vec{a}\otimes\vec{b}\right)&=\vec{a}\cdot\vec{b}=a_ib_j\delta_{ij}=a_ib_i\\
+            tr\vec{\vec{\epsilon}}&=\frac{\left(\vec{u}\cdot\nabla\right)+\left(\nabla\cdot\vec{u}\right)}{2}=\nabla\cdot\vec{u}
+            \\\nabla\cdot\vec{\vec{\epsilon}}&=\frac{1}{2}\nabla\cdot\left(\left(\vec{u}\otimes\nabla\right)+\left(\nabla\otimes\vec{u}\right)\right)
+            =\frac{1}{2}\left(\nabla\left(\nabla\cdot\vec{u}\right)+\nabla^2\vec{u}\right)\\
+            \nabla\cdot\left(\left(tr\vec{\vec{\epsilon}}\right)\vec{\vec{I}}\right)&
+            =\left(tr\vec{\vec{\epsilon}}\right)\nabla\cdot\vec{\vec{I}}
+            =\nabla\left(tr\vec{\vec{\epsilon}}\right)=\nabla\left(\nabla\cdot\vec{u}\right)\\
+            \text{其中}\quad\nabla\cdot\vec{\vec{I}}&=\left(\frac{\partial}{\partial x_i}\vec{e_i}\right)
+            \cdot\left(\delta_{jk}\vec{e_j}\otimes\vec{e_k}\right)=\frac{\partial\vec{e_i}}{\partial x_i}=\nabla\\
+            \text{在本构关系两端加上散度$\nabla\cdot$}\\
+            \nabla\cdot\vec{\vec{\sigma}}&=\mu\left(\nabla^2+\nabla\left(\nabla\cdot\vec{u}\right)\right)
+            +\lambda\nabla\left(\nabla\vec{u}\right)\\
+            &=\left(\lambda+\mu\right)\nabla\left(\nabla\vec{u}\right)+\mu\nabla^2\vec{u}=\rho\ddot{\vec{u}}
+        \end{align*}
+        \end{tui}
+    \end{defn}
+    \begin{corollary}
+    通过Helmholtz decomposition\quad$\vec{u}=\nabla\varphi+\nabla\times\vec{\psi}$\quad 可以将弹性动力学方程分解为横波和纵波形式的波动方程。
+    \end{corollary}
+    \section{class 15}
+    \begin{defn}
+        Hessian 黑森算子($\nabla\otimes\nabla=\nabla\nabla$ )。The Hessian is a tensor of rank two
+        \begin{tui}
+        \begin{align*}
+            \nabla\otimes\nabla\cdot\vec{u}&=\left(\frac{\partial^2}{\partial x_ix_j}\vec{e_i}\otimes\vec{e_j}\right)
+            \cdot u_k\vec{e_k}\\
+            &=\frac{\partial^2 u_j}{\partial x_ix_j}\vec{e_i}\\
+            &=\left(\frac{\partial }{\partial x_i}\vec{e_i}\right)\frac{\partial u_k}{\partial x_j}\delta_{jk}\\
+            \nabla\left(\nabla\cdot\vec{u}\right)
+            &=\left(\frac{\partial }{\partial x_i}\vec{e_i}\right)\left(\frac{\partial }{\partial x_j}\vec{e_j}\cdot u_k\vec{e_k}\right)\\
+        \end{align*}
+        \end{tui}
+    \end{defn}
+    \begin{example}
+        多元矢量函数的泰勒展开
+        \[
+    f(\vec{x}) \approx f(\vec{a}) + \nabla f(\vec{a}) \cdot (\vec{x} - \vec{a}) + \frac{1}{2!} (\vec{x} - \vec{a})^T \vec{\vec{H}}(\vec{a})(\vec{x} - \vec{a}) + \cdots
+        \]
+        \[
+            \vec{\vec{H}} = \begin{bmatrix}
+            \frac{\partial^2 f}{\partial x_1^2} & \frac{\partial^2 f}{\partial x_1 \partial x_2} & \cdots & \frac{\partial^2 f}{\partial x_1 \partial x_n} \\
+            \frac{\partial^2 f}{\partial x_2 \partial x_1} & \frac{\partial^2 f}{\partial x_2^2} & \cdots & \frac{\partial^2 f}{\partial x_2 \partial x_n} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            \frac{\partial^2 f}{\partial x_n \partial x_1} & \frac{\partial^2 f}{\partial x_n \partial x_2} & \cdots & \frac{\partial^2 f}{\partial x_n^2} \\
+            \end{bmatrix}
+            \]
+            其中：
+            \begin{itemize}
+                \item $(\nabla f(\vec{a}))$ 是函数在点 $(\vec{a})$ 处的梯度矩阵；
+                \item $(\vec{\vec{H}}(\vec{a}))$ 是函数在点 $(\vec{a})$ 处的 Hessian 矩阵，表示二阶导数的矩阵；
+                \item $((\vec{x} - \vec{a}))$ 是从点 $(\vec{a})$ 到点 $(\vec{x})$ 的偏移向量。
+            \end{itemize}
+    \end{example}
+    \begin{proposition}
+            弹性动力学方程$Lam\acute{e}-Navier$可简化为
+            \[
+            \rho\ddot{\vec{u}}=\vec{0}=\nabla\left(\nabla\cdot\vec{u}\right)+\left(1-2\nu\right)\nabla^2\vec{u}
+            \]
+    \end{proposition}
+    \begin{proof}
+对于线弹性静力学问题，Lame-Navier方程为：  
+\[
+\mu \nabla^2 \vec{u} + (\lambda + \mu) \nabla (\nabla \cdot \vec{u}) + f = \vec{0}
+\]  
+其中$f=-\rho\ddot{\vec{u}}$
+假设无体积力 $(f = \vec{0})$，方程简化为：  
+\[
+\mu \nabla^2 \vec{u} + (\lambda + \mu) \nabla (\nabla \cdot \vec{u}) = \vec{0} \tag{1}
+\]   
+将方程两边除以\(\mu\)，得：  
+\[
+\nabla^2 \vec{u} + \frac{\lambda + \mu}{\mu} \nabla (\nabla \cdot \vec{u}) = \vec{0} \tag{2}
+\]  
+
+泊松比\(\nu\)与Lame常数的关系为 
+\[
+\nu = \frac{\lambda}{2(\lambda + \mu)} \tag{3}
+\]  
+式(3)变形为  
+\[
+\lambda = \frac{2\nu \mu}{1 - 2\nu} \tag{4}
+\]  
+
+将式(4)代入式(2)
+\[
+\frac{\lambda + \mu}{\mu} = \frac{\frac{2\nu \mu}{1 - 2\nu} + \mu}{\mu} = \frac{2\nu}{1 - 2\nu} + 1 = \frac{1}{1 - 2\nu} \tag{5}
+\]  
+  
+将式(5)代入式(2)，得：  
+\[
+\nabla^2 \vec{u} + \frac{1}{1 - 2\nu} \nabla (\nabla \cdot \vec{u}) = \vec{0} \tag{6}
+\]  
+ 
+将式(6)两边乘以\((1 - 2\nu)\)，得到目标方程：  
+\begin{equation*}
+    \boxed{\vec{0} = \nabla (\nabla \cdot \vec{u}) + (1 - 2\nu) \nabla^2 \vec{u}} 
+\end{equation*}
+    \end{proof}
+\begin{defn}
+    projection tensor of rank two
+    \begin{yzh}
+        concentrated force$\vec{f}$
+    \end{yzh}
+    \begin{align*}
+        \vec{f_n}&=\left(\vec{f}\cdot\vec{n}\right)\vec{n}=\vec{f}\cdot\left(\vec{n}\otimes\vec{n}\right)\\
+        \text{注：}\quad&=\left(f_i\vec{e_i}\cdot n_j\vec{e_j}\right)n_k\vec{e_k}
+        =f_in_j\delta_{ij}n_k\vec{e_k}=\left(f_i\vec{e_i}\cdot\left(n_j\vec{e_j}\otimes n_k\vec{e_k}\right)\right)=\\
+        \vec{f_\tau}&=\vec{f}-\vec{f_n}=\vec{f}\cdot \left(\vec{\vec{I}}-\vec{n}\otimes\vec{n}\right)=\vec{f}\cdot\vec{\vec{P}}
+    \end{align*}
+    其中$\vec{\vec{P}}$为projection tensor of rank two。易知(幂等性)
+    \[
+    \vec{\vec{P}}^2=\vec{\vec{I}}-2\vec{n}\otimes\vec{n}+\vec{n}\otimes\vec{n}=\vec{\vec{P}}
+    \]
+    这意味着将一个向量先投影再投影，结果与第一次投影相同
+\end{defn}
+\begin{defn}
+    对于一个刚体，其转动惯性张量 \(\vec{\vec{I}}\) 可以用以下公式表示：
+\[
+\vec{\vec{I}} = \int \left( \|\vec{r}\|^2 \vec{\vec{I}} - \vec{r} \times \vec{r} \right) \rho \, dV
+\]
+\begin{tui}
+    \begin{align*}
+        \underbrace{\vec{\vec{L}}}_{\text{角动量}} &= \int \left( \vec{r} \times \left(\vec{\omega}\times\vec{r}\right) \right) \rho \, dV\\
+        &=\int \left( \|\vec{r}\|^2 \vec{\vec{I}}\cdot\omega-\left(\vec{\omega}\cdot\vec{r}\right)\vec{r}\right) \rho \, dV\\
+        &=\int \left( \|\vec{r}\|^2 \vec{\vec{I}}\cdot\omega-\vec{\omega}\cdot\left(\vec{r}\otimes\vec{r}\right)\right) \rho \, dV\\
+        &=\underbrace{\int \left( \|\vec{r}\|^2 \vec{\vec{I}} - \vec{r} \times \vec{r} \right) \rho \, dV}_{\text{转动惯性张量}}\cdot\vec{\omega}
+    \end{align*}
+\end{tui}
+\end{defn}
+\begin{example}
+    在笛卡尔坐标系中，转动惯量张量的元素可以通过以下形式表示：
+\[
+\vec{\vec{I}} = \begin{pmatrix}
+I_{xx} & I_{xy} & I_{xz} \\
+I_{yx} & I_{yy} & I_{yz} \\
+I_{zx} & I_{zy} & I_{zz}
+\end{pmatrix}
+\]
+其中，\(I_{xx}\)、\(I_{yy}\)、\(I_{zz}\) 是关于各自坐标轴的转动惯量，而 \(I_{xy}\)、\(I_{xz}\)、\(I_{yz}\) 是相应的产品惯量。通过这些元素，可以分析刚体在不同方向上的转动特性。
+在三维空间中，转动惯量张量的分量可以表示为：
+\[
+I_{ij} = \int (r^2 \delta_{ij} - r_i r_j) \, dm
+\]
+具体分量可以写为：
+\[
+I_{xx} = \int (y^2 + z^2) \, dm\quad
+I_{yy} = \int (x^2 + z^2) \, dm\quad
+I_{zz} = \int (x^2 + y^2) \, dm
+\]
+\[
+I_{xy} = I_{yx} = -\int xy \, dm\quad
+I_{xz} = I_{zx} = -\int xz \, dm\quad
+I_{yz} = I_{zy} = -\int yz \, dm
+\]
+\end{example}
+\section{class 16}
+\begin{defn}
+    纳维-斯托克斯(Navier-Stokes)方程
+    \begin{center}
+        \textbf{不可压缩流体 Navier-Stokes 方程} 
+    \end{center}
+    连续性方程(质量守恒)：
+       \[
+       \nabla \cdot \vec{u} = 0
+       \]
+    动量方程：
+       \[
+        \rho \left( \frac{\partial \vec{v}}{\partial t} + (\vec{v} \cdot \nabla) \vec{v} \right) = -\nabla p + \mu \nabla^2 \vec{v} + \vec{f}
+    \]
+    \begin{zhu}
+    欧拉方程
+    \[
+        \rho \left( \frac{\partial \vec{v}}{\partial t} + (\vec{v} \cdot \nabla) \vec{v} \right) = -\nabla p  + \vec{f}
+    \]
+    \end{zhu}
+    \begin{center}
+        \textbf{可压缩流体 Navier-Stokes 方程 }
+    \end{center}
+连续性方程(质量守恒)：
+\[
+\frac{\partial \rho}{\partial t} + \nabla \cdot (\rho \vec{v}) = 0
+\]
+动量方程：
+\[
+\frac{\partial (\rho \vec{v})}{\partial t} + \nabla \cdot (\rho \vec{v} \otimes \vec{v}) = -\nabla p + \nabla \cdot \vec{\vec{\tau}} + \rho \vec{f}
+\]
+能量方程：
+\[
+\frac{\partial (\rho E)}{\partial t} + \nabla \cdot (\rho E \vec{v}) = -\nabla \cdot (p \vec{v}) 
++ \nabla \cdot (\vec{\vec{\tau}} \cdot \vec{v}) + \rho \vec{f} \cdot \vec{v} + \nabla \cdot (\kappa \nabla T)
+\]
+其中：
+\begin{itemize}
+    \item \(\rho\) 是流体密度，
+    \item \(\vec{v}\) 是速度场(矢量)，
+    \item \(p\) 是压力场(标量)，
+    \item \(\vec{\vec{\tau}}\) 是粘性应力张量，\(\mu\) 是动力粘度，
+    $\vec{\vec{\tau}} = \mu \left( \nabla \vec{v} 
+    + (\nabla \vec{v})^\top \right) - \frac{2}{3} \mu (\nabla \cdot \vec{v}) \vec{\vec{I}}$
+    \item \(\vec{f}\) 是外力场(如重力)，
+    \item \(E\) 是单位质量的总能量，
+    \item \(\kappa\) 是热传导系数，
+    \item \(T\) 是温度。
+\end{itemize}
+\end{defn}
+    \begin{lemma}
+    \[
+    (\vec{v} \cdot \nabla) \vec{v} = (\nabla \times \vec{v}) \times \vec{v} + \frac{1}{2} \nabla (\vec{v}^2)
+    \]
+    \begin{tui}
+矢量分析中的一个重要恒等式为：
+\[
+(\vec{A} \cdot \nabla) \vec{B} = \nabla (\vec{A} \cdot \vec{B}) - \vec{A} \times (\nabla \times \vec{B}) - \vec{B} \times (\nabla \times \vec{A}) - (\vec{B} \cdot \nabla) \vec{A}
+\]
+\begin{zhu}
+    \begin{align*}
+        \because \nabla_{\vec{B}}\left(\vec{A}\cdot\vec{B}\right)&=\vec{A}\times\left(\nabla_{\vec{B}}\times\vec{B}\right)+\vec{A}\cdot\left(\nabla_{\vec{B}}\vec{B}\right)\\
+        \nabla_{\vec{A}}\left(\vec{B}\cdot\vec{A}\right)&=\vec{B}\times\left(\nabla_{\vec{A}}\times\vec{A}\right)+\vec{B}\cdot\left(\nabla_{\vec{A}}\vec{A}\right)\\
+        \therefore \nabla\left(\vec{A}\cdot\vec{B}\right)&=\nabla_{\vec{B}}\left(\vec{A}\cdot\vec{B}\right)+\nabla_{\vec{A}}\left(\vec{B}\cdot\vec{A}\right)
+        \\&=\nabla (\vec{A} \cdot \vec{B}) - \vec{A} \times (\nabla \times \vec{B}) - \vec{B} \times (\nabla \times \vec{A}) - (\vec{B} \cdot \nabla) \vec{A}
+    \end{align*}
+\end{zhu}
+当 \(\vec{A} = \vec{B} = \vec{v}\) 时，上式简化为：
+\[
+(\vec{v} \cdot \nabla) \vec{v} = \nabla (\vec{v} \cdot \vec{v}) - \vec{v} \times (\nabla \times \vec{v}) - \vec{v} \times (\nabla \times \vec{v}) - (\vec{v} \cdot \nabla) \vec{v}
+\]
+不可压缩流体(\(\nabla \cdot \vec{v} = 0\))，因此：
+\[
+(\vec{v} \cdot \nabla) \vec{v} = (\nabla \times \vec{v}) \times \vec{v} + \frac{1}{2} \nabla (\vec{v}^2)
+\]
+引入旋度和动能项，则：
+\[
+(\vec{v} \cdot \nabla) \vec{v} = \vec{v} \times \vec{\omega} + \nabla (\frac{1}{2}\vec{v}^2)
+\]
+    \end{tui}
+\end{lemma}
+\begin{example}
+    分别通过能量守恒法和方向导数法推导伯努利方程
+    \begin{yzh}
+        \begin{itemize}
+            \item 流体为理想流体（无粘性）。
+            \item 流动为定常流动。
+            \item 流体不可压缩。
+        \end{itemize}
+    \end{yzh}
+    \begin{tui}
+        \begin{center}
+            \textbf{能量守恒法推导伯努利方程}
+        \end{center}
+省略……
+        \begin{center}
+            \textbf{方向导数法推导伯努利方程}
+        \end{center}
+        根据牛顿第二定律（沿流线方向的力平衡）：
+\[
+\rho \frac{dv}{dt} = -\frac{dp}{ds} - \rho g \frac{dh}{ds}
+\]
+对于定常流动，加速度 \( \frac{dv}{dt} \) 可以表示为随体导数（物质导数）：
+\[
+\frac{dv}{dt} = \frac{\partial v}{\partial t} + v \frac{\partial v}{\partial s}
+\]
+定常流动\( \frac{\partial v}{\partial t} = 0 \)，因此：
+\[
+\frac{dv}{dt} = v \frac{\partial v}{\partial s}
+\]
+代入牛顿第二定律：
+\[
+\rho v \frac{\partial v}{\partial s} = -\frac{\partial p}{\partial s} - \rho g \frac{\partial h}{\partial s}
+\]
+将方程两边乘以 \( ds \) 并积分：
+\[
+\frac{1}{2} \rho v^2 + p + \rho g h = \text{常数}
+\]
+    \end{tui}
+\end{example}
+
+%  ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ 正文部分
+\ifx\allfiles\undefined
+\end{document}
+\fi
+
+
+
+
+
