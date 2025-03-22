@@ -1,0 +1,156 @@
+\ifx\allfiles\undefined
+\documentlecture[12pt, a4paper, oneside, UTF8]{ctexbook}  %  这一句是新增加的
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath}   % 数学公式
+\usepackage{graphicx}
+\usetikzlibrary{arrows, calc, decorations.pathmorphing}
+\allowdisplaybreaks % 允许公式跨页换行
+\newcommand{\pa}{\partial}
+\newcommand{\mathminus}{\!\!-\!\!} % 数学环境连字符
+\newcommand{\vsup}[1]{\raisebox{-0.1ex}{$\scriptstyle #1$}}
+\newcommand{\lsup}[1]{\raisebox{-0.85ex}{$\scriptstyle #1$}}
+
+
+\begin{document}
+%\input{/config/cover} % 单独编译时，其实不用编译封面目录之类的，如需要不注释这句即可
+\else
+\fi
+%  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ 正文部分
+
+
+\subsection{载荷作用区域}
+\begin{example}
+    殷书习题2.4
+    \begin{center}
+        \includegraphics[scale=0.5]{chap1/image/1.png}\\
+        \includegraphics[scale=0.5]{chap1/image/2.png}
+    \end{center}
+\end{example}
+\paragraph{基本设定}
+\begin{itemize}
+    \item 刚性平板为边长 \(2a\) 的正方形，四支柱位于角点 \((\pm a, \pm a)\)。
+    \item 载荷 \(P\) 作用点坐标为 \((x, y)\)。
+    \item 支柱刚度 \(k = \dfrac{EA}{L}\)，轴力与变形关系：\(F_i = k \delta_i\)。
+\end{itemize}
+
+\paragraph{通用平衡方程}
+
+平板的位移分解为平板整体下沉量的平动位移 \(\delta_0\) 
+和平板绕\(x\)轴和\(y\)轴的转角转角 \(\theta_x, \theta_y\)，定义坐标轴的正方向为转角的正方向。
+\begin{align*}
+    &\text{各支柱的变形为：}\quad
+\delta_i = \delta_0 + \theta_y x_i - \theta_x y_i\\
+    &\text{力平衡}:\quad  k \sum_{i=1}^4 \delta_i = P \\
+    &\text{力矩平衡}:\quad  k \sum_{i=1}^4 \delta_i x_i = 0, \quad k \sum_{i=1}^4 \delta_i y_i = 0
+\end{align*}
+\begin{align*}
+    Px&=\sum_i F_i x_i = E \sum_i\delta_i x_i =
+    E \sum_i\left(\delta_0+\theta_y x_i -\theta_xy_i\right)x_i\\
+    &=E \delta_0\sum_ix_i+E\theta_y\sum_ix_i^2-E\theta_x\sum_ix_iy_i \\
+    Py&=\sum_i F_i y_i = E \sum_i\delta_i y_i =
+    E \sum_i\left(\delta_0+\theta_y x_i -\theta_xy_i\right)y_i\\
+    &=E \delta_0\sum_iy_i+E\theta_y\sum_ix_iy_i-E\theta_x\sum_iy_i^2 \\
+    \text{四支柱对称排列}\quad&
+    \sum_ix_i=0\;,\;\sum_iy_i=0\;,\;\sum_ix_iy_i=0\;,\;\sum_ix_i^2=\sum_iy_i^2=0\\
+    E\theta_y \cdot 4a^2 = Px \quad &\Rightarrow \quad \theta_y = \frac{Px}{4Ea^2}\qquad
+    -E\theta_x \cdot 4a^2 = Py \quad \Rightarrow \quad \theta_x = -\frac{Py}{4Ea^2}\\
+    \text{将} \theta_x \text{和} \theta_y \text{代入}\quad&
+\delta_i = \frac{P}{4k} + \frac{Px}{4ka^2}x_i + \frac{Py}{4ka^2}y_i
+= \frac{P}{4k}\left(1 + \frac{xx_i}{a^2} + \frac{yy_i}{a^2}\right)
+\end{align*}
+\paragraph{四支柱受力区域}
+
+为了保证 \(\delta_i > 0\)，必须满足：
+\[
+1 + \frac{x x_i}{a^2} + \frac{y y_i}{a^2} > 0
+\]
+
+对所有支柱 \(i\)，得到以下不等式组：
+\[\begin{cases} 
+1 + \frac{x}{a} + \frac{y}{a} > 0 \\ 
+1 - \frac{x}{a} + \frac{y}{a} > 0 \\ 
+1 - \frac{x}{a} - \frac{y}{a} > 0 \\ 
+1 + \frac{x}{a} - \frac{y}{a} > 0 
+\end{cases}\quad\Rightarrow\quad
+\boxed{\left| \dfrac{x}{a} \right| + \left| \dfrac{y}{a} \right| \leq 1}
+\]
+\paragraph{三支柱受力区域}
+假设某一角点支柱的变形为零（例如 \((a, a)\)），其余三个支柱的变形 \(\delta_i > 0\)，载荷作用区域为四个象限的三角形区域：
+\[
+\begin{cases} 
+\dfrac{x}{a} + \dfrac{y}{a} \geq 1 \text{且}  x \geq 0, y \geq 0 & \text{(第一象限)} \\ 
+-\dfrac{x}{a} + \dfrac{y}{a} \geq 1  \text{且}  x \leq 0, y \geq 0 & \text{(第二象限)} \\ 
+-\dfrac{x}{a} - \dfrac{y}{a} \geq 1  \text{且}  x \leq 0, y \leq 0 & \text{(第三象限)} \\ 
+\dfrac{x}{a} - \dfrac{y}{a} \geq 1 \text{且}  x \geq 0, y \leq 0 & \text{(第四象限)}
+\end{cases}
+\quad\Rightarrow\quad
+\boxed{\left| \dfrac{x}{a} \right| + \left| \dfrac{y}{a} \right| \geq 1 \text{且载荷作用点位于对应象限}}
+\]
+\paragraph{两支柱受力区域}
+假设两个对角支柱的变形为零（例如 \((a, a)\) 和 \((-a, -a)\)），其余两个支柱的变形 \(\delta_i > 0\)，载荷作用区域为四条对角线外侧的带状区域：
+\[
+\begin{cases} 
+\left| \dfrac{x}{a} - \dfrac{y}{a} \right| \geq 2 \text{且}  x \cdot y \geq 0 & \text{(第一、三象限)} \\ 
+\left| \dfrac{x}{a} + \dfrac{y}{a} \right| \geq 2 \text{且}  x \cdot y \leq 0 & \text{(第二、四象限)}
+\end{cases}
+\quad\Rightarrow\quad
+\boxed{\left| \dfrac{x}{a} + \dfrac{y}{a} \right| \geq 2 \ \text{或} \ \left| \dfrac{x}{a} - \dfrac{y}{a} \right| \geq 2}
+\]
+\paragraph{一支柱受力区域}
+假设仅某一角点支柱的变形 \(\delta_i > 0\)（例如 \((a, a)\)），其余支柱的变形 \(\delta_j \leq 0\)，载荷作用区域为四个角点附近的小矩形：
+\[
+\begin{cases} 
+x \geq a \text{且}  y \geq a & \text{(第一象限)} \\ 
+x \leq -a \text{且}  y \geq a & \text{(第二象限)} \\ 
+x \leq -a \text{且}  y \leq -a & \text{(第三象限)} \\ 
+x \geq a \text{且}  y \leq -a & \text{(第四象限)}
+\end{cases}
+\quad\Rightarrow\quad
+\boxed{\left| x \right| \geq a \text{且}  \left| y \right| \geq a}
+\]
+
+\begin{center}
+    \begin{tikzpicture}[scale=0.8]
+        \draw[->] (-4,0) -- (4,0) node[right] {\(x\)};
+        \draw[->] (0,-4) -- (0,4) node[above] {\(y\)};
+        \draw[dashed] (-2,-2) rectangle (2,2);
+    
+        % 四支柱受力区域（菱形）
+        \draw[fill=blue!20] (2,0) -- (0,2) -- (-2,0) -- (0,-2) -- cycle;
+    
+        % 三支柱受力区域（四个三角形）
+        \draw[fill=red!20] (2,2) -- (2,0) -- (0,2) -- cycle; % 第一象限
+        \draw[fill=red!20] (-2,2) -- (-2,0) -- (0,2) -- cycle; % 第二象限
+        \draw[fill=red!20] (-2,-2) -- (-2,0) -- (0,-2) -- cycle; % 第三象限
+        \draw[fill=red!20] (2,-2) -- (2,0) -- (0,-2) -- cycle; % 第四象限
+    
+        % 两支柱受力区域（四个带状区域）
+        \draw[fill=green!20] (2,2) -- (3,3) -- (3,0) -- (2,0) -- cycle; 
+        \draw[fill=green!20] (-2,2) -- (-3,3) -- (-3,0) -- (-2,0) -- cycle; 
+        \draw[fill=green!20] (-2,-2) -- (-3,-3) -- (-3,0) -- (-2,0) -- cycle; 
+        \draw[fill=green!20] (2,-2) -- (3,-3) -- (3,0) -- (2,0) -- cycle; 
+        \draw[fill=green!20] (2,2) -- (2,3) -- (0,3) -- (0,2) -- cycle; 
+        \draw[fill=green!20] (-2,2) -- (-2,3) -- (0,3) -- (0,2) -- cycle; 
+        \draw[fill=green!20] (-2,-2) -- (-2,-3) -- (0,-3) -- (0,-2) -- cycle; 
+        \draw[fill=green!20] (2,-2) -- (2,-3) -- (0,-3) -- (0,-2) -- cycle; 
+    
+        % 一支柱受力区域（四个角点）
+        \draw[fill=yellow!20] (2,2) rectangle (3,3); % 第一象限
+        \draw[fill=yellow!20] (-2,2) rectangle (-3,3); % 第二象限
+        \draw[fill=yellow!20] (-2,-2) rectangle (-3,-3); % 第三象限
+        \draw[fill=yellow!20] (2,-2) rectangle (3,-3); % 第四象限
+    \end{tikzpicture}
+\end{center}
+
+
+
+
+
+
+
+
+
+%  ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ 正文部分
+\ifx\allfiles\undefined
+\end{document}
+\fi
